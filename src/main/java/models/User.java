@@ -1,5 +1,7 @@
 package models;
 
+import models.GameWorld.Enums.Gender;
+
 import java.util.ArrayList;
 
 public class User {
@@ -11,6 +13,8 @@ public class User {
     private Game activeGame;
     private int score;
     private ArrayList<Integer> gameIds;
+    private int numberOfGamesPlayed;
+    private int maximumMoneyGained;
 
     public User(String username, String password, String email, String nickname, Gender gender) {
         this.username = username;
@@ -21,6 +25,8 @@ public class User {
         this.activeGame = null;
         this.score = 0;
         this.gameIds = new ArrayList<>();
+        this.numberOfGamesPlayed = 0;
+        this.maximumMoneyGained = 0;
     }
 
     public String getUsername() {
@@ -73,5 +79,13 @@ public class User {
 
     public void addGameId(int gameId) {
         gameIds.add(gameId);
+    }
+
+    public int getNumberOfGamesPlayed() {
+        return numberOfGamesPlayed;
+    }
+
+    public int getMaximumMoneyGained() {
+        return maximumMoneyGained;
     }
 }

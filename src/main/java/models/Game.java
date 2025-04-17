@@ -1,24 +1,20 @@
 package models;
 
-import models.game_attributes.*;
+import models.GameWorld.*;
+import models.GameWorld.Entity.Player.Player;
+import models.GameWorld.Enums.WeatherType;
+import models.GameWorld.Map.Map.Map;
 
 import java.util.ArrayList;
 
 public class Game {
     private static int idCounter = 1;
     private final int id;
-    private ArrayList<Player> players;
-    private Player currentPlayer;
-    private DateTime dateTime;
+    private final Player curentPlayer;
+    private final ArrayList<Player> players;
+    private final User creator;
+    private TimeState timeState;
+    private Map map;
+    private Season season;
     private Weather weather;
-
-    public Game(ArrayList<User> users) {
-        this.id = idCounter++;
-        this.players = new ArrayList<>();
-        for (User user : users) {
-            this.players.add(new Player(user));
-        }
-        this.dateTime = new DateTime();
-        this.weather = Weather.SUNNY;
-    }
 }

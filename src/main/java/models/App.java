@@ -1,6 +1,6 @@
 package models;
 
-import models.menus.MenuNames;
+import models.Menu.MenuNames;
 
 import java.util.ArrayList;
 
