@@ -10,5 +10,5 @@ public class PlayerInventory {
     private Inventory inventory;
     private TrashCan trashCan;
     private Item currentItem;
-    private final LinkedHashMap<Item,Integer> items;
+    private LinkedHashMap<Item,Integer> items;
 }

@@ -9,11 +9,24 @@ public class Crop extends Edible {
     private int timePassedAfterPlanting;
     private final String resource;
     private final ArrayList<Integer> stage;
-    private final int sellPrice;
     private final int totalTimeToGrow;
     private final boolean isMultiHarvestable;
     private final int regrowthTime;
     private final boolean isEdible;
     private final Season season;
     private final boolean canBecomeGiant;
+
+    public Crop(String resource, ArrayList<Integer> stage, int sellPrice, int gainedEnergy,
+                int totalTimeToGrow, boolean isMultiHarvestable, int regrowthTime, boolean isEdible,
+                Season season, boolean canBecomeGiant) {
+        super(sellPrice, gainedEnergy);
+        this.resource = resource;
+        this.stage = stage;
+        this.totalTimeToGrow = totalTimeToGrow;
+        this.isMultiHarvestable = isMultiHarvestable;
+        this.regrowthTime = regrowthTime;
+        this.isEdible = isEdible;
+        this.season = season;
+        this.canBecomeGiant = canBecomeGiant;
+    }
 }

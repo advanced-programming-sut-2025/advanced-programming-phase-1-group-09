@@ -7,4 +7,9 @@ import java.util.LinkedHashMap;
 public class NewItem extends Item {
     private final int sellPrice;
     private final LinkedHashMap<Item,Integer> Ingredients;
+
+    public NewItem(int sellPrice, LinkedHashMap<Item, Integer> ingredients) {
+        this.sellPrice = sellPrice;
+        Ingredients = ingredients;
+    }
 }

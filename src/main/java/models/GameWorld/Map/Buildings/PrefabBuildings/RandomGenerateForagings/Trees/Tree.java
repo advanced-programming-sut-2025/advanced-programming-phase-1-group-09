@@ -11,4 +11,12 @@ public class Tree {
     private final int totalHarvestTime;
     private boolean isBurnt;
     private final int seedGivenAfterCutting;
+
+    public Tree(Item source, Item fruit, ArrayList<Integer> stages, int totalHarvestTime, int seedGivenAfterCutting) {
+        this.source = source;
+        this.fruit = fruit;
+        this.stages = stages;
+        this.totalHarvestTime = totalHarvestTime;
+        this.seedGivenAfterCutting = seedGivenAfterCutting;
+    }
 }

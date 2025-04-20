@@ -8,4 +8,10 @@ public class inEdibleFruit {
     private final int sellPrice;
     private final Season season;
     private Inventory inventory;
+
+    public inEdibleFruit(int fruitHarvestCycle, int sellPrice, Season season) {
+        this.fruitHarvestCycle = fruitHarvestCycle;
+        this.sellPrice = sellPrice;
+        this.season = season;
+    }
 }

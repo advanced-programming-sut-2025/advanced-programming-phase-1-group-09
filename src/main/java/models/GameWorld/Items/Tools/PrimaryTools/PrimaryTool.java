@@ -9,4 +9,8 @@ public class PrimaryTool extends Tool {
     private int currentConsumeOfEnergy;
     private String currentType;
     private final LinkedHashMap<String,Integer> types;
+
+    public PrimaryTool(LinkedHashMap<String, Integer> types) {
+        this.types = types;
+    }
 }

@@ -7,5 +7,10 @@ public class CookingRecipeItem {
     private final int gainedEnergy;
     private final Skill skillSource;
     private final Shop shopSource;
-    //buff
+
+    public CookingRecipeItem(int gainedEnergy, Skill skillSource, Shop shopSource) {
+        this.gainedEnergy = gainedEnergy;
+        this.skillSource = skillSource;
+        this.shopSource = shopSource;
+    }
 }

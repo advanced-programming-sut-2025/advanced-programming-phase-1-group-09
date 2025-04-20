@@ -6,4 +6,8 @@ public class TrashCan {
     private final LinkedHashMap<String,Integer> types;
     private int currentRefundPercentage;
     private String currentType;
+
+    public TrashCan(LinkedHashMap<String, Integer> types) {
+        this.types = types;
+    }
 }

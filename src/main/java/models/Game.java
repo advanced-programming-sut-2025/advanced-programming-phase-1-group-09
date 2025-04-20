@@ -17,4 +17,11 @@ public class Game {
     private Map map;
     private Season season;
     private Weather weather;
+
+    public Game(int id, Player curentPlayer, ArrayList<Player> players, User creator) {
+        this.id = id;
+        this.curentPlayer = curentPlayer;
+        this.players = players;
+        this.creator = creator;
+    }
 }

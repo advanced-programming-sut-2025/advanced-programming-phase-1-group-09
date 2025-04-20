@@ -1,0 +1,13 @@
+[ {
+  "username" : "sepehr",
+  "nickname" : "Sepi",
+  "email" : "sepehr@gmail.com",
+  "gender" : "MALE",
+  "hashedPassword" : "3ea64ec4aa8fdac6239ad58d12d1fcc0157d237892f87ad598333ed6c1c9ad78",
+  "securityQuestion" : "What city were you born in?",
+  "securityAnswer" : "6ab4a31413e4329fe1ba788130b03e2e5348d926452ca407753a8786732ed5df",
+  "score" : 0,
+  "gameIds" : [ ],
+  "numberOfGamesPlayed" : 0,
+  "maximumMoneyGained" : 0
+} ]

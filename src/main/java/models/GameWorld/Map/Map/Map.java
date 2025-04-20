@@ -6,7 +6,6 @@ import models.GameWorld.Map.Buildings.PrefabBuildings.ConstantBuildings.Lake;
 import models.GameWorld.Map.Buildings.PrefabBuildings.ConstantBuildings.Quarry;
 import models.GameWorld.Map.Buildings.PrefabBuildings.RandomGenerateForagings.Rocks.Rock;
 import models.GameWorld.Map.Buildings.PrefabBuildings.RandomGenerateForagings.Trees.Tree;
-import models.GameWorld.RandomBuildingsAndResources.*;
 
 import java.util.ArrayList;
 
@@ -20,7 +19,7 @@ public class Map {
     //Random Elements
     protected ArrayList<Rock> rocks;
     protected ArrayList<Tree> trees;
-    protected ArrayList<Foraging> foragings;
+    // protected ArrayList<Foraging> foragings;
 
     //Game Map
     protected int[][] map;
