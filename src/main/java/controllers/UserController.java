@@ -1,5 +1,6 @@
 package controllers;
 
+import controllers.DataManagers.UserManager;
 import models.App;
 import models.GameWorld.Enums.Gender;
 import models.Result;
@@ -66,15 +67,13 @@ public class UserController {
         return fields;
     }
 
-    public Result validateRegisterFields(Map<String, String> fields) {
-        String[] required = {"username", "password", "confirm", "nickname", "email", "gender"};
-        for (String key : required) {
-            if (!fields.containsKey(key) || fields.get(key).isEmpty()) {
-                return new Result(false, "Missing or empty field!");
-            }
+    public Result validateRegisterFields(String username, String password, String confirm,
+                                         String nickname, String email, String gender) {
+        if (username == null || password == null || confirm == null ||
+            nickname == null || email == null || gender == null) {
+            return new Result(false, "Missing or empty field!");
         }
 
-        String username = fields.get("username");
         if (!isUsernameValid(username)) {
             return new Result(false, "Username should be alphanumeric and can contain hyphens.");
         }
@@ -82,37 +81,30 @@ public class UserController {
             return new Result(false, "Username is already taken.");
         }
 
-        String password = fields.get("password");
         String passwordStatus = PasswordUtils.validate(password);
         if (passwordStatus != null) {
             return new Result(false, passwordStatus);
         }
-        if (!password.equals(fields.get("confirm"))) {
+        if (!password.equals(confirm)) {
             return new Result(false, "Password and confirmation do not match.");
         }
 
-        if (!isEmailValid(fields.get("email"))) {
+        if (!isEmailValid(email)) {
             return new Result(false, "Email format is not valid.");
         }
 
-        String gender = fields.get("gender").toLowerCase();
-        if (!gender.equals("male") && !gender.equals("female")) {
+        String loweredGender = gender.toLowerCase();
+        if (!loweredGender.equals("male") && !loweredGender.equals("female")) {
             return new Result(false, "Gender should be either male or female.");
         }
 
         return new Result(true, "Registration successful!");
     }
 
-    public User registerUser(Map<String, String> fields) {
-        Gender gender = Gender.valueOf(fields.get("gender").toUpperCase());
-        String hashedPassword = PasswordUtils.hashString(fields.get("password"));
-        User user = new User(
-                fields.get("username"),
-                hashedPassword,
-                fields.get("nickname"),
-                fields.get("email"),
-                gender
-        );
+    public User registerUser(String username, String password, String nickname, String email, String gender) {
+        Gender g = Gender.valueOf(gender.toUpperCase());
+        String hashedPassword = PasswordUtils.hashString(password);
+        User user = new User(username, hashedPassword, nickname, email, g);
         App.getInstance().addUser(user);
         return user;
     }
@@ -159,20 +151,17 @@ public class UserController {
         return fields;
     }
 
-    public Result validateForgetPasswordFields(Map<String, String> fields) {
-        String[] required = {"username", "answer"};
-        for (String key : required) {
-            if (!fields.containsKey(key) || fields.get(key).isEmpty()) {
-                return new Result(false, "Missing or empty field!");
-            }
+    public Result validateForgetPasswordFields(String username, String answer) {
+        if (username == null || answer == null) {
+            return new Result(false, "Missing or empty fields!");
         }
 
-        User user = App.getInstance().getUserByUsername(fields.get("username"));
+        User user = App.getInstance().getUserByUsername(username);
         if (user == null) {
             return new Result(false, "There is no user with that username!");
         }
 
-        String hashedAnswer = PasswordUtils.hashString(fields.get("answer"));
+        String hashedAnswer = PasswordUtils.hashString(answer);
         if (!user.getSecurityAnswer().equals(hashedAnswer)) {
             return new Result(false,
                     "You should answer to the security question first\n" + user.getSecurityQuestion());

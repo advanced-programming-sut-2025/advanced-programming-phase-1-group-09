@@ -14,7 +14,7 @@ public class SecurityQuestionManager {
         try {
             ObjectMapper mapper = new ObjectMapper();
             InputStream is = SecurityQuestionManager.class.getClassLoader()
-                    .getResourceAsStream("data/security_questions.json");
+                    .getResourceAsStream("JSON/security_questions.json");
             if (is == null) {
                 throw new RuntimeException("File not found in resources!");
             }

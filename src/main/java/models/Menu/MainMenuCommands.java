@@ -3,7 +3,8 @@ package models.Menu;
 public enum MainMenuCommands implements Command {
     MenuEnter("menu\\s+enter\\s+\\S+"),
     ShowCurrentMenu("show\\s+current\\s+menu"),
-    LogOut("user\\s+logout");
+    LogOut("user\\s+logout"),
+    Exit("exit");
 
     private final String regex;
 

@@ -14,6 +14,10 @@ public class MainMenuController {
             case MenuEnter -> changeMenu(command);
             case ShowCurrentMenu -> new Result(true, App.getInstance().getCurrentMenu().toString());
             case LogOut -> logOut();
+            case Exit -> {
+                App.getInstance().setCurrentMenu(MenuNames.Exit);
+                yield new Result(true, "Exiting the game...");
+            }
         };
     }
 

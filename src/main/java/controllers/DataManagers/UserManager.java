@@ -10,9 +10,9 @@ import java.util.ArrayList;
 
 public class UserManager {
     private static final String FILE_PATH = "data/users.json";
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private static final ObjectMapper objectMapper = new ObjectMapper();
 
-    public ArrayList<User> loadUsers() {
+    public static ArrayList<User> loadUsers() {
         File file = new File(FILE_PATH);
         if (!file.exists()) {
             try {
@@ -35,7 +35,7 @@ public class UserManager {
         }
     }
 
-    public void saveUsers(ArrayList<User> users) {
+    public static void saveUsers(ArrayList<User> users) {
         try {
             File file = new File(FILE_PATH);
             file.getParentFile().mkdirs();

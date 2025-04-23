@@ -1,5 +1,6 @@
 package controllers;
 
+import controllers.DataManagers.LastUserManager;
 import models.App;
 import models.Menu.Command;
 import models.Menu.LoginMenuCommands;
@@ -31,15 +32,22 @@ public class LoginMenuController {
 
     private Result register(String command) {
         Map<String, String> fields = userController.parseRegisterCommand(command);
+        String username = fields.get("username");
+        String password = fields.get("password");
+        String confirm = fields.get("confirm");
+        String nickname = fields.get("nickname");
+        String email = fields.get("email");
+        String gender = fields.get("gender");
 
-        Result result = userController.validateRegisterFields(fields);
+        Result result = userController.validateRegisterFields(username, password, confirm, nickname, email, gender);
+
         if (!result.success()) {
             String help = userController.getHelp(fields, result.message());
             if (help != null) return new Result(false, result.message() + "\n" + help);
             else return result;
         }
 
-        User user = userController.registerUser(fields);
+        User user = userController.registerUser(username, password, nickname, email, gender);
         return new Result(true, result.message(), user);
     }
 
@@ -53,6 +61,10 @@ public class LoginMenuController {
         if (!user.getHashedPassword().equals(hashedPassword))
             return new Result(false, "Invalid password!");
 
+        if (command.contains("-stay-logged-in")) {
+            LastUserManager.saveCurrentUser(user);
+        }
+
         App.getInstance().setCurrentUser(user);
         App.getInstance().setCurrentMenu(MenuNames.Main);
         return new Result(true, "Logged in successfully! Redirecting to main menu...");
@@ -61,7 +73,7 @@ public class LoginMenuController {
     private Result forgetPassword(String command) {
         Map<String, String> fields = userController.parseForgetPasswordCommand(command);
 
-        Result result = userController.validateForgetPasswordFields(fields);
+        Result result = userController.validateForgetPasswordFields(fields.get("username"), fields.get("answer"));
         if (!result.success()) {
             String help = userController.getHelp(fields, result.message());
             if (help != null) return new Result(false, result.message() + "\n" + help);

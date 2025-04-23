@@ -2,8 +2,7 @@ package views;
 
 import java.util.Scanner;
 
-public class AvatarMenu implements AppMenu {
-
+public class TradeMenu implements AppMenu {
     @Override
     public void check(Scanner scanner) {
 

@@ -1,27 +1,32 @@
 package models;
 
+import controllers.DataManagers.LastUserManager;
 import controllers.DataManagers.UserManager;
 import models.Menu.MenuNames;
 
 import java.util.ArrayList;
 
 public class App {
-    private MenuNames currentMenu;
     private ArrayList<Game> games;
     private ArrayList<User> users;
     private User currentUser;
+    private MenuNames currentMenu;
 
     private App() {
-        currentMenu = MenuNames.Login;
         games = new ArrayList<>();
-        users = (new UserManager()).loadUsers();;
-        currentUser = null;
+        users = UserManager.loadUsers();
     }
 
     private static App instance;
     public static App getInstance() {
         if (instance == null) {
             instance = new App();
+            instance.currentUser = LastUserManager.loadCurrentUser();
+            if (instance.currentUser == null) {
+                instance.currentMenu = MenuNames.Login;
+            } else {
+                instance.currentMenu = MenuNames.Main;
+            }
         }
         return instance;
     }

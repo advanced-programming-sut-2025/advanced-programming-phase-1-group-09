@@ -1,5 +1,6 @@
 package views;
 
+import controllers.DataManagers.UserManager;
 import controllers.LoginMenuController;
 import controllers.DataManagers.SecurityQuestionManager;
 import controllers.PasswordUtils;
@@ -24,6 +25,7 @@ public class LoginMenu implements AppMenu {
                 while (!getSecurityFields(scanner, result.user())) {
                     System.out.println("Invalid index. Please try again.");
                 }
+                UserManager.saveUsers(App.getInstance().getUsers());
             } else if (result.message().equals("Enter new password:")) {
                 setNewPassword(scanner, result.user());
             }

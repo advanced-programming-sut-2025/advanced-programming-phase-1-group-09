@@ -1,7 +1,7 @@
 package views;
 
-import controllers.Exit;
 import models.App;
+import models.Menu.MenuNames;
 
 import java.util.Scanner;
 
@@ -12,17 +12,16 @@ public class AppView {
     }
 
     public void start() {
-        System.out.println("Welcome to Stardew Valley!");
-        AppMenu login = new LoginMenu();
-        AppMenu main = new MainMenu();
-        AppMenu profile = new ProfileMenu();
+        System.out.println(
+                ConsoleColors.YELLOW_BOLD_BRIGHT +
+                "Welcome to Stardew Valley!" +
+                ConsoleColors.RESET
+        );
+
         while (true) {
-            switch (App.getInstance().getCurrentMenu()) {
-                case Login -> login.check(scanner);
-                case Main -> main.check(scanner);
-                case Profile -> profile.check(scanner);
-                case Exit -> Exit.end();
-            }
+            MenuNames currentMenu = App.getInstance().getCurrentMenu();
+            AppMenu menu = currentMenu.getMenu();
+            menu.check(scanner);
         }
     }
 }
