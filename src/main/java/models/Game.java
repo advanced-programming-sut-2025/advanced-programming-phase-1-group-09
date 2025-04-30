@@ -2,7 +2,6 @@ package models;
 
 import models.GameWorld.*;
 import models.GameWorld.Entity.Player.Player;
-import models.GameWorld.Enums.WeatherType;
 import models.GameWorld.Map.Map.Map;
 
 import java.util.ArrayList;
@@ -18,10 +17,15 @@ public class Game {
     private Season season;
     private Weather weather;
 
-    public Game(int id, Player curentPlayer, ArrayList<Player> players, User creator) {
-        this.id = id;
+    public Game(Player curentPlayer, ArrayList<Player> players, User creator) {
+        this.id = idCounter++;
         this.curentPlayer = curentPlayer;
         this.players = players;
         this.creator = creator;
+        this.timeState = new TimeState();
+    }
+
+    public int getId() {
+        return id;
     }
 }

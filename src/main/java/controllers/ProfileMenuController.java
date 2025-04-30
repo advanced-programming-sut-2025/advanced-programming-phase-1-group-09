@@ -2,7 +2,7 @@ package controllers;
 
 import models.App;
 import models.Menu.Command;
-import models.Menu.MenuNames;
+import models.Menu.Menus;
 import models.Menu.ProfileMenuCommands;
 import models.Result;
 import models.User;
@@ -16,7 +16,7 @@ public class ProfileMenuController {
         return switch (matchedCommand) {
             case null -> Result.invalidCommand;
             case MenuExit -> {
-                App.getInstance().setCurrentMenu(MenuNames.Main);
+                App.getInstance().setCurrentMenu(Menus.Main);
                 yield new Result(true, "Redirecting to the Main Menu...");
             }
             case ShowCurrentMenu -> new Result(true, App.getInstance().getCurrentMenu().toString());

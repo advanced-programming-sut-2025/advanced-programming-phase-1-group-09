@@ -2,15 +2,15 @@ package models;
 
 import controllers.DataManagers.LastUserManager;
 import controllers.DataManagers.UserManager;
-import models.Menu.MenuNames;
+import models.Menu.Menus;
 
 import java.util.ArrayList;
 
 public class App {
-    private ArrayList<Game> games;
-    private ArrayList<User> users;
+    private final ArrayList<Game> games;
+    private final ArrayList<User> users;
     private User currentUser;
-    private MenuNames currentMenu;
+    private Menus currentMenu;
 
     private App() {
         games = new ArrayList<>();
@@ -23,19 +23,19 @@ public class App {
             instance = new App();
             instance.currentUser = LastUserManager.loadCurrentUser();
             if (instance.currentUser == null) {
-                instance.currentMenu = MenuNames.Login;
+                instance.currentMenu = Menus.Login;
             } else {
-                instance.currentMenu = MenuNames.Main;
+                instance.currentMenu = Menus.Main;
             }
         }
         return instance;
     }
 
-    public void setCurrentMenu(MenuNames currentMenu) {
+    public void setCurrentMenu(Menus currentMenu) {
         this.currentMenu = currentMenu;
     }
 
-    public MenuNames getCurrentMenu() {
+    public Menus getCurrentMenu() {
         return currentMenu;
     }
 

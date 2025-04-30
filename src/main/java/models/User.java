@@ -100,6 +100,14 @@ public class User {
         this.score += score;
     }
 
+    public Game getActiveGame() {
+        return activeGame;
+    }
+
+    public void setActiveGame(Game activeGame) {
+        this.activeGame = activeGame;
+    }
+
     public ArrayList<Integer> getGameIds() {
         return gameIds;
     }

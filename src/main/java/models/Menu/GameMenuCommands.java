@@ -1,12 +1,6 @@
 package models.Menu;
 
 public enum GameMenuCommands implements Command {
-    MenuEnter("menu\\s+enter\\s+\\S+"),
-    MenuExit("menu\\s+exit"),
-    ShowCurrentMenu("show\\s+current\\s+menu"),
-    NewGame("game\\s+new\\s+-u.*"),
-    ChooseMap("game\\s+map\\s+\\S+"),
-    LoadGame("load\\s+game"),
     ExitGame("exit\\s+game"),
     NextTurn("next\\s+turn"),
     ShowTime("time"),

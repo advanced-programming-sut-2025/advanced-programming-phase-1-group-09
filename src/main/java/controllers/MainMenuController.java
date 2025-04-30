@@ -3,7 +3,7 @@ package controllers;
 import models.App;
 import models.Menu.Command;
 import models.Menu.MainMenuCommands;
-import models.Menu.MenuNames;
+import models.Menu.Menus;
 import models.Result;
 
 public class MainMenuController {
@@ -15,7 +15,7 @@ public class MainMenuController {
             case ShowCurrentMenu -> new Result(true, App.getInstance().getCurrentMenu().toString());
             case LogOut -> logOut();
             case Exit -> {
-                App.getInstance().setCurrentMenu(MenuNames.Exit);
+                App.getInstance().setCurrentMenu(Menus.Exit);
                 yield new Result(true, "Exiting the game...");
             }
         };
@@ -25,14 +25,14 @@ public class MainMenuController {
         String menuName = command.split("\\s+")[2];
         switch (menuName.toLowerCase()) {
             case "avatar":
-                App.getInstance().setCurrentMenu(MenuNames.Avatar);
+                App.getInstance().setCurrentMenu(Menus.Avatar);
                 return new Result(true, "Redirecting to the Avatar Menu...");
             case "profile":
-                App.getInstance().setCurrentMenu(MenuNames.Profile);
+                App.getInstance().setCurrentMenu(Menus.Profile);
                 return new Result(true, "Redirecting to the Profile Menu...");
-            case "game":
-                App.getInstance().setCurrentMenu(MenuNames.Game);
-                return new Result(true, "Redirecting to the Game Menu...");
+            case "pre-game":
+                App.getInstance().setCurrentMenu(Menus.PreGame);
+                return new Result(true, "Redirecting to the PreGame Menu...");
             default:
                 return new Result(false, "Invalid menu name");
         }
@@ -40,7 +40,7 @@ public class MainMenuController {
 
     private Result logOut() {
         App.getInstance().setCurrentUser(null);
-        App.getInstance().setCurrentMenu(MenuNames.Login);
+        App.getInstance().setCurrentMenu(Menus.Login);
         return new Result(true, "Logged out successfully!");
     }
 }

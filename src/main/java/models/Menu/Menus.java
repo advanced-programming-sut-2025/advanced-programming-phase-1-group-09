@@ -2,11 +2,12 @@ package models.Menu;
 
 import views.*;
 
-public enum MenuNames {
+public enum Menus {
     Login(new LoginMenu()),
     Main(new MainMenu()),
     Profile(new ProfileMenu()),
     Avatar(new AvatarMenu()),
+    PreGame(new PreGameMenu()),
     Game(new GameMenu()),
     Trade(new TradeMenu()),
     GameOver(new GameOverMenu()),
@@ -14,11 +15,11 @@ public enum MenuNames {
 
     private final AppMenu menu;
 
-    MenuNames(AppMenu menu) {
+    Menus(AppMenu menu) {
         this.menu = menu;
     }
 
-    public AppMenu getMenu() {
+    public AppMenu getMenuView() {
         return menu;
     }
 }

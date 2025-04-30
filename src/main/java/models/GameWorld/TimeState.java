@@ -8,7 +8,13 @@ import java.util.ArrayList;
 public class TimeState implements TimeSubject {
     private int hour;
     private int day;
-    private ArrayList<TimeObserver> observers;
+    private final ArrayList<TimeObserver> observers;
+
+    public TimeState() {
+        hour = 9;
+        day = 1;
+        observers = new ArrayList<>();
+    }
 
     @Override
     public void addObserver(TimeObserver observer) {
@@ -24,6 +30,15 @@ public class TimeState implements TimeSubject {
     public void notifyObservers() {
         for (TimeObserver observer : observers) {
             observer.onTimeChange(this);
+        }
+    }
+
+    public void updateTime(int hour) {
+        this.hour += hour;
+        if (this.hour > 22) {
+            this.hour = 9;
+            this.day++;
+            notifyObservers();
         }
     }
 }

@@ -4,7 +4,7 @@ import controllers.DataManagers.LastUserManager;
 import models.App;
 import models.Menu.Command;
 import models.Menu.LoginMenuCommands;
-import models.Menu.MenuNames;
+import models.Menu.Menus;
 import models.Result;
 import models.User;
 
@@ -19,7 +19,7 @@ public class LoginMenuController {
             case null -> Result.invalidCommand;
             case MenuEnter -> new Result(false, "You should login to access to the menus!");
             case MenuExit -> {
-                App.getInstance().setCurrentMenu(MenuNames.Exit);
+                App.getInstance().setCurrentMenu(Menus.Exit);
                 yield new Result(true, "Exiting the game...");
             }
             case ShowCurrentMenu -> new Result(true, App.getInstance().getCurrentMenu().toString());
@@ -66,7 +66,7 @@ public class LoginMenuController {
         }
 
         App.getInstance().setCurrentUser(user);
-        App.getInstance().setCurrentMenu(MenuNames.Main);
+        App.getInstance().setCurrentMenu(Menus.Main);
         return new Result(true, "Logged in successfully! Redirecting to main menu...");
     }
 
