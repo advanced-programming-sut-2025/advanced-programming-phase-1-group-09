@@ -41,4 +41,8 @@ public class TimeState implements TimeSubject {
             notifyObservers();
         }
     }
+
+    public int getDay() {
+        return day;
+    }
 }

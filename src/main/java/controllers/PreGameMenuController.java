@@ -52,22 +52,28 @@ public class PreGameMenuController {
         return new Result(true, "New game created!");
     }
 
-    private void createNewGame(User currentUser, ArrayList<User> users) {
-        Player currentPlayer = new Player(currentUser);
+    private void createNewGame(User currentUser, ArrayList<User> opponentUsers) {
+        Player currentPlayer = new Player(currentUser.getUsername());
 
-        // Create Player List
+        // Add all Players to the List
         ArrayList<Player> players = new ArrayList<>();
         players.add(currentPlayer);
-        for (User user : users) {
-            players.add(new Player(user));
+        for (User user : opponentUsers) {
+            players.add(new Player(user.getUsername()));
         }
 
         // Instantiate Game
         Game game = new Game(currentPlayer, players, currentUser);
 
-        // Assign Game to App and Users
+        // Assign Game to App
         App.getInstance().addGame(game);
-        for (User user : users) {
+
+        // Assign Game to current User
+        currentUser.setActiveGame(game);
+        currentUser.addGameId(game.getId());
+
+        // Assign Game to other Users
+        for (User user : opponentUsers) {
             user.setActiveGame(game);
             user.addGameId(game.getId());
         }
