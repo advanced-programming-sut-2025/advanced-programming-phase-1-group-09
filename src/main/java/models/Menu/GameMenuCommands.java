@@ -26,7 +26,7 @@ public enum GameMenuCommands implements Command {
     Plant("plant\\s+(?=.*-s)(?=.*-d).*"),
     ShowPlant("show\\s+plant\\s+-l\\s+<\\S+, \\S+>"),
     Fertilize("fertilize\\s+(?=.*-f)(?=.*-d).*"),
-    ShowCurrentWater("howmuch\\s+water"),
+    ShowCurrentWater("how\\s+much\\s+water"),
     ShowCraftingRecipes("show\\s+crafting\\s+recipes"),
     CraftItem("crafting\\s+craft\\s+\\S+"),
     PlaceItem("place\\s+item\\s+(?=.*-n)(?=.*-d).*"),

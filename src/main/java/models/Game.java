@@ -21,10 +21,14 @@ public class Game {
 
     public Game(ArrayList<Player> players, User creator) {
         this.id = idCounter++;
-        this.players = players;
         this.creator = creator;
         this.turn = 0;
         this.timeState = new TimeState();
+
+        this.players = players;
+        for (Player player : players) {
+            this.timeState.addObserver(player);
+        }
 
         this.season = new Season();
         this.timeState.addObserver(season);
@@ -39,6 +43,13 @@ public class Game {
 
     public Player getCurrentPlayer() {
         return players.get(turn);
+    }
+
+    public boolean areAllPlayersFainted() {
+        for (Player player : players) {
+            if (!player.isFainted()) return false;
+        }
+        return true;
     }
 
     public boolean isItLastTurn() {

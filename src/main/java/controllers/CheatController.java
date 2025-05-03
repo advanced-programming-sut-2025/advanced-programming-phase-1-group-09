@@ -1,6 +1,7 @@
 package controllers;
 
 import models.Game;
+import models.GameWorld.Entity.Player.Player;
 import models.GameWorld.Enums.WeatherType;
 import models.Menu.CheatCommands;
 import models.Menu.Command;
@@ -22,6 +23,8 @@ public class CheatController {
             case TimeCheat -> timeCheat(cheat);
             case DateCheat -> dateCheat(cheat);
             case WeatherCheat -> weatherCheat(cheat);
+            case SetEnergyCheat -> setEnergyCheat(cheat);
+            case UnlimitedEnergyCheat -> unlimitedEnergyCheat();
             default -> new Result(false, "Coming Soon...");
         };
     }
@@ -77,5 +80,27 @@ public class CheatController {
             );
         }
         return new Result(true, "Weather changed to " + weather.toUpperCase());
+    }
+
+    private Result setEnergyCheat(String cheat) {
+        String energy = cheat.split("\\s+-v\\s+")[1];
+        int amount;
+        try {
+            amount = Integer.parseInt(energy);
+        } catch (NumberFormatException e) {
+            return new Result(false, "Please enter a valid energy value.");
+        }
+        game.getCurrentPlayer().setEnergy(amount);
+        return new Result(true, "Energy changed to " + energy);
+    }
+
+    private Result unlimitedEnergyCheat() {
+        Player currentPlayer = game.getCurrentPlayer();
+        currentPlayer.changeEnergyUnlimited();
+        return new Result(
+                true,
+                "Energy changed to " + (currentPlayer.isEnergyUnlimited() ? "unlimited" : "limited") +
+                        " mode for " + currentPlayer.getName()
+        );
     }
 }

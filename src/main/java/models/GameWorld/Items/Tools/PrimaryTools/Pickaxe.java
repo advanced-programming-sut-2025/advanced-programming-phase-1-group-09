@@ -1,0 +1,22 @@
+package models.GameWorld.Items.Tools.PrimaryTools;
+
+import models.Game;
+import models.GameWorld.Coordinate;
+import models.GameWorld.Entity.Player.Player;
+import models.GameWorld.Items.Tools.Tool;
+
+public class Pickaxe extends Tool {
+    public Pickaxe() {
+        super("Pickaxe");
+    }
+
+    @Override
+    protected int getMaxLevel() {
+        return 4;
+    }
+
+    @Override
+    public void use(Coordinate target, Player player, Game game) {
+
+    }
+}

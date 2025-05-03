@@ -1,8 +1,37 @@
 package models.GameWorld.Items.Tools;
 
+import models.Game;
+import models.GameWorld.Coordinate;
+import models.GameWorld.Entity.Player.Player;
 import models.GameWorld.Items.Inventory;
 import models.GameWorld.Items.Item;
 
-public class Tool extends Item {
-    private Inventory inventory;
+public abstract class Tool extends Item {
+    protected enum Type {PRIMARY, COPPER, SILVER, GOLD, IRIDIUM};
+    protected int level;
+
+    public Tool(String name) {
+        this.name = name;
+        this.level = 0;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public String getType() {
+        return Type.values()[level].toString();
+    }
+
+    public void upgrade() {
+        if (level < getMaxLevel()) level++;
+    }
+
+    protected abstract int getMaxLevel();
+
+    public abstract void use(Coordinate target, Player player, Game game);
 }

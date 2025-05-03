@@ -24,4 +24,9 @@ public class Coordinate {
     public void setX(int x) {
         this.x = x;
     }
+
+    public void move(int dy, int dx) {
+        y += dy;
+        x += dx;
+    }
 }

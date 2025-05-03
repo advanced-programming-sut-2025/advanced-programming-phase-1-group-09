@@ -44,13 +44,29 @@ public class GameMenuController {
                     new Result(true, game.getWeather().getCurrentWeather().toString());
             case ShowWeatherForecast ->
                     new Result(true, game.getWeather().getNextDayWeather().toString());
+            case ShowEnergy ->
+                    new Result(true,
+                            String.format(
+                                    "Energy: %d/%d",
+                                    game.getCurrentPlayer().getEnergy(),
+                                    game.getCurrentPlayer().getMaxEnergy()
+                            )
+                    );
             default -> new Result(false, "Coming Soon...");
         };
     }
 
     private Result nextTurn() {
-        if (game.isItLastTurn()) game.getTimeState().updateTime(1);
-        game.nextTurn();
+        if (game.areAllPlayersFainted()) {
+            game.getTimeState().updateDate(1);
+            return new Result(false, "All Players Fainted!");
+        }
+
+        while (game.getCurrentPlayer().isFainted()) {
+            if (game.isItLastTurn()) game.getTimeState().updateTime(1);
+            game.nextTurn();
+        }
+
         return new Result(true, "It's \"" + game.getCurrentPlayer().getName() + "\" turn now.");
     }
 
