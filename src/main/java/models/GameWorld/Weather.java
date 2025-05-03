@@ -12,7 +12,7 @@ public class Weather implements TimeObserver {
 
     public Weather(Season season) {
         this.season = season;
-        this.currentWeather = WeatherType.Sunny;
+        this.currentWeather = WeatherType.SUNNY;
         this.nextDayWeather = generateWeather();
     }
 
@@ -27,31 +27,35 @@ public class Weather implements TimeObserver {
         double chance = rand.nextDouble();
 
         switch (season.getCurrentSeason()) {
-            case Spring:
-                if (chance < 0.5) return WeatherType.Sunny;
-                else if (0.5 <= chance || chance < 0.8) return WeatherType.Rainy;
-                else return WeatherType.Storm;
-            case Summer:
-                if (chance < 0.85) return WeatherType.Sunny;
-                else if (0.85 <= chance || chance < 0.9) return WeatherType.Rainy;
-                else return WeatherType.Storm;
-            case Fall:
-                if (chance < 0.3) return WeatherType.Sunny;
-                else if (0.3 <= chance || chance < 0.7) return WeatherType.Rainy;
-                else if (0.7 <= chance || chance < 0.8) return WeatherType.Storm;
-                else return WeatherType.Snowy;
-            case Winter:
-                if (chance < 0.3) return WeatherType.Sunny;
-                else if (0.3 <= chance || chance < 0.6) return WeatherType.Rainy;
-                else if (0.6 <= chance || chance < 0.75) return WeatherType.Storm;
-                else return WeatherType.Snowy;
+            case SPRING:
+                if (chance < 0.5) return WeatherType.SUNNY;
+                else if (0.5 <= chance || chance < 0.8) return WeatherType.RAINY;
+                else return WeatherType.STORM;
+            case SUMMER:
+                if (chance < 0.85) return WeatherType.SUNNY;
+                else if (0.85 <= chance || chance < 0.9) return WeatherType.RAINY;
+                else return WeatherType.STORM;
+            case FALL:
+                if (chance < 0.3) return WeatherType.SUNNY;
+                else if (0.3 <= chance || chance < 0.7) return WeatherType.RAINY;
+                else if (0.7 <= chance || chance < 0.8) return WeatherType.STORM;
+                else return WeatherType.SNOWY;
+            case WINTER:
+                if (chance < 0.3) return WeatherType.SUNNY;
+                else if (0.3 <= chance || chance < 0.6) return WeatherType.RAINY;
+                else if (0.6 <= chance || chance < 0.75) return WeatherType.STORM;
+                else return WeatherType.SNOWY;
             default:
-                return WeatherType.Sunny;
+                return WeatherType.SUNNY;
         }
     }
 
     public WeatherType getCurrentWeather() {
         return currentWeather;
+    }
+
+    public void setCurrentWeather(WeatherType currentWeather) {
+        this.currentWeather = currentWeather;
     }
 
     public WeatherType getNextDayWeather() {

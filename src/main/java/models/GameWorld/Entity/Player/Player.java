@@ -8,9 +8,12 @@ import models.User;
 import java.util.ArrayList;
 
 public class Player implements Entity {
+    public static final int INITIAL_ENERGY = 200;
+
     private final String username;
     private final String name;
     private final Coordinate coordinate;
+    private int maxEnergy;
     private int energy;
     private int money;
     private final PlayerSkills skills;
@@ -26,7 +29,8 @@ public class Player implements Entity {
         this.username = username;
         this.name = getUser().getNickname();
         this.coordinate = new Coordinate(0, 0);
-        this.energy = 100;
+        this.maxEnergy = INITIAL_ENERGY;
+        this.energy = INITIAL_ENERGY;
         this.money = 0;
         this.skills = new PlayerSkills();
         this.inventory = new PlayerInventory();
@@ -44,5 +48,9 @@ public class Player implements Entity {
 
     public User getUser() {
         return App.getInstance().getUserByUsername(username);
+    }
+
+    public String getName() {
+        return name;
     }
 }

@@ -8,6 +8,7 @@ import models.Menu.Menus;
 import models.Menu.PreGameMenuCommands;
 import models.Result;
 import models.User;
+import views.GameMenu;
 
 import java.util.ArrayList;
 
@@ -47,12 +48,15 @@ public class PreGameMenuController {
             users.add(user);
         }
 
-        createNewGame(currentUser, users);
+        Game game = createNewGame(currentUser, users);
+        GameMenu gameMenu = (GameMenu)Menus.Game.getMenuView();
+        gameMenu.setGame(game);
+
         App.getInstance().setCurrentMenu(Menus.Game);
         return new Result(true, "New game created!");
     }
 
-    private void createNewGame(User currentUser, ArrayList<User> opponentUsers) {
+    private Game createNewGame(User currentUser, ArrayList<User> opponentUsers) {
         Player currentPlayer = new Player(currentUser.getUsername());
 
         // Add all Players to the List
@@ -63,7 +67,7 @@ public class PreGameMenuController {
         }
 
         // Instantiate Game
-        Game game = new Game(currentPlayer, players, currentUser);
+        Game game = new Game(players, currentUser);
 
         // Assign Game to App
         App.getInstance().addGame(game);
@@ -77,5 +81,7 @@ public class PreGameMenuController {
             user.setActiveGame(game);
             user.addGameId(game.getId());
         }
+
+        return game;
     }
 }
