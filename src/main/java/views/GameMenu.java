@@ -2,6 +2,10 @@ package views;
 
 import controllers.GameMenuController;
 import models.Game;
+import models.GameWorld.Entity.Player.Player;
+import models.GameWorld.Items.Item;
+import models.GameWorld.Items.Miscellaneous.InventorySlot;
+import models.GameWorld.Items.StackableItem;
 import models.Result;
 
 import java.util.Scanner;
@@ -32,5 +36,19 @@ public class GameMenu implements AppMenu {
     public void setGame(Game game) {
         this.game = game;
         controller.setGame(game);
+    }
+
+    public static void showPlayerInventory(Player player) {
+        System.out.print(ConsoleColors.WHITE_BACKGROUND_BRIGHT + ConsoleColors.BLACK_BOLD +
+                "        ITEM        " + ConsoleColors.RESET);
+        System.out.println(ConsoleColors.BLACK_BACKGROUND_BRIGHT + ConsoleColors.WHITE_BOLD_BRIGHT +
+                " QUANTITY " + ConsoleColors.RESET);
+
+        for (InventorySlot slot : player.getInventory().getMainInventory().getSlots()) {
+            Item item = slot.item();
+            String quantity = item.isStackable() ? String.valueOf(((StackableItem) item).getQuantity()) : "----";
+
+            System.out.println(String.format("%-20s   %s", item.getName(), quantity));
+        }
     }
 }

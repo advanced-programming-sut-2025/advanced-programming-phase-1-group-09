@@ -17,12 +17,12 @@ public class Player implements Entity, TimeObserver {
     private final Coordinate coordinate;
     private int maxEnergy;
     private int energy;
+    private boolean isEnergyUnlimited;
     private int money;
     private final PlayerSkills skills;
     private final PlayerInventory inventory;
     private final ArrayList<PlayerFriendship> friendships;
     private final ArrayList<PlayerTrade> trades;
-    private boolean isEnergyUnlimited;
     private boolean isHome;
     private boolean isSleep;
     private boolean isFainted;
@@ -34,12 +34,12 @@ public class Player implements Entity, TimeObserver {
         this.coordinate = new Coordinate(0, 0);
         this.maxEnergy = INITIAL_ENERGY;
         this.energy = INITIAL_ENERGY;
+        this.isEnergyUnlimited = false;
         this.money = 0;
         this.skills = new PlayerSkills();
         this.inventory = new PlayerInventory();
         this.friendships = new ArrayList<>();
         this.trades = new ArrayList<>();
-        this.isEnergyUnlimited = false;
         this.isHome = false;
         this.isSleep = false;
         this.isFainted = false;
@@ -106,8 +106,24 @@ public class Player implements Entity, TimeObserver {
         isEnergyUnlimited = !isEnergyUnlimited;
     }
 
+    public int getMoney() {
+        return money;
+    }
+
+    /**
+     * Positive input to increase money,
+     * Negative input to decrease money
+     */
+    public void changeMoney(int money) {
+        this.money += money;
+    }
+
     public PlayerSkills getSkills() {
         return skills;
+    }
+
+    public PlayerInventory getInventory() {
+        return inventory;
     }
 
     public boolean isFainted() {

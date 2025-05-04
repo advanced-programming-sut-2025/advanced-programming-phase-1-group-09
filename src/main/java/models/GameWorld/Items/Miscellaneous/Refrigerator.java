@@ -1,4 +1,4 @@
-package models.GameWorld.Items;
+package models.GameWorld.Items.Miscellaneous;
 
 import models.GameWorld.Items.Edibles.Edible;
 

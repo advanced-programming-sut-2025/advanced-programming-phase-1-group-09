@@ -13,9 +13,10 @@ public class CraftingRecipeItem extends NewItem {
     private final Shop shopSource;
     private final int energyNeeded;
 
-    public CraftingRecipeItem(int sellPrice, LinkedHashMap<Item, Integer> ingredients,
+
+    public CraftingRecipeItem(String name, int sellPrice, LinkedHashMap<Item, Integer> ingredients,
                               String description, Skill skillSource, Shop shopSource, int energyNeeded) {
-        super(sellPrice, ingredients);
+        super(name, sellPrice, ingredients);
         this.description = description;
         this.skillSource = skillSource;
         this.shopSource = shopSource;

@@ -6,10 +6,12 @@ import models.GameWorld.Season;
 import java.util.ArrayList;
 
 public class ForagingCrop extends Crop {
-    public ForagingCrop(String resource, ArrayList<Integer> stage, int sellPrice, int gainedEnergy,
-                        int totalTimeToGrow, boolean isMultiHarvestable, int regrowthTime, boolean isEdible,
-                        Season season, boolean canBecomeGiant) {
-        super(resource, stage, sellPrice, gainedEnergy,
-                totalTimeToGrow, isMultiHarvestable, regrowthTime, isEdible, season, canBecomeGiant);
+
+    public ForagingCrop(String name, int quantity, int gainedEnergy, int sellPrice,
+                        String resource, ArrayList<Integer> stage, int totalTimeToGrow, boolean isMultiHarvestable,
+                        int regrowthTime, boolean isEdible, Season season, boolean canBecomeGiant) {
+        super(name, quantity, gainedEnergy, sellPrice,
+              resource, stage, totalTimeToGrow, isMultiHarvestable,
+              regrowthTime, isEdible, season, canBecomeGiant);
     }
 }

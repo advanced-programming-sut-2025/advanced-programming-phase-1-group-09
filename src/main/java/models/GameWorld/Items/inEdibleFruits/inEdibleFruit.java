@@ -1,17 +1,17 @@
 package models.GameWorld.Items.inEdibleFruits;
 
-import models.GameWorld.Items.Inventory;
+import models.GameWorld.Items.Miscellaneous.Inventory;
+import models.GameWorld.Items.StackableItem;
 import models.GameWorld.Season;
 
-public class inEdibleFruit {
+public class inEdibleFruit extends StackableItem {
     private final int fruitHarvestCycle;
-    private final int sellPrice;
     private final Season season;
     private Inventory inventory;
 
-    public inEdibleFruit(int fruitHarvestCycle, int sellPrice, Season season) {
+    public inEdibleFruit(String name, int quantity, int fruitHarvestCycle, int sellPrice, Season season) {
+        super(name, quantity, sellPrice);
         this.fruitHarvestCycle = fruitHarvestCycle;
-        this.sellPrice = sellPrice;
         this.season = season;
     }
 }

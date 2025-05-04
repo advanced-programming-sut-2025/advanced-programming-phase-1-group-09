@@ -16,10 +16,11 @@ public class Crop extends Edible {
     private final Season season;
     private final boolean canBecomeGiant;
 
-    public Crop(String resource, ArrayList<Integer> stage, int sellPrice, int gainedEnergy,
-                int totalTimeToGrow, boolean isMultiHarvestable, int regrowthTime, boolean isEdible,
-                Season season, boolean canBecomeGiant) {
-        super(sellPrice, gainedEnergy);
+
+    public Crop(String name, int quantity, int gainedEnergy, int sellPrice,
+                String resource, ArrayList<Integer> stage, int totalTimeToGrow, boolean isMultiHarvestable,
+                int regrowthTime, boolean isEdible, Season season, boolean canBecomeGiant) {
+        super(name, quantity, gainedEnergy, sellPrice);
         this.resource = resource;
         this.stage = stage;
         this.totalTimeToGrow = totalTimeToGrow;

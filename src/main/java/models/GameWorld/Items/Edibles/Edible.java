@@ -1,14 +1,14 @@
 package models.GameWorld.Items.Edibles;
 
-import models.GameWorld.Items.Inventory;
+import models.GameWorld.Items.Miscellaneous.Inventory;
+import models.GameWorld.Items.StackableItem;
 
-public class Edible {
+public class Edible extends StackableItem {
     private final int gainedEnergy;
-    private final int sellPrice;
     private Inventory inventory;
 
-    public Edible(int gainedEnergy, int sellPrice) {
+    public Edible(String name, int quantity, int gainedEnergy, int sellPrice) {
+        super(name, quantity, sellPrice);
         this.gainedEnergy = gainedEnergy;
-        this.sellPrice = sellPrice;
     }
 }

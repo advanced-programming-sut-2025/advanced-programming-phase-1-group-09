@@ -1,10 +1,14 @@
 package controllers;
 
 import models.Game;
+import models.GameWorld.Entity.Player.PlayerInventory;
+import models.GameWorld.Items.Item;
+import models.GameWorld.Items.StackableItem;
 import models.Menu.CheatCommands;
 import models.Menu.Command;
 import models.Menu.GameMenuCommands;
 import models.Result;
+import views.GameMenu;
 
 public class GameMenuController {
     private final CheatController cheatController;
@@ -52,6 +56,13 @@ public class GameMenuController {
                                     game.getCurrentPlayer().getMaxEnergy()
                             )
                     );
+            case ShowBalance ->
+                    new Result(true, String.format("Balance: %d$", game.getCurrentPlayer().getMoney()));
+            case ShowInventory -> {
+                GameMenu.showPlayerInventory(game.getCurrentPlayer());
+                yield new Result(true, "");
+            }
+            case InventoryTrash -> processInventoryTrash(command);
             default -> new Result(false, "Coming Soon...");
         };
     }
@@ -70,4 +81,49 @@ public class GameMenuController {
         return new Result(true, "It's \"" + game.getCurrentPlayer().getName() + "\" turn now.");
     }
 
+    private Result processInventoryTrash(String command) {
+        String itemName;
+        int number;
+        try {
+            if (command.contains("-n")) {
+                String[] parts = command.split("\\s+-i\\s+|\\s+-n\\s+");
+                itemName = parts[1];
+                number = Integer.parseInt(parts[2]);
+            } else {
+                itemName = command.split("\\s+-i\\s+")[1];
+                number = -1;
+            }
+        } catch (ArrayIndexOutOfBoundsException e) {
+            return Result.invalidCommand;
+        } catch (NumberFormatException e) {
+            return new Result(false, "Please enter a number!");
+        }
+
+        Item item = game.getCurrentPlayer().getInventory().findItem(itemName);
+        if (item == null)
+            return new Result(false, "Item not found! Item's name must be entered in PascalCase.");
+
+        return trashItem(item, number);
+    }
+
+    private Result trashItem(Item item, int quantity) {
+        if (!item.isStackable())
+            return new Result(false, "You can't remove a non-stackable item!");
+
+        StackableItem stackableItem = (StackableItem) item;
+        int price = stackableItem.getPrice();
+
+        PlayerInventory inventory = game.getCurrentPlayer().getInventory();
+        double refundPercentage = inventory.getTrashCan().getRefundPercentage();
+
+        if (quantity < 0 || quantity >= stackableItem.getQuantity()) {
+            int amount = inventory.getMainInventory().removeItem(item);
+            game.getCurrentPlayer().changeMoney((int) (price * amount * refundPercentage));
+            return new Result(true, "Item removed successfully!");
+        } else {
+            int amount = inventory.getMainInventory().reduceItemQuantity(item, quantity);
+            game.getCurrentPlayer().changeMoney((int) (price * amount * refundPercentage));
+            return new Result(true, "Item's quantity reduced successfully!");
+        }
+    }
 }

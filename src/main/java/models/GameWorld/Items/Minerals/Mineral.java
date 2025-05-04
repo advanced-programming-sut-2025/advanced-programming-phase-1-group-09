@@ -1,15 +1,15 @@
 package models.GameWorld.Items.Minerals;
 
-import models.GameWorld.Items.Inventory;
+import models.GameWorld.Items.Miscellaneous.Inventory;
 import models.GameWorld.Items.Item;
+import models.GameWorld.Items.StackableItem;
 
-public class Mineral extends Item {
+public class Mineral extends StackableItem {
     private final String description;
-    private final int sellPrice;
     private Inventory inventory;
 
-    public Mineral(String description, int sellPrice) {
+    public Mineral(String name, int quantity, String description, int sellPrice) {
+        super(name, quantity, sellPrice);
         this.description = description;
-        this.sellPrice = sellPrice;
     }
 }

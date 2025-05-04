@@ -3,20 +3,16 @@ package models.GameWorld.Items.Tools;
 import models.Game;
 import models.GameWorld.Coordinate;
 import models.GameWorld.Entity.Player.Player;
-import models.GameWorld.Items.Inventory;
 import models.GameWorld.Items.Item;
 
 public abstract class Tool extends Item {
-    protected enum Type {PRIMARY, COPPER, SILVER, GOLD, IRIDIUM};
+    protected enum Type {PRIMARY, COPPER, SILVER, GOLD, IRIDIUM}
+
     protected int level;
 
     public Tool(String name) {
-        this.name = name;
+        super(name, false);
         this.level = 0;
-    }
-
-    public String getName() {
-        return name;
     }
 
     public int getLevel() {
