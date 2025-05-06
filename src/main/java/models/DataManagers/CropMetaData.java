@@ -33,8 +33,8 @@ public class CropMetaData {
             List<Crop> cropList = mapper.readValue(inputStream, new TypeReference<>() {});
 
             for (Crop crop : cropList) {
-                crops.put(crop.getName(), crop);
-                Seed seed = new Seed(crop.getSource(), 10, crop.getSpawningChance());
+                crops.put(crop.name(), crop);
+                Seed seed = new Seed(crop.source(), 10, crop.spawningChance());
                 seeds.put(seed.getName(), seed);
                 seedToCrop.put(seed, crop);
             }

@@ -1,140 +1,163 @@
 [
  {
    "name": "Common Mushroom",
-   "season": ["SPRING", "SUMMER", "FALL", "WINTER"],
+   "growingSeasons": ["SPRING", "SUMMER", "FALL", "WINTER"],
    "baseSellPrice": 40,
-   "energyRestored": 38
+   "energyRestored": 38,
+   "spawningChance": 0.7
  },
  {
    "name": "Daffodil",
-   "season": ["SPRING"],
+   "growingSeasons": ["SPRING"],
    "baseSellPrice": 30,
-   "energyRestored": 0
+   "energyRestored": 0,
+   "spawningChance": 0.5
  },
  {
    "name": "Dandelion",
-   "season": ["SPRING"],
+   "growingSeasons": ["SPRING"],
    "baseSellPrice": 40,
-   "energyRestored": 25
+   "energyRestored": 25,
+   "spawningChance": 0.4
  },
  {
    "name": "Leek",
-   "season": ["SPRING"],
+   "growingSeasons": ["SPRING"],
    "baseSellPrice": 60,
-   "energyRestored": 40
+   "energyRestored": 40,
+   "spawningChance": 0.3
  },
  {
    "name": "Morel",
-   "season": ["SPRING"],
+   "growingSeasons": ["SPRING"],
    "baseSellPrice": 150,
-   "energyRestored": 20
+   "energyRestored": 20,
+   "spawningChance": 0.3
  },
  {
    "name": "Salmonberry",
-   "season": ["SPRING"],
+   "growingSeasons": ["SPRING"],
    "baseSellPrice": 5,
-   "energyRestored": 25
+   "energyRestored": 25,
+   "spawningChance": 0.6
  },
  {
    "name": "Spring Onion",
-   "season": ["SPRING"],
+   "growingSeasons": ["SPRING"],
    "baseSellPrice": 8,
-   "energyRestored": 13
+   "energyRestored": 13,
+   "spawningChance": 0.7
  },
  {
    "name": "Wild Horseradish",
-   "season": ["SPRING"],
+   "growingSeasons": ["SPRING"],
    "baseSellPrice": 50,
-   "energyRestored": 13
+   "energyRestored": 13,
+   "spawningChance": 0.4
  },
  {
    "name": "Fiddlehead Fern",
-   "season": ["SUMMER"],
+   "growingSeasons": ["SUMMER"],
    "baseSellPrice": 90,
-   "energyRestored": 25
+   "energyRestored": 25,
+   "spawningChance": 0.4
  },
  {
    "name": "Grape",
-   "season": ["SUMMER"],
+   "growingSeasons": ["SUMMER"],
    "baseSellPrice": 80,
-   "energyRestored": 38
+   "energyRestored": 38,
+   "spawningChance": 0.3
  },
  {
    "name": "Red Mushroom",
-   "season": ["SUMMER"],
+   "growingSeasons": ["SUMMER"],
    "baseSellPrice": 75,
-   "energyRestored": -50
+   "energyRestored": -50,
+   "spawningChance": 0.5
  },
  {
    "name": "Spice Berry",
-   "season": ["SUMMER"],
+   "growingSeasons": ["SUMMER"],
    "baseSellPrice": 80,
-   "energyRestored": 25
+   "energyRestored": 25,
+   "spawningChance": 0.3
  },
  {
    "name": "Sweet Pea",
-   "season": ["SUMMER"],
+   "growingSeasons": ["SUMMER"],
    "baseSellPrice": 50,
-   "energyRestored": 0
+   "energyRestored": 0,
+   "spawningChance": 0.4
  },
  {
    "name": "Blackberry",
-   "season": ["FALL"],
+   "growingSeasons": ["FALL"],
    "baseSellPrice": 25,
-   "energyRestored": 25
+   "energyRestored": 25,
+   "spawningChance": 0.7
  },
  {
    "name": "Chanterelle",
-   "season": ["FALL"],
+   "growingSeasons": ["FALL"],
    "baseSellPrice": 160,
-   "energyRestored": 75
+   "energyRestored": 75,
+   "spawningChance": 0.2
  },
  {
    "name": "Hazelnut",
-   "season": ["FALL"],
+   "growingSeasons": ["FALL"],
    "baseSellPrice": 40,
-   "energyRestored": 38
+   "energyRestored": 38,
+   "spawningChance": 0.3
  },
  {
    "name": "Purple Mushroom",
-   "season": ["FALL"],
+   "growingSeasons": ["FALL"],
    "baseSellPrice": 90,
-   "energyRestored": 30
+   "energyRestored": 30,
+   "spawningChance": 0.3
  },
  {
    "name": "Wild Plum",
-   "season": ["FALL"],
+   "growingSeasons": ["FALL"],
    "baseSellPrice": 80,
-   "energyRestored": 25
+   "energyRestored": 25,
+   "spawningChance": 0.4
  },
  {
    "name": "Crocus",
-   "season": ["WINTER"],
+   "growingSeasons": ["WINTER"],
    "baseSellPrice": 60,
-   "energyRestored": 0
+   "energyRestored": 0,
+   "spawningChance": 0.5
  },
  {
    "name": "Crystal Fruit",
-   "season": ["WINTER"],
+   "growingSeasons": ["WINTER"],
    "baseSellPrice": 150,
-   "energyRestored": 63
+   "energyRestored": 63,
+   "spawningChance": 0.3
  },
  {
    "name": "Holly",
-   "season": ["WINTER"],
+   "growingSeasons": ["WINTER"],
    "baseSellPrice": 80,
-   "energyRestored": -37
+   "energyRestored": -37,
+   "spawningChance": 0.5
  },
  {
    "name": "Snow Yam",
-   "season": ["WINTER"],
+   "growingSeasons": ["WINTER"],
    "baseSellPrice": 100,
-   "energyRestored": 30
+   "energyRestored": 30,
+   "spawningChance": 0.6
  },
  {
    "name": "Winter Root",
-   "season": ["WINTER"],
+   "growingSeasons": ["WINTER"],
    "baseSellPrice": 70,
-   "energyRestored": 25
+   "energyRestored": 25,
+   "spawningChance": 0.7
  }
 ]

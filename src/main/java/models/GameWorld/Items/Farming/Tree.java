@@ -5,7 +5,12 @@ import models.GameWorld.Enums.SeasonName;
 import java.util.ArrayList;
 import java.util.Set;
 
-public class Tree {
+/**
+ * The Tree class is used to make different types of trees from JSON file,
+ * so you shouldn't instantiate an object everytime you need to add a tree to the game.
+ * Instead, you may use PlantedTree to instantiate a crop object.
+ */
+public final class Tree {
     private final String name;
     private final String source;
     private final ArrayList<Integer> growthStages;

@@ -67,7 +67,7 @@ public class GameMenu implements AppMenu {
 
     public static void showAllCrops() {
         for (Crop crop : CropMetaData.getAllCrops()) {
-            System.out.println(crop.getName());
+            System.out.println(crop.name());
         }
     }
 

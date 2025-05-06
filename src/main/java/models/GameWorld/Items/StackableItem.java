@@ -19,7 +19,11 @@ public abstract class StackableItem extends Item {
     }
 
     public void reduceQuantity(int amount) {
-        this.quantity = Math.max(0, this.quantity - amount);
+        setQuantity(this.quantity - amount);
+    }
+
+    public void setQuantity(int amount) {
+        this.quantity = Math.max(0, amount);
     }
 
     public int getPrice() {

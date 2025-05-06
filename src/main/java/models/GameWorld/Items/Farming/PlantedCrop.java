@@ -19,7 +19,7 @@ public class PlantedCrop extends Planted {
     public void onTimeChange(TimeState newState) {
         if (!isMature() && wateredToday) {
             daysSinceLastStage++;
-            if (daysSinceLastStage >= cropDefinition.getGrowthStages().get(currentStage)) {
+            if (daysSinceLastStage >= cropDefinition.growthStages().get(currentStage)) {
                 currentStage++;
                 daysSinceLastStage = 0;
             }
@@ -29,6 +29,6 @@ public class PlantedCrop extends Planted {
 
     @Override
     public boolean isMature() {
-        return currentStage >= cropDefinition.getGrowthStages().size();
+        return currentStage >= cropDefinition.growthStages().size();
     }
 }
