@@ -5,35 +5,33 @@ import models.GameWorld.Enums.SeasonName;
 import java.util.ArrayList;
 import java.util.Set;
 
-public class Crop {
+public class Tree {
     private final String name;
     private final String source;
     private final ArrayList<Integer> growthStages;
     private final int totalGrowthDays;
-    private final boolean regrowable;
-    private final int regrowDays;
-    private final int baseSellPrice;
-    private final boolean isEdible;
-    private final int energyRestored;
+    private final Fruit fruit;
+    private final int fruitHarvestCycle;
+    private final int fruitBaseSellPrice;
+    private final boolean isFruitEdible;
+    private final int fruitEnergy;
     private final Set<SeasonName> growingSeasons;
-    private final boolean canBecomeGiant;
     private final double spawningChance;
 
-    public Crop(String name, String source, ArrayList<Integer> growthStages,
-                int totalGrowthDays, boolean regrowable, int regrowDays,
-                int baseSellPrice, boolean isEdible, int energyRestored,
-                Set<SeasonName> growingSeasons, boolean canBecomeGiant, double spawningChance) {
+    public Tree(String name, String source, ArrayList<Integer> growthStages,
+                int totalGrowthDays, String fruitName, int fruitHarvestCycle,
+                int fruitBaseSellPrice, boolean isFruitEdible, int fruitEnergy,
+                Set<SeasonName> growingSeasons, double spawningChance) {
         this.name = name;
         this.source = source;
         this.growthStages = growthStages;
         this.totalGrowthDays = totalGrowthDays;
-        this.regrowable = regrowable;
-        this.regrowDays = regrowDays;
-        this.baseSellPrice = baseSellPrice;
-        this.isEdible = isEdible;
-        this.energyRestored = energyRestored;
+        this.fruitHarvestCycle = fruitHarvestCycle;
+        this.fruitBaseSellPrice = fruitBaseSellPrice;
+        this.isFruitEdible = isFruitEdible;
+        this.fruitEnergy = fruitEnergy;
+        this.fruit = new Fruit(fruitName, fruitEnergy, fruitBaseSellPrice);
         this.growingSeasons = growingSeasons;
-        this.canBecomeGiant = canBecomeGiant;
         this.spawningChance = spawningChance;
     }
 
@@ -53,32 +51,28 @@ public class Crop {
         return totalGrowthDays;
     }
 
-    public boolean isRegrowable() {
-        return regrowable;
+    public Fruit getFruit() {
+        return fruit;
     }
 
-    public int getRegrowDays() {
-        return regrowDays;
+    public int getFruitHarvestCycle() {
+        return fruitHarvestCycle;
     }
 
-    public int getBaseSellPrice() {
-        return baseSellPrice;
+    public int getFruitBaseSellPrice() {
+        return fruitBaseSellPrice;
     }
 
-    public boolean isEdible() {
-        return isEdible;
+    public boolean isFruitEdible() {
+        return isFruitEdible;
     }
 
-    public int getEnergyRestored() {
-        return energyRestored;
+    public int getFruitEnergy() {
+        return fruitEnergy;
     }
 
     public Set<SeasonName> getGrowingSeasons() {
         return growingSeasons;
-    }
-
-    public boolean canBecomeGiant() {
-        return canBecomeGiant;
     }
 
     public double getSpawningChance() {
@@ -110,15 +104,14 @@ public class Crop {
                 "Source               %s\n" +
                 "Stages               %s\n" +
                 "Total Harvest Time   %d\n" +
-                "One Time             %s\n" +
-                "Regrowth Time        %d\n" +
+                "Fruit                %s\n" +
+                "Fruit Harvest Cycle  %d\n" +
                 "Base Sell Price      %d$\n" +
-                "Is Edible            %s\n" +
-                "Base Energy          %d\n" +
-                "Season               %s\n" +
-                "Can Become Giant     %s",
-                name, source, getStringStages(), totalGrowthDays, !regrowable, regrowDays,
-                baseSellPrice, isEdible, energyRestored, getStringSeasons(), canBecomeGiant
+                "Is Fruit Edible      %s\n" +
+                "Fruit Energy         %d\n" +
+                "Season               %s\n",
+                name, source, getStringStages(), totalGrowthDays, source, fruitHarvestCycle,
+                fruitBaseSellPrice, isFruitEdible, fruitEnergy, getStringSeasons()
         );
     }
 }

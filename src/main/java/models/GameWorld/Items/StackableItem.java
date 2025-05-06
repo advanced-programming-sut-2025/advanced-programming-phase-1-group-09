@@ -1,8 +1,8 @@
 package models.GameWorld.Items;
 
 public abstract class StackableItem extends Item {
-    private int quantity;
-    private final int price;
+    protected int quantity;
+    protected final int price;
 
     public StackableItem(String name, int price) {
         super(name, true);

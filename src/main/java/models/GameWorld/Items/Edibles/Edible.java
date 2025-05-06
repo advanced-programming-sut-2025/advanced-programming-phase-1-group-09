@@ -1,14 +1,11 @@
 package models.GameWorld.Items.Edibles;
 
-import models.GameWorld.Items.Miscellaneous.Inventory;
-import models.GameWorld.Items.StackableItem;
+import models.GameWorld.Entity.Player.Player;
 
-public class Edible extends StackableItem {
-    private final int gainedEnergy;
-    private Inventory inventory;
+public interface Edible {
+    int getGainedEnergy();
 
-    public Edible(String name, int quantity, int gainedEnergy, int sellPrice) {
-        super(name, sellPrice);
-        this.gainedEnergy = gainedEnergy;
+    default void eat(Player player) {
+        player.changeEnergy(getGainedEnergy());
     }
 }

@@ -3,8 +3,8 @@ package models.DataManagers;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
-import models.GameWorld.Items.Farming.Crop;
 import models.GameWorld.Items.Farming.Seed;
+import models.GameWorld.Items.Farming.Tree;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -13,42 +13,42 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class CropMetaData {
-    private static final Map<String, Crop> crops = new HashMap<>();
+public class TreeMetaData {
+    private static final Map<String, Tree> trees = new HashMap<>();
     private static final Map<String, Seed> seeds = new HashMap<>();
-    private static final Map<Seed, Crop> seedToCrop = new HashMap<>();
+    private static final Map<Seed, Tree> seedToTree = new HashMap<>();
 
     static {
         try {
             ObjectMapper mapper = new ObjectMapper();
             SimpleModule module = new SimpleModule();
-            module.addDeserializer(Crop.class, new CropDeserializer());
+            module.addDeserializer(Tree.class, new TreeDeserializer());
             mapper.registerModule(module);
 
-            InputStream inputStream = CropMetaData.class.getClassLoader().getResourceAsStream("JSON/crops.json");
+            InputStream inputStream = CropMetaData.class.getClassLoader().getResourceAsStream("JSON/trees.json");
             if (inputStream == null) {
                 throw new RuntimeException("File not found in resources!");
             }
 
-            List<Crop> cropList = mapper.readValue(inputStream, new TypeReference<>() {});
+            List<Tree> treeList = mapper.readValue(inputStream, new TypeReference<>() {});
 
-            for (Crop crop : cropList) {
-                crops.put(crop.getName(), crop);
-                Seed seed = new Seed(crop.getSource(), 10, crop.getSpawningChance());
+            for (Tree tree : treeList) {
+                trees.put(tree.getName(), tree);
+                Seed seed = new Seed(tree.getSource(), 10, tree.getSpawningChance());
                 seeds.put(seed.getName(), seed);
-                seedToCrop.put(seed, crop);
+                seedToTree.put(seed, tree);
             }
         } catch (IOException e) {
-            throw new RuntimeException("Failed to load crops", e);
+            throw new RuntimeException("Failed to load trees", e);
         }
     }
 
-    public static Crop getCrop(String name) {
-        return crops.get(name);
+    public static Tree getTree(String name) {
+        return trees.get(name);
     }
 
-    public static Crop getCrop(Seed seed) {
-        return seedToCrop.get(seed);
+    public static Tree getTree(Seed seed) {
+        return seedToTree.get(seed);
     }
 
     public static Seed getSeed(String seedName) {
@@ -59,7 +59,7 @@ public class CropMetaData {
         return seeds.values();
     }
 
-    public static Collection<Crop> getAllCrops() {
-        return crops.values();
+    public static Collection<Tree> getAllTrees() {
+        return trees.values();
     }
 }

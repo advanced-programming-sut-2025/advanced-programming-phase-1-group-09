@@ -2,9 +2,11 @@ package views;
 
 import models.DataManagers.CropMetaData;
 import controllers.GameMenuController;
+import models.DataManagers.TreeMetaData;
 import models.Game;
 import models.GameWorld.Entity.Player.Player;
 import models.GameWorld.Items.Farming.Crop;
+import models.GameWorld.Items.Farming.Tree;
 import models.GameWorld.Items.Item;
 import models.GameWorld.Items.Miscellaneous.InventorySlot;
 import models.GameWorld.Items.StackableItem;
@@ -69,4 +71,9 @@ public class GameMenu implements AppMenu {
         }
     }
 
+    public static void showAllTrees() {
+        for (Tree tree : TreeMetaData.getAllTrees()) {
+            System.out.println(tree.getName());
+        }
+    }
 }

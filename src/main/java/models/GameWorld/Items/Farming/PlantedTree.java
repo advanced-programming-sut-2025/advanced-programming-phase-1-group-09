@@ -3,23 +3,23 @@ package models.GameWorld.Items.Farming;
 import models.GameWorld.Coordinate;
 import models.GameWorld.TimeState;
 
-public class PlantedCrop extends Planted {
-    private final Crop cropDefinition;
+public class PlantedTree extends Planted {
+    private final Tree treeDefinition;
 
-    public PlantedCrop(Crop cropDefinition, Coordinate position) {
+    public PlantedTree(Tree treeDefinition, Coordinate position) {
         super(position, false, 0, 0);
-        this.cropDefinition = cropDefinition;
+        this.treeDefinition = treeDefinition;
     }
 
-    public Crop getCropDefinition() {
-        return cropDefinition;
+    public Tree getTreeDefinition() {
+        return treeDefinition;
     }
 
     @Override
     public void onTimeChange(TimeState newState) {
         if (!isMature() && wateredToday) {
             daysSinceLastStage++;
-            if (daysSinceLastStage >= cropDefinition.getGrowthStages().get(currentStage)) {
+            if (daysSinceLastStage >= treeDefinition.getGrowthStages().get(currentStage)) {
                 currentStage++;
                 daysSinceLastStage = 0;
             }
@@ -29,6 +29,6 @@ public class PlantedCrop extends Planted {
 
     @Override
     public boolean isMature() {
-        return currentStage >= cropDefinition.getGrowthStages().size();
+        return currentStage >= treeDefinition.getGrowthStages().size();
     }
 }

@@ -10,7 +10,8 @@
     "isEdible": true,
     "energyRestored": 45,
     "growingSeasons": ["SPRING"],
-    "canBecomeGiant": false
+    "canBecomeGiant": false,
+    "spawningChance": 0.5
   },
   {
     "name": "Carrot",
@@ -23,6 +24,7 @@
     "isEdible": true,
     "energyRestored": 75,
     "growingSeasons": ["SPRING"],
-    "canBecomeGiant": false
+    "canBecomeGiant": false,
+    "spawningChance": 0.5
   }
 ]

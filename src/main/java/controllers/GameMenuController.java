@@ -78,6 +78,10 @@ public class GameMenuController {
                 GameMenu.showAllCrops();
                 yield new Result(true, "");
             }
+            case ShowAllTrees -> {
+                GameMenu.showAllTrees();
+                yield new Result(true, "");
+            }
             default -> new Result(false, "Coming Soon...");
         };
     }
