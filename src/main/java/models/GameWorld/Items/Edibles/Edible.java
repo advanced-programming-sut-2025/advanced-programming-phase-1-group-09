@@ -8,7 +8,7 @@ public class Edible extends StackableItem {
     private Inventory inventory;
 
     public Edible(String name, int quantity, int gainedEnergy, int sellPrice) {
-        super(name, quantity, sellPrice);
+        super(name, sellPrice);
         this.gainedEnergy = gainedEnergy;
     }
 }

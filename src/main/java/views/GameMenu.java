@@ -1,11 +1,14 @@
 package views;
 
+import models.DataManagers.CropMetaData;
 import controllers.GameMenuController;
 import models.Game;
 import models.GameWorld.Entity.Player.Player;
+import models.GameWorld.Items.Farming.Crop;
 import models.GameWorld.Items.Item;
 import models.GameWorld.Items.Miscellaneous.InventorySlot;
 import models.GameWorld.Items.StackableItem;
+import models.GameWorld.Items.Tools.Tool;
 import models.Result;
 
 import java.util.Scanner;
@@ -51,4 +54,19 @@ public class GameMenu implements AppMenu {
             System.out.println(String.format("%-20s   %s", item.getName(), quantity));
         }
     }
+
+    public static void showPlayerTools(Player player) {
+        for (InventorySlot slot : player.getInventory().getMainInventory().getSlots()) {
+            if (slot.item() instanceof Tool tool) {
+                System.out.println(tool.getName());
+            }
+        }
+    }
+
+    public static void showAllCrops() {
+        for (Crop crop : CropMetaData.getAllCrops()) {
+            System.out.println(crop.getName());
+        }
+    }
+
 }

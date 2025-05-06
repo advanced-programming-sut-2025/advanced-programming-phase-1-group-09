@@ -1,4 +1,4 @@
-package controllers.DataManagers;
+package models.DataManagers;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -13,12 +13,12 @@ public class SecurityQuestionManager {
     static {
         try {
             ObjectMapper mapper = new ObjectMapper();
-            InputStream is = SecurityQuestionManager.class.getClassLoader()
+            InputStream inputStream = SecurityQuestionManager.class.getClassLoader()
                     .getResourceAsStream("JSON/security_questions.json");
-            if (is == null) {
+            if (inputStream == null) {
                 throw new RuntimeException("File not found in resources!");
             }
-            questions = mapper.readValue(is, new TypeReference<>() {});
+            questions = mapper.readValue(inputStream, new TypeReference<>() {});
         } catch (IOException e) {
             throw new RuntimeException("Failed to load security questions", e);
         }

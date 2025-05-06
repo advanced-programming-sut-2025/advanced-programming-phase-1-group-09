@@ -1,4 +1,4 @@
-package controllers.DataManagers;
+package models.DataManagers;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;

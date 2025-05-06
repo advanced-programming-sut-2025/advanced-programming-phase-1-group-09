@@ -115,7 +115,7 @@ public class Player implements Entity, TimeObserver {
      * Negative input to decrease money
      */
     public void changeMoney(int money) {
-        this.money += money;
+        this.money = Math.max(this.money + money, 0);
     }
 
     public PlayerSkills getSkills() {

@@ -1,6 +1,6 @@
 package controllers;
 
-import controllers.DataManagers.LastUserManager;
+import models.DataManagers.LastUserManager;
 import models.App;
 import models.Menu.Command;
 import models.Menu.LoginMenuCommands;

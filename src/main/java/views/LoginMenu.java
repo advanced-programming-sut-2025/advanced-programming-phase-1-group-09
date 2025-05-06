@@ -1,8 +1,8 @@
 package views;
 
-import controllers.DataManagers.UserManager;
+import models.DataManagers.UserManager;
 import controllers.LoginMenuController;
-import controllers.DataManagers.SecurityQuestionManager;
+import models.DataManagers.SecurityQuestionManager;
 import controllers.PasswordUtils;
 import models.App;
 import models.Result;

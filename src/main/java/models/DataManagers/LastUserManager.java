@@ -1,4 +1,4 @@
-package controllers.DataManagers;
+package models.DataManagers;
 
 import models.App;
 import models.User;

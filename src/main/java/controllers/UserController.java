@@ -1,6 +1,5 @@
 package controllers;
 
-import controllers.DataManagers.UserManager;
 import models.App;
 import models.GameWorld.Enums.Gender;
 import models.Result;

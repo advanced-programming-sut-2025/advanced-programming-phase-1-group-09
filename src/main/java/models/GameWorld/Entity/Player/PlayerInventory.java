@@ -5,22 +5,22 @@ import models.GameWorld.Items.Miscellaneous.Inventory;
 import models.GameWorld.Items.Item;
 import models.GameWorld.Items.Miscellaneous.InventorySlot;
 import models.GameWorld.Items.Miscellaneous.TrashCan;
-import models.GameWorld.Items.Seeds.Seed;
 import models.GameWorld.Items.Tools.PrimaryTools.*;
+import models.GameWorld.Items.Tools.Tool;
 
 public class PlayerInventory {
     private Backpack backpack;
     private TrashCan trashCan;
     private final Inventory mainInventory;
-    private Item currentItem;
+    private Tool currentTool;
 
     public PlayerInventory() {
         this.backpack = Backpack.PRIMARY;
         this.trashCan = TrashCan.PRIMARY;
         this.mainInventory = new Inventory(backpack.getCapacity());
-        this.currentItem = new Axe();
+        this.currentTool = new Axe();
 
-        addItem(this.currentItem);
+        addItem(this.currentTool);
         addItem(new Hoe());
         addItem(new Pickaxe());
         addItem(new Scythe());
@@ -53,12 +53,12 @@ public class PlayerInventory {
         return mainInventory;
     }
 
-    public Item getCurrentItem() {
-        return currentItem;
+    public Tool getCurrentTool() {
+        return currentTool;
     }
 
-    public void setCurrentItem(Item item) {
-        this.currentItem = item;
+    public void setCurrentTool(Tool tool) {
+        this.currentTool = tool;
     }
 
     public Item findItem(String itemName) {

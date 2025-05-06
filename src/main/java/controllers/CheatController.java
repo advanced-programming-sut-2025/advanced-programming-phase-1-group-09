@@ -25,6 +25,7 @@ public class CheatController {
             case WeatherCheat -> weatherCheat(cheat);
             case SetEnergyCheat -> setEnergyCheat(cheat);
             case UnlimitedEnergyCheat -> unlimitedEnergyCheat();
+            case AddBalanceCheat -> addBalanceCheat(cheat);
             default -> new Result(false, "Coming Soon...");
         };
     }
@@ -101,6 +102,20 @@ public class CheatController {
                 true,
                 "Energy changed to " + (currentPlayer.isEnergyUnlimited() ? "unlimited" : "limited") +
                         " mode for " + currentPlayer.getName()
+        );
+    }
+
+    private Result addBalanceCheat(String cheat) {
+        int amount;
+        try {
+            amount = Integer.parseInt(cheat.split("\\s+")[2]);
+        } catch (NumberFormatException e) {
+            return new Result(false, "Please enter a valid amount for balance.");
+        }
+        game.getCurrentPlayer().changeMoney(amount);
+        return new Result(
+                true,
+                "Balance changed to " + amount + " for " + game.getCurrentPlayer().getName() + "."
         );
     }
 }

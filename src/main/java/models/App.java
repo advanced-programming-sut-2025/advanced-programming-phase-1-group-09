@@ -1,7 +1,7 @@
 package models;
 
-import controllers.DataManagers.LastUserManager;
-import controllers.DataManagers.UserManager;
+import models.DataManagers.LastUserManager;
+import models.DataManagers.UserManager;
 import models.Menu.Menus;
 
 import java.util.ArrayList;

@@ -10,7 +10,7 @@ public class inEdibleFruit extends StackableItem {
     private Inventory inventory;
 
     public inEdibleFruit(String name, int quantity, int fruitHarvestCycle, int sellPrice, Season season) {
-        super(name, quantity, sellPrice);
+        super(name, sellPrice);
         this.fruitHarvestCycle = fruitHarvestCycle;
         this.season = season;
     }

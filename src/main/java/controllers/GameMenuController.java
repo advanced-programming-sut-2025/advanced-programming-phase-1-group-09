@@ -1,9 +1,12 @@
 package controllers;
 
+import models.DataManagers.CropMetaData;
 import models.Game;
 import models.GameWorld.Entity.Player.PlayerInventory;
+import models.GameWorld.Items.Farming.Crop;
 import models.GameWorld.Items.Item;
 import models.GameWorld.Items.StackableItem;
+import models.GameWorld.Items.Tools.Tool;
 import models.Menu.CheatCommands;
 import models.Menu.Command;
 import models.Menu.GameMenuCommands;
@@ -63,6 +66,18 @@ public class GameMenuController {
                 yield new Result(true, "");
             }
             case InventoryTrash -> processInventoryTrash(command);
+            case EquipTool -> processEquipTool(command);
+            case ShowCurrentTool ->
+                    new Result(true, game.getCurrentPlayer().getInventory().getCurrentTool().getName());
+            case ShowAvailableTools -> {
+                GameMenu.showPlayerTools(game.getCurrentPlayer());
+                yield new Result(true, "");
+            }
+            case ShowCraftInfo -> processCraftInfo(command);
+            case ShowAllCrops -> {
+                GameMenu.showAllCrops();
+                yield new Result(true, "");
+            }
             default -> new Result(false, "Coming Soon...");
         };
     }
@@ -125,5 +140,22 @@ public class GameMenuController {
             game.getCurrentPlayer().changeMoney((int) (price * amount * refundPercentage));
             return new Result(true, "Item's quantity reduced successfully!");
         }
+    }
+
+    private Result processEquipTool(String command) {
+        String toolName = command.split("\\s+")[2];
+
+        Tool tool = (Tool) game.getCurrentPlayer().getInventory().findItem(toolName);
+        if (tool == null) return new Result(false, "Tool not found!");
+
+        game.getCurrentPlayer().getInventory().setCurrentTool(tool);
+        return new Result(true, "Current tool set to " + toolName);
+    }
+
+    private Result processCraftInfo(String command) {
+        String craftName = command.split("\\s+-n\\s+")[1];
+        Crop crop = CropMetaData.getCrop(craftName);
+        if (crop == null) return new Result(false, "Crop not found!");
+        return new Result(true, crop.toString());
     }
 }

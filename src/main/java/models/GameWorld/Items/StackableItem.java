@@ -4,9 +4,9 @@ public abstract class StackableItem extends Item {
     private int quantity;
     private final int price;
 
-    public StackableItem(String name, int quantity, int price) {
+    public StackableItem(String name, int price) {
         super(name, true);
-        this.quantity = quantity;
+        this.quantity = 1;
         this.price = price;
     }
 
