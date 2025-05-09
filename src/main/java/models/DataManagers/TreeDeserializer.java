@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import models.GameWorld.Enums.SeasonName;
-import models.GameWorld.Items.Farming.Tree;
+import models.GameWorld.Farming.Tree;
 
 import java.io.IOException;
 import java.util.ArrayList;

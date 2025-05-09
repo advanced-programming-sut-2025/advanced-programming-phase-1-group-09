@@ -2,8 +2,11 @@ package controllers;
 
 import models.DataManagers.CropMetaData;
 import models.Game;
+import models.GameWorld.Coordinate;
+import models.GameWorld.Entity.Player.Player;
 import models.GameWorld.Entity.Player.PlayerInventory;
-import models.GameWorld.Items.Farming.Crop;
+import models.GameWorld.Enums.Direction;
+import models.GameWorld.Farming.Crop;
 import models.GameWorld.Items.Item;
 import models.GameWorld.Items.StackableItem;
 import models.GameWorld.Items.Tools.Tool;
@@ -11,7 +14,12 @@ import models.Menu.CheatCommands;
 import models.Menu.Command;
 import models.Menu.GameMenuCommands;
 import models.Result;
+import utils.PathFinder;
+import utils.PathUtils;
 import views.GameMenu;
+import views.MapPrinter;
+
+import java.util.List;
 
 public class GameMenuController {
     private final CheatController cheatController;
@@ -51,6 +59,8 @@ public class GameMenuController {
                     new Result(true, game.getWeather().getCurrentWeather().toString());
             case ShowWeatherForecast ->
                     new Result(true, game.getWeather().getNextDayWeather().toString());
+            case Walk -> processWalking(command);
+            case PrintMap -> processMapPrinting(command);
             case ShowEnergy ->
                     new Result(true,
                             String.format(
@@ -98,6 +108,50 @@ public class GameMenuController {
         }
 
         return new Result(true, "It's \"" + game.getCurrentPlayer().getName() + "\" turn now.");
+    }
+
+    private Result processMapPrinting(String command) {
+        int size = Integer.parseInt(command.split("\\s+-s\\s+")[1]);
+        MapPrinter.printFarm(game.getCurrentPlayer(), size);
+        return new Result(true, "");
+    }
+
+    private Result processWalking(String command) {
+        String[] parts = command.split("\\s+-y\\s+|\\s+-x\\s+");
+        int y = Integer.parseInt(parts[1]);
+        int x = Integer.parseInt(parts[2]);
+        if (!game.getCurrentPlayer().getFarm().isCoordinateWithinMap(y, x)) {
+            return new Result(false, "Destination out of bounds!");
+        }
+        return walkTo(new Coordinate(y, x));
+    }
+
+    private Result walkTo(Coordinate dest) {
+        Player player = game.getCurrentPlayer();
+        List<Coordinate> path = PathFinder.findPath(player.getFarm(), player.getCoordinate(), dest);
+        if (path == null || path.size() < 2) {
+            return new Result(false, "No path found.");
+        }
+
+        List<Direction> dirs = PathUtils.calculateDirections(path);
+        int turns = PathUtils.countTurns(dirs);
+        int tiles = path.size() - 1;
+
+        int energyNeeded = (tiles + 10 * turns) / 20;
+        if (!player.isEnergyUnlimited() && player.getEnergy() < energyNeeded) {
+            return new Result(
+                    false,
+                    "Not enough energy! Need " + energyNeeded + " but have " + player.getEnergy() + "."
+            );
+        }
+
+        player.changeEnergy(-energyNeeded);
+        player.setCoordinate(dest);
+        return new Result(
+                true,
+                "Moved to " + dest +
+                        " (Tiles: " + tiles + ", Turns: " + turns + ", Energy used: " + energyNeeded + ")"
+        );
     }
 
     private Result processInventoryTrash(String command) {

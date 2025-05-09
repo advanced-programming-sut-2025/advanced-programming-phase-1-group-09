@@ -3,8 +3,9 @@ package models.DataManagers;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
-import models.GameWorld.Items.Farming.Seed;
-import models.GameWorld.Items.Farming.Tree;
+import models.GameWorld.Enums.SeasonName;
+import models.GameWorld.Farming.Seed;
+import models.GameWorld.Farming.Tree;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -12,6 +13,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class TreeMetaData {
     private static final Map<String, Tree> trees = new HashMap<>();
@@ -59,7 +61,23 @@ public class TreeMetaData {
         return seeds.values();
     }
 
+    public static Collection<Seed> getSelectedSeeds(SeasonName season) {
+        return seedToTree.entrySet().stream()
+                .filter(entry -> {
+                    Tree tree = entry.getValue();
+                    return tree.getGrowingSeasons().contains(season);
+                })
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toList());
+    }
+
     public static Collection<Tree> getAllTrees() {
         return trees.values();
+    }
+
+    public static Collection<Tree> getSelectedTrees(SeasonName season) {
+        return trees.values().stream()
+                .filter(tree -> tree.getGrowingSeasons().contains(season))
+                .collect(Collectors.toList());
     }
 }

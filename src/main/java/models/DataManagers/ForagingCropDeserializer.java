@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import models.GameWorld.Enums.SeasonName;
-import models.GameWorld.Items.Farming.ForagingCrop;
+import models.GameWorld.Farming.ForagingCrop;
 
 import java.io.IOException;
 import java.util.HashSet;

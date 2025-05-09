@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import models.GameWorld.Enums.SeasonName;
-import models.GameWorld.Items.Farming.Crop;
+import models.GameWorld.Farming.Crop;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -27,11 +27,12 @@ public class CropDeserializer extends JsonDeserializer<Crop> {
         }
 
         int totalGrowthDays = node.get("totalGrowthDays").asInt();
-        boolean regrowable = node.get("regrowable").asBoolean();
+        boolean oneTime = node.get("oneTime").asBoolean();
         int regrowDays = node.get("regrowDays").asInt();
         int baseSellPrice = node.get("baseSellPrice").asInt();
         boolean isEdible = node.get("isEdible").asBoolean();
-        int energyRestored = node.get("energyRestored").asInt();
+        int baseEnergy = node.get("baseEnergy").asInt();
+        int baseHealth = node.get("baseHealth").asInt();
 
         Set<SeasonName> growingSeasons = new HashSet<>();
         for (JsonNode seasonNode : node.get("growingSeasons")) {
@@ -43,8 +44,8 @@ public class CropDeserializer extends JsonDeserializer<Crop> {
 
         return new Crop(
                 name, source, growthStages, totalGrowthDays,
-                regrowable, regrowDays, baseSellPrice, isEdible,
-                energyRestored, growingSeasons, canBecomeGiant, spawningChance
+                oneTime, regrowDays, baseSellPrice, isEdible,
+                baseEnergy, baseHealth, growingSeasons, canBecomeGiant, spawningChance
         );
     }
 }

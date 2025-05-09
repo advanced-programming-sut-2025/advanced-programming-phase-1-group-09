@@ -4,7 +4,8 @@ import models.GameWorld.*;
 import models.GameWorld.Entity.Player.Player;
 import models.GameWorld.Enums.SeasonName;
 import models.GameWorld.Enums.WeatherType;
-import models.GameWorld.Map.Map.Map;
+import models.GameWorld.Map.GameMap;
+import models.GameWorld.Map.PublicMap;
 
 import java.util.ArrayList;
 
@@ -13,15 +14,16 @@ public class Game {
     private final int id;
     private final ArrayList<Player> players;
     private final User creator;
+    private final GameMap publicMap;
     private int turn;
     private final TimeState timeState;
-    private Map map;
     private final Season season;
     private final Weather weather;
 
     public Game(ArrayList<Player> players, User creator) {
         this.id = idCounter++;
         this.creator = creator;
+        this.publicMap = new PublicMap();
         this.turn = 0;
         this.timeState = new TimeState();
 

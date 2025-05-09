@@ -3,6 +3,7 @@ package models.GameWorld.Entity.Player;
 import models.App;
 import models.GameWorld.Coordinate;
 import models.GameWorld.Entity.Entity;
+import models.GameWorld.Map.GameMap;
 import models.GameWorld.TimeState;
 import models.TimeObserver;
 import models.User;
@@ -14,7 +15,8 @@ public class Player implements Entity, TimeObserver {
 
     private final String username;
     private final String name;
-    private final Coordinate coordinate;
+    private final GameMap farm;
+    private Coordinate coordinate;
     private int maxEnergy;
     private int energy;
     private boolean isEnergyUnlimited;
@@ -28,10 +30,11 @@ public class Player implements Entity, TimeObserver {
     private boolean isFainted;
     private Player partner;
 
-    public Player(String username) {
+    public Player(String username, GameMap farm) {
         this.username = username;
         this.name = getUser().getNickname();
-        this.coordinate = new Coordinate(0, 0);
+        this.farm = farm;
+        this.coordinate = farm.getStartingPoint();
         this.maxEnergy = INITIAL_ENERGY;
         this.energy = INITIAL_ENERGY;
         this.isEnergyUnlimited = false;
@@ -71,6 +74,18 @@ public class Player implements Entity, TimeObserver {
 
     public String getName() {
         return name;
+    }
+
+    public GameMap getFarm() {
+        return farm;
+    }
+
+    public Coordinate getCoordinate() {
+        return coordinate;
+    }
+
+    public void setCoordinate(Coordinate coordinate) {
+        this.coordinate = coordinate;
     }
 
     public int getMaxEnergy() {

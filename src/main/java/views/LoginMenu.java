@@ -3,7 +3,7 @@ package views;
 import models.DataManagers.UserManager;
 import controllers.LoginMenuController;
 import models.DataManagers.SecurityQuestionManager;
-import controllers.PasswordUtils;
+import utils.PasswordUtils;
 import models.App;
 import models.Result;
 import models.User;

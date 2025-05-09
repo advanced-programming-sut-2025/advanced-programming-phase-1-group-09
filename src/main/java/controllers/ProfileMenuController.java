@@ -6,10 +6,12 @@ import models.Menu.Menus;
 import models.Menu.ProfileMenuCommands;
 import models.Result;
 import models.User;
+import utils.PasswordUtils;
+import utils.UserUtils;
 import views.ProfileMenu;
 
 public class ProfileMenuController {
-    private final UserController userController = new UserController();
+    private final UserUtils userUtils = new UserUtils();
 
     public Result processCommand(String command) {
         ProfileMenuCommands matchedCommand = Command.findCommand(command, ProfileMenuCommands.values());
@@ -33,11 +35,11 @@ public class ProfileMenuController {
 
     private Result changeUsername(String command) {
         String username = command.split("\\s+-u\\s+")[1];
-        if (!userController.isUsernameValid(username))
+        if (!userUtils.isUsernameValid(username))
             return new Result(false, "Invalid username format!");
         if (username.equals(App.getInstance().getCurrentUser().getUsername()))
             return new Result(false, "Username is the same as your current username!");
-        if (userController.isUsernameTaken(username))
+        if (userUtils.isUsernameTaken(username))
             return new Result(false, "Username is already taken!");
         App.getInstance().getCurrentUser().setUsername(username);
         return new Result(true, "Username changed successfully!");
@@ -53,7 +55,7 @@ public class ProfileMenuController {
 
     private Result changeEmail(String command) {
         String email = command.split("\\s+-e\\s+")[1];
-        if (!userController.isEmailValid(email))
+        if (!userUtils.isEmailValid(email))
             return new Result(false, "Invalid email format!");
         if (email.equals(App.getInstance().getCurrentUser().getEmail()))
             return new Result(false, "Email is the same as your current email!");

@@ -10,6 +10,12 @@ public abstract class StackableItem extends Item {
         this.price = price;
     }
 
+    public StackableItem(String name, int quantity, int price) {
+        super(name, true);
+        this.quantity = quantity;
+        this.price = price;
+    }
+
     public int getQuantity() {
         return quantity;
     }

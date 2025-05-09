@@ -3,14 +3,17 @@ package controllers;
 import models.App;
 import models.Game;
 import models.GameWorld.Entity.Player.Player;
+import models.GameWorld.Map.GameMap;
 import models.Menu.Command;
 import models.Menu.Menus;
 import models.Menu.PreGameMenuCommands;
 import models.Result;
 import models.User;
 import views.GameMenu;
+import views.PreGameMenu;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class PreGameMenuController {
     public Result processCommand(String command) {
@@ -38,6 +41,7 @@ public class PreGameMenuController {
         }
 
         ArrayList<User> users = new ArrayList<>();
+        users.add(currentUser);
 
         for (int i = 3; i < parts.length; i++) {
             User user = App.getInstance().getUserByUsername(parts[i]);
@@ -48,7 +52,7 @@ public class PreGameMenuController {
             users.add(user);
         }
 
-        Game game = createNewGame(currentUser, users);
+        Game game = createNewGame(users);
         GameMenu gameMenu = (GameMenu)Menus.Game.getMenuView();
         gameMenu.setGame(game);
 
@@ -56,28 +60,23 @@ public class PreGameMenuController {
         return new Result(true, "New game created!");
     }
 
-    private Game createNewGame(User currentUser, ArrayList<User> opponentUsers) {
-        Player currentPlayer = new Player(currentUser.getUsername());
+    private Game createNewGame(ArrayList<User> users) {
+        HashMap<User, GameMap> gameMaps = PreGameMenu.getUsersAndMaps(users);
 
         // Add all Players to the List
         ArrayList<Player> players = new ArrayList<>();
-        players.add(currentPlayer);
-        for (User user : opponentUsers) {
-            players.add(new Player(user.getUsername()));
+        for (User user : users) {
+            players.add(new Player(user.getUsername(), gameMaps.get(user)));
         }
 
         // Instantiate Game
-        Game game = new Game(players, currentUser);
+        Game game = new Game(players, App.getInstance().getCurrentUser());
 
         // Assign Game to App
         App.getInstance().addGame(game);
 
-        // Assign Game to current User
-        currentUser.setActiveGame(game);
-        currentUser.addGameId(game.getId());
-
         // Assign Game to other Users
-        for (User user : opponentUsers) {
+        for (User user : users) {
             user.setActiveGame(game);
             user.addGameId(game.getId());
         }
