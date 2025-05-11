@@ -1,11 +1,17 @@
 package models.GameWorld.Items.Recipes.CraftingRecipe;
 
-import java.util.ArrayList;
+import models.GameWorld.Items.Item;
+import models.GameWorld.Items.Recipes.Recipe;
+import models.GameWorld.Items.StackableItem;
+import models.GameWorld.Enums.Skills;
 
-public class CraftingRecipe {
-    private final ArrayList<CraftingRecipeItem> items;
+import java.util.List;
 
-    public CraftingRecipe(ArrayList<CraftingRecipeItem> items) {
-        this.items = items;
+public class CraftingRecipe extends Recipe {
+    private final Skills relatedSkill;
+    private final int minimunSkillLevel;
+    private final
+    public CraftingRecipe(StackableItem result, List<Item> ingredients, int price, ) {
+        super(result, ingredients, price);
     }
 }

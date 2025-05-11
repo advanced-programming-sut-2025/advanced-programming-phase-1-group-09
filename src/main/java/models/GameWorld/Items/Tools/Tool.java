@@ -29,5 +29,4 @@ public abstract class Tool extends Item {
 
     protected abstract int getMaxLevel();
 
-    public abstract void use(Coordinate target, Player player, Game game);
 }

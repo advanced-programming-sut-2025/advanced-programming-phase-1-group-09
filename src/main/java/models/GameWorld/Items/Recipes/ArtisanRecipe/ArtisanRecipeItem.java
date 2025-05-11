@@ -1,7 +1,6 @@
 package models.GameWorld.Items.Recipes.ArtisanRecipe;
 
 import models.GameWorld.Items.Item;
-import models.GameWorld.Items.Recipes.NewItem;
 
 import java.util.LinkedHashMap;
 

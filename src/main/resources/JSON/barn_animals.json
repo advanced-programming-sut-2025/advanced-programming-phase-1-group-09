@@ -1,0 +1,26 @@
+[
+  {
+    "name": "Cow",
+    "price": 1500,
+    "products" : ["Milk 125","BigMilk 195"],
+    "leavingPlace" : "Barn"
+  },
+  {
+    "name": "Goat",
+    "price": 4000,
+    "products" : ["GoatMilk 225","BigGoatMilk 345"],
+    "leavingPlace" : "LargeBarn DeluxeBarn"
+  },
+  {
+    "name": "Sheep",
+    "price": 8000,
+    "products" : ["Wool 340"],
+    "leavingPlace" : "DeluxeBarn"
+  },
+  {
+    "name": "Pig",
+    "price": 16000,
+    "products" : ["Truffle 625"],
+    "leavingPlace" : "DeluxeBarn"
+  }
+]

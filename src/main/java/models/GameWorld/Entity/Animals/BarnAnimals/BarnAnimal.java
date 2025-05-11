@@ -6,6 +6,7 @@ import models.GameWorld.Items.Edibles.AnimalEdibleProduct.AnimalEdibleProduct;
 import java.util.ArrayList;
 
 public class BarnAnimal extends Animal {
+
     public BarnAnimal(int price, ArrayList<AnimalEdibleProduct> products) {
         super(price, products);
     }
