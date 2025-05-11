@@ -6,12 +6,11 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 import models.GameWorld.Items.AnimalProducts.AnimalProduct;
 
 import java.io.InputStream;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class AnimalProductMetaData {
-    private static final Map<String, AnimalProduct> animalProducts = new HashMap<>();
+    private static final List<AnimalProduct> animalProducts = new ArrayList<>();
     static{
         try{
             ObjectMapper mapper = new ObjectMapper();
@@ -25,9 +24,7 @@ public class AnimalProductMetaData {
             }
 
             List<AnimalProduct> elementList = mapper.readValue(input, new TypeReference<>() {});
-            for (AnimalProduct element : elementList) {
-                animalProducts.put(element.getName(), element);
-            }
+            animalProducts.addAll(elementList);
         } catch (Exception e) {
             throw new RuntimeException("Failed to load animal inedible product metadata", e);
         }
