@@ -9,6 +9,7 @@ public class Animal implements Entity {
     private final int price;
     private int friendshipScore;
     private final String name;
+    private String nickname;
     //private final ArrayList<AnimalProduct> products = null;
 
     public Animal(int price, String name) {

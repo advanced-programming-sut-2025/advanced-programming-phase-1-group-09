@@ -1,6 +1,6 @@
 package models.GameWorld.Map.Elements.Buyable.Barns;
 
-import models.GameWorld.Entity.Animals.BarnAnimals.BarnAnimal;
+import models.GameWorld.Entity.Animals.BarnAnimal;
 import models.GameWorld.Map.Elements.Buyable.BuyableMapElement;
 import models.GameWorld.Map.Elements.MultiTileElement;
 

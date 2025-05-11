@@ -1,6 +1,5 @@
-package models.GameWorld.Entity.Animals.CoopAnimals;
+package models.GameWorld.Entity.Animals;
 
-import models.GameWorld.Entity.Animals.Animal;
 import models.GameWorld.Map.Elements.Buyable.Coops.CoopElement;
 
 public class CoopAnimal extends Animal {

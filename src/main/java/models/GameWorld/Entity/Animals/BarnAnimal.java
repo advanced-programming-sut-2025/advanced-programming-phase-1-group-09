@@ -1,12 +1,6 @@
-package models.GameWorld.Entity.Animals.BarnAnimals;
+package models.GameWorld.Entity.Animals;
 
-import models.GameWorld.Entity.Animals.Animal;
-import models.GameWorld.Map.Elements.Buyable.Barns.Barn;
 import models.GameWorld.Map.Elements.Buyable.Barns.BarnElement;
-import models.GameWorld.Map.Elements.Buyable.Barns.BigBarn;
-import models.GameWorld.Map.Elements.Buyable.Barns.DeluxeBarn;
-
-import java.util.Arrays;
 
 public class BarnAnimal extends Animal {
     private final String[] livingPlaces;

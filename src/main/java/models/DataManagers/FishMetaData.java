@@ -3,30 +3,31 @@ package models.DataManagers;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
-import models.GameWorld.Entity.Animals.BarnAnimal;
+import models.GameWorld.Entity.Fish.Fish;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
 
-public class BarnAnimalMetaData {
-    private static final List<BarnAnimal> barnAnimals = new ArrayList<>();
+public class FishMetaData {
+    private static final List<Fish> fish = new ArrayList<>();
     static {
         try {
             ObjectMapper mapper = new ObjectMapper();
             SimpleModule module = new SimpleModule();
-            module.addDeserializer(BarnAnimal.class, new BarnAnimalDeserializer());
+            module.addDeserializer(Fish.class, new FishDeserializer());
             mapper.registerModule(module);
 
-            InputStream inputStream = BarnAnimalMetaData.class.getClassLoader().getResourceAsStream("JSON/barn_animals.json");
+            InputStream inputStream = FishMetaData.class.getClassLoader().getResourceAsStream("JSON/fish.json");
             if (inputStream == null) {
                 throw new RuntimeException("File not found in resources!");
             }
 
-            List<BarnAnimal> barnAnimalList = mapper.readValue(inputStream, new TypeReference<>() {});
-            barnAnimals.addAll(barnAnimalList);
+            List<Fish> fishList = mapper.readValue(inputStream, new TypeReference<>() {});
+            fish.addAll(fishList);
         } catch (IOException e) {
-            throw new RuntimeException("Failed to load barn animals", e);
+            throw new RuntimeException("Failed to load fish", e);
         }
     }
 }
+

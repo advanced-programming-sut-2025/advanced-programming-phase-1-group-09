@@ -1,6 +1,6 @@
 package models.GameWorld.Map.Elements.Buyable.Coops;
 
-import models.GameWorld.Entity.Animals.CoopAnimals.CoopAnimal;
+import models.GameWorld.Entity.Animals.CoopAnimal;
 import models.GameWorld.Map.Elements.Buyable.BuyableMapElement;
 import models.GameWorld.Map.Elements.MultiTileElement;
 

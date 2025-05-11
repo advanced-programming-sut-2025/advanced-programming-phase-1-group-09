@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
-import models.GameWorld.Entity.Animals.BarnAnimals.BarnAnimal;
+import models.GameWorld.Entity.Animals.BarnAnimal;
 
 import java.io.IOException;
 

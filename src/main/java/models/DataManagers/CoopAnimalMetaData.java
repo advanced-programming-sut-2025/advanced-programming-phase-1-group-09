@@ -3,9 +3,7 @@ package models.DataManagers;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
-import models.GameWorld.Entity.Animals.Animal;
-import models.GameWorld.Entity.Animals.BarnAnimals.BarnAnimal;
-import models.GameWorld.Entity.Animals.CoopAnimals.CoopAnimal;
+import models.GameWorld.Entity.Animals.CoopAnimal;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -20,7 +18,7 @@ public class CoopAnimalMetaData {
             module.addDeserializer(CoopAnimal.class, new CoopAnimalDeserializer());
             mapper.registerModule(module);
 
-            InputStream inputStream = BarnAnimalMetaData.class.getClassLoader().getResourceAsStream("JSON/barn_animals.json");
+            InputStream inputStream = CoopAnimalMetaData.class.getClassLoader().getResourceAsStream("JSON/coop_animals.json");
             if (inputStream == null) {
                 throw new RuntimeException("File not found in resources!");
             }

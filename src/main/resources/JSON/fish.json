@@ -1,0 +1,122 @@
+[
+  {
+    "Name": "Salmon",
+    "Sell Price": 75,
+    "Season": "Fall",
+    "Max Skill": "FALSE"
+  },
+  {
+    "Name": "Sardine",
+    "Sell Price": 40,
+    "Season": "Fall",
+    "Max Skill": "FALSE"
+  },
+  {
+    "Name": "Shad",
+    "Sell Price": 60,
+    "Season": "Fall",
+    "Max Skill": "FALSE"
+  },
+  {
+    "Name": "Blue Discus",
+    "Sell Price": 120,
+    "Season": "Fall",
+    "Max Skill": "FALSE"
+  },
+  {
+    "Name": "Midnight Carp",
+    "Sell Price": 150,
+    "Season": "Winter",
+    "Max Skill": "FALSE"
+  },
+  {
+    "Name": "Squid",
+    "Sell Price": 80,
+    "Season": "Winter",
+    "Max Skill": "FALSE"
+  },
+  {
+    "Name": "Tuna",
+    "Sell Price": 100,
+    "Season": "Winter",
+    "Max Skill": "FALSE"
+  },
+  {
+    "Name": "Perch",
+    "Sell Price": 55,
+    "Season": "Winter",
+    "Max Skill": "FALSE"
+  },
+  {
+    "Name": "Flounder",
+    "Sell Price": 100,
+    "Season": "Spring",
+    "Max Skill": "FALSE"
+  },
+  {
+    "Name": "Lionfish",
+    "Sell Price": 100,
+    "Season": "Spring",
+    "Max Skill": "FALSE"
+  },
+  {
+    "Name": "Herring",
+    "Sell Price": 30,
+    "Season": "Spring",
+    "Max Skill": "FALSE"
+  },
+  {
+    "Name": "Ghostfish",
+    "Sell Price": 45,
+    "Season": "Spring",
+    "Max Skill": "FALSE"
+  },
+  {
+    "Name": "Tilapia",
+    "Sell Price": 75,
+    "Season": "Summer",
+    "Max Skill": "FALSE"
+  },
+  {
+    "Name": "Dorado",
+    "Sell Price": 100,
+    "Season": "Summer",
+    "Max Skill": "FALSE"
+  },
+  {
+    "Name": "Sunfish",
+    "Sell Price": 30,
+    "Season": "Summer",
+    "Max Skill": "FALSE"
+  },
+  {
+    "Name": "Rainbow Trout",
+    "Sell Price": 65,
+    "Season": "Summer",
+    "Max Skill": "FALSE"
+  },
+  {
+    "Name": "Legend",
+    "Sell Price": 5000,
+    "Season": "Spring",
+    "Max Skill": "TRUE"
+  },
+  {
+    "Name": "Glacierfish",
+    "Sell Price": 1000,
+    "Season": "Winter",
+    "Max Skill": "TRUE"
+  },
+  {
+    "Name": "Angler",
+    "Sell Price": 900,
+    "Season": "Fall",
+    "Max Skill": "TRUE"
+  },
+  {
+    "Name": "Crimsonfish",
+    "Sell Price": 1500,
+    "Season": "Summer",
+    "Max Skill": "TRUE"
+  }
+]
