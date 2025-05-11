@@ -29,19 +29,22 @@ public class PreGameMenu implements AppMenu {
         for (User user : users) {
             boolean selected = false;
             while (!selected) {
-                System.out.println("Select map for " + user.getUsername() + ":");
-                String input = scanner.nextLine().trim();
-                if (input.equals("1") || input.equalsIgnoreCase("standard")) {
-                    result.put(user, new StandardMap());
-                    selected = true;
-                } else if (input.equals("2") || input.equalsIgnoreCase("forest")) {
-                    result.put(user, new ForestMap());
-                    selected = true;
-                } else {
-                    System.out.println("Invalid Input\n");
-                    System.out.println("Please choose between these:");
-                    System.out.println("1. standard");
-                    System.out.println("2. forest\n");
+                System.out.println("\nPlease choose map type for " + user.getUsername() + ":");
+                System.out.println("1. standard");
+                System.out.println("2. forest");
+                System.out.print("> ");
+                String input = scanner.nextLine().trim().toLowerCase();
+
+                switch (input) {
+                    case "1", "standard" -> {
+                        result.put(user, new StandardMap());
+                        selected = true;
+                    }
+                    case "2", "forest" -> {
+                        result.put(user, new ForestMap());
+                        selected = true;
+                    }
+                    default -> System.out.println("Invalid input.");
                 }
             }
         }

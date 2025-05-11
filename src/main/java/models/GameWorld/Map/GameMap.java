@@ -67,15 +67,17 @@ public abstract class GameMap {
         for (int y = lake.getY(); y < lake.getY() + lake.getHeight(); y++) {
             for (int x = lake.getX(); x < lake.getX() + lake.getWidth(); x++) {
                 grid[y][x].setTerrainType(TerrainType.WATER);
+                grid[y][x].setWalkable(false);
             }
         }
     }
 
     public void addElement(MapElement element, int y, int x) {
         if (!isCoordinateWithinMap(y, x)) return;
-        getTile(y, x).addElement(element);
+        grid[y][x].addElement(element);
         if (element.isFixed()) {
-            getTile(y, x).setTerrainType(TerrainType.RESERVED);
+            grid[y][x].setTerrainType(TerrainType.RESERVED);
+            grid[y][x].setWalkable(false);
         }
     }
 }

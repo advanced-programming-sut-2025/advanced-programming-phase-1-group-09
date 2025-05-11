@@ -1,6 +1,7 @@
 package models.GameWorld.Map.Elements;
 
 import models.GameWorld.Entity.Player.Player;
+import views.ConsoleColors;
 
 public class Rock implements MapElement {
     @Override
@@ -18,6 +19,6 @@ public class Rock implements MapElement {
 
     @Override
     public String getSymbol() {
-        return "■";
+        return ConsoleColors.WHITE_BRIGHT + "●";
     }
 }

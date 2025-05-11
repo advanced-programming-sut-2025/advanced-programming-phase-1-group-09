@@ -9,11 +9,12 @@ import models.GameWorld.Enums.Direction;
 import models.GameWorld.Farming.Crop;
 import models.GameWorld.Items.Item;
 import models.GameWorld.Items.Tools.Tool;
+import models.GameWorld.Map.ForestMap;
+import models.GameWorld.Map.StandardMap;
 import models.Menu.CheatCommands;
 import models.Menu.Command;
 import models.Menu.GameMenuCommands;
 import models.Result;
-import utils.PathFinder;
 import utils.PathUtils;
 import views.GameMenu;
 import views.MapPrinter;
@@ -43,6 +44,7 @@ public class GameMenuController {
         GameMenuCommands matchedGameCommand = Command.findCommand(command, GameMenuCommands.values());
         return switch (matchedGameCommand) {
             case null -> Result.invalidCommand;
+            case WhichMap -> whichMap();
             case NextTurn -> nextTurn();
             case ShowTime ->
                     new Result(true, game.getTimeState().getFormattedTime());
@@ -60,6 +62,10 @@ public class GameMenuController {
                     new Result(true, game.getWeather().getNextDayWeather().toString());
             case Walk -> processWalking(command);
             case PrintMap -> processMapPrinting(command);
+            case MapHelp -> {
+                MapPrinter.help();
+                yield new Result(true, "");
+            }
             case ShowEnergy ->
                     new Result(true,
                             String.format(
@@ -95,16 +101,26 @@ public class GameMenuController {
         };
     }
 
+    public Result whichMap() {
+        if (game.getCurrentPlayer().getFarm() instanceof StandardMap) {
+            return new Result(true, "You are on the Standard Map.");
+        } else if (game.getCurrentPlayer().getFarm() instanceof ForestMap) {
+            return new Result(true, "You are on the Forest Map.");
+        } else {
+            return new Result(false, "You are on an unknown map!");
+        }
+    }
+
     private Result nextTurn() {
         if (game.areAllPlayersFainted()) {
             game.getTimeState().updateDate(1);
             return new Result(false, "All Players Fainted!");
         }
 
-        while (game.getCurrentPlayer().isFainted()) {
+        do {
             if (game.isItLastTurn()) game.getTimeState().updateTime(1);
             game.nextTurn();
-        }
+        } while (game.getCurrentPlayer().isFainted());
 
         return new Result(true, "It's \"" + game.getCurrentPlayer().getName() + "\" turn now.");
     }
@@ -132,7 +148,7 @@ public class GameMenuController {
             return new Result(false, "The destination isn't walkable!");
         }
 
-        List<Coordinate> path = PathFinder.findPathBFS(player.getFarm(), player.getCoordinate(), dest);
+        List<Coordinate> path = PathUtils.findPathAStar(player.getFarm(), player.getCoordinate(), dest);
         if (path == null || path.size() < 2) {
             return new Result(false, "No path found.");
         }
@@ -142,14 +158,33 @@ public class GameMenuController {
         int tiles = path.size() - 1;
 
         int energyNeeded = (tiles + 10 * turns) / 20;
-        if (!player.isEnergyUnlimited() && player.getEnergy() < energyNeeded) {
-            return new Result(
-                    false,
-                    "Not enough energy! Need " + energyNeeded + " but have " + player.getEnergy() + "."
-            );
+        if (!player.isEnergyUnlimited()) {
+            if (player.getEnergy() < energyNeeded) {
+                // Calculate how far the player can go with current energy
+                int maxTiles = (player.getEnergy() * 20 - turns * 10);
+                if (maxTiles <= 0) {
+                    player.setFainted(true);
+                    return new Result(
+                            false,
+                            "Not enough energy to move even one tile. Player fainted!"
+                    );
+                }
+
+                // Move as far as possible along the path
+                int reachableTiles = Math.min(maxTiles, path.size() - 1);
+                Coordinate partialDest = path.get(reachableTiles);
+                player.setCoordinate(partialDest);
+                player.setEnergy(0);
+
+                return new Result(
+                        true,
+                        "Moved " + reachableTiles + " tiles before fainting at " + partialDest +
+                                " (Used all " + player.getEnergy() + " energy)"
+                );
+            }
+            player.changeEnergy(-energyNeeded);
         }
 
-        player.changeEnergy(-energyNeeded);
         player.setCoordinate(dest);
         return new Result(
                 true,

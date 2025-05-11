@@ -13,7 +13,7 @@ public class GreenHouse implements MultiTileElement {
     private boolean isBuilt;
 
     public GreenHouse() {
-        this.y = 8;
+        this.y = 4;
         this.x = 30;
         this.isBuilt = false;
     }

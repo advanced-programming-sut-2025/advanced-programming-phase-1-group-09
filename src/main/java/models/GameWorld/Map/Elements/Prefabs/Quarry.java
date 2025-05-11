@@ -45,6 +45,6 @@ public class Quarry implements MultiTileElement {
 
     @Override
     public String getSymbol() {
-        return ConsoleColors.BLACK_BACKGROUND +  "#";
+        return ConsoleColors.BLACK_BACKGROUND +  "Q";
     }
 }

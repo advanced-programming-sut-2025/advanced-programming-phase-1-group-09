@@ -2,6 +2,7 @@ package models.GameWorld.Farming;
 
 import models.GameWorld.Entity.Player.Player;
 import models.GameWorld.TimeState;
+import views.ConsoleColors;
 
 public class PlantedTree extends Planted {
     private final Tree treeDefinition;
@@ -46,5 +47,10 @@ public class PlantedTree extends Planted {
     @Override
     public void interact(Player player) {
 
+    }
+
+    @Override
+    public String getSymbol() {
+        return ConsoleColors.GREEN_BACKGROUND_BRIGHT + ConsoleColors.WHITE_BOLD_BRIGHT + "T";
     }
 }

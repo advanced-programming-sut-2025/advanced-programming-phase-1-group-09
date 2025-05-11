@@ -13,6 +13,6 @@ public interface MapElement {
     }
 
     default String getSymbol() {
-        return "·";
+        return ConsoleColors.YELLOW_BACKGROUND + " ";
     }
 }

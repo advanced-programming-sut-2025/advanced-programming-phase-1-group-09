@@ -57,6 +57,6 @@ public class Lake implements MultiTileElement {
 
     @Override
     public String getSymbol() {
-        return ConsoleColors.BLUE_BACKGROUND_BRIGHT +  "~";
+        return ConsoleColors.BLUE_BACKGROUND_BRIGHT +  "L";
     }
 }
