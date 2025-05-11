@@ -20,11 +20,11 @@ public class PlayerInventory {
         this.mainInventory = new Inventory(backpack.getCapacity());
         this.currentTool = new Axe();
 
-        addItem(this.currentTool);
-        addItem(new Hoe());
-        addItem(new Pickaxe());
-        addItem(new Scythe());
-        addItem(new WateringCan());
+        addItem(this.currentTool, 1);
+        addItem(new Hoe(), 1);
+        addItem(new Pickaxe(), 1);
+        addItem(new Scythe(), 1);
+        addItem(new WateringCan(), 1);
     }
 
     public Backpack getBackpack() {
@@ -45,8 +45,8 @@ public class PlayerInventory {
         this.trashCan = trashCan;
     }
 
-    public void addItem(Item item) {
-        mainInventory.addItem(item);
+    public void addItem(Item item, int amount) {
+        mainInventory.addItem(item, amount);
     }
 
     public Inventory getMainInventory() {

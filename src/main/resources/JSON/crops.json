@@ -12,7 +12,7 @@
     "baseHealth": 20,
     "growingSeasons": ["SPRING"],
     "canBecomeGiant": false,
-    "spawningChance":0.5
+    "spawningChance": 0.5
   },
   {
     "name": "Carrot",

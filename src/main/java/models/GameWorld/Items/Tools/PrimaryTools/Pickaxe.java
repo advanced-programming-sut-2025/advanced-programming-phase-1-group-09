@@ -7,7 +7,7 @@ import models.GameWorld.Items.Tools.Tool;
 
 public class Pickaxe extends Tool {
     public Pickaxe() {
-        super("Pickaxe");
+        super("Pickaxe", 0);
     }
 
     @Override

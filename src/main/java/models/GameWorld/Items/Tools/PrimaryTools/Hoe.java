@@ -7,7 +7,7 @@ import models.GameWorld.Items.Tools.Tool;
 
 public class Hoe extends Tool {
     public Hoe() {
-        super("Hoe");
+        super("Hoe", 0);
     }
 
     @Override

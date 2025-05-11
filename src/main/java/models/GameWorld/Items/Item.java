@@ -1,12 +1,18 @@
 package models.GameWorld.Items;
 
+import models.Game;
+import models.GameWorld.Coordinate;
+import models.GameWorld.Entity.Player.Player;
+
 public abstract class Item {
     protected final String name;
     protected final boolean isStackable;
+    protected final int price;
 
-    public Item(String name, boolean isStackable) {
+    public Item(String name, boolean isStackable, int price) {
         this.name = name;
         this.isStackable = isStackable;
+        this.price = price;
     }
 
     public String getName() {
@@ -16,4 +22,10 @@ public abstract class Item {
     public boolean isStackable() {
         return isStackable;
     }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public abstract void use(Coordinate target, Player player, Game game);
 }

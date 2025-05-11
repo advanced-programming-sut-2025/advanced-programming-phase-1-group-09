@@ -7,7 +7,7 @@ import models.GameWorld.Items.Tools.Tool;
 
 public class Scythe extends Tool {
     public Scythe() {
-        super("Scythe");
+        super("Scythe", 0);
     }
 
     @Override

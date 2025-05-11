@@ -8,7 +8,7 @@ import models.GameWorld.Items.Tools.Tool;
 
 public class Axe extends Tool {
     public Axe() {
-        super("Axe");
+        super("Axe", 0);
     }
 
     @Override

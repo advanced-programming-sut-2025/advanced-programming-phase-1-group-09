@@ -3,6 +3,7 @@ package utils;
 import models.GameWorld.Coordinate;
 import models.GameWorld.Enums.Direction;
 import models.GameWorld.Map.GameMap;
+import models.GameWorld.Map.TerrainType;
 import models.GameWorld.Map.Tile;
 
 import java.util.*;
@@ -31,11 +32,16 @@ public class PathFinder {
         }
     }
 
-    public static List<Coordinate> findPath(GameMap map, Coordinate start, Coordinate goal) {
-        int height = map.getHeight();
-        int width = map.getWidth();
+    public static List<Coordinate> findPathAStar(GameMap map, Coordinate start, Coordinate goal) {
+        System.out.println("=== A* ===");
+        System.out.println("Start: " + start);
+        System.out.println("Goal: " + goal);
+        System.out.println("Start valid: " + map.isCoordinateWithinMap(start.y(), start.x()));
+        System.out.println("Goal valid: " + map.isCoordinateWithinMap(goal.y(), goal.x()));
+        System.out.println("Start tile walkable: " + map.getTile(start.y(), start.x()).isWalkable());
+        System.out.println("Goal tile walkable: " + map.getTile(goal.y(), goal.x()).isWalkable());
 
-        boolean[][] closed = new boolean[height][width];
+        boolean[][] closed = new boolean[map.getHeight()][map.getWidth()];
         Map<Coordinate, Integer> gScores = new HashMap<>();
         PriorityQueue<Node> open = new PriorityQueue<>();
 
@@ -65,7 +71,7 @@ public class PathFinder {
                 int nx = pos.x() + d.dx;
                 int ny = pos.y() + d.dy;
 
-                if (nx < 0 || ny < 0 || nx >= width || ny >= height) continue;
+                if (!map.isCoordinateWithinMap(ny, nx)) continue;
                 if (closed[ny][nx]) continue;
 
                 Tile tile = map.getTile(ny, nx);
@@ -83,6 +89,47 @@ public class PathFinder {
         }
 
         return null; // no path found
+    }
+
+    public static List<Coordinate> findPathBFS(GameMap map, Coordinate start, Coordinate end) {
+        int h = map.getHeight(), w = map.getWidth();
+        boolean[][] visited = new boolean[h][w];
+        Map<Coordinate, Coordinate> cameFrom = new HashMap<>();
+        Queue<Coordinate> queue = new LinkedList<>();
+        queue.add(start);
+        visited[start.y()][start.x()] = true;
+
+        while (!queue.isEmpty()) {
+            Coordinate current = queue.poll();
+            if (current.equals(end)) break;
+
+            for (Direction d : Direction.values()) {
+                int nx = current.x() + d.dx;
+                int ny = current.y() + d.dy;
+
+                if (nx < 0 || ny < 0 || nx >= w || ny >= h) continue;
+                if (visited[ny][nx]) continue;
+
+                Tile tile = map.getTile(ny, nx);
+                if (tile == null || tile.getTerrainType() == TerrainType.WATER
+                        || tile.getTerrainType() == TerrainType.RESERVED)
+                    continue;
+
+                Coordinate next = new Coordinate(nx, ny);
+                queue.add(next);
+                visited[ny][nx] = true;
+                cameFrom.put(next, current);
+            }
+        }
+
+        if (!cameFrom.containsKey(end)) return null;
+
+        List<Coordinate> path = new ArrayList<>();
+        for (Coordinate at = end; at != null; at = cameFrom.get(at)) {
+            path.add(at);
+        }
+        Collections.reverse(path);
+        return path;
     }
 
     private static int heuristic(Coordinate a, Coordinate b) {

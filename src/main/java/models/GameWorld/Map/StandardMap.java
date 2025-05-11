@@ -51,13 +51,13 @@ public class StandardMap extends GameMap {
                 if (tile.getTerrainType() == TerrainType.DIRT) {
                     double chance = random.nextDouble();
                     if (chance < 0.45) {
-                        tile.addElement(PlantedTree.getMatureTree(TreeMetaData.getTree("Oak Tree")));
+                        addElement(PlantedTree.getMatureTree(TreeMetaData.getTree("Oak Tree")), y, x);
                     } else if (chance < 0.6) {
-                        tile.addElement(PlantedTree.getMatureTree(TreeMetaData.getTree("Pine Tree")));
+                        addElement(PlantedTree.getMatureTree(TreeMetaData.getTree("Pine Tree")), y, x);
                     } else if (chance < 0.8) {
-                        tile.addElement(new Rock());
+                        addElement(new Rock(), y, x);
                     } else if (chance < 0.9) {
-                        tile.addElement(CollectableManager.getRandom(SeasonName.SPRING));
+                        addElement(CollectableManager.getRandom(SeasonName.SPRING), y, x);
                     }
                 }
             }
