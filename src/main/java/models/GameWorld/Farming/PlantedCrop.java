@@ -1,5 +1,6 @@
 package models.GameWorld.Farming;
 
+import models.GameWorld.Coordinate;
 import models.GameWorld.Entity.Player.Player;
 import models.GameWorld.TimeState;
 import views.ConsoleColors;
@@ -39,7 +40,7 @@ public class PlantedCrop extends Planted {
     }
 
     @Override
-    public void interact(Player player) {
+    public void interact(Player player, Coordinate position) {
 
     }
 

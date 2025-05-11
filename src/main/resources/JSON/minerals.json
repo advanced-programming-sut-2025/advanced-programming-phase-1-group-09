@@ -1,0 +1,110 @@
+[
+    {
+        "name": "Rock",
+        "price": 1,
+        "strength": 2,
+        "spawningChance": 0.5
+    },
+    {
+        "name": "Quartz",
+        "price": 25,
+        "strength": 8,
+        "spawningChance": 0.3
+    },
+    {
+        "name": "Earth Crystal",
+        "price": 50,
+        "strength": 12,
+        "spawningChance": 0.25
+    },
+    {
+        "name": "Frozen Tear",
+        "price": 75,
+        "strength": 18,
+        "spawningChance": 0.15
+    },
+    {
+        "name": "Fire Quartz",
+        "price": 100,
+        "strength": 22,
+        "spawningChance": 0.1
+    },
+    {
+        "name": "Emerald",
+        "price": 250,
+        "strength": 35,
+        "spawningChance": 0.05
+    },
+    {
+        "name": "Aquamarine",
+        "price": 180,
+        "strength": 30,
+        "spawningChance": 0.05
+    },
+    {
+        "name": "Ruby",
+        "price": 250,
+        "strength": 35,
+        "spawningChance": 0.05
+    },
+    {
+        "name": "Amethyst",
+        "price": 100,
+        "strength": 20,
+        "spawningChance": 0.1
+    },
+    {
+        "name": "Topaz",
+        "price": 80,
+        "strength": 18,
+        "spawningChance": 0.15
+    },
+    {
+        "name": "Jade",
+        "price": 200,
+        "strength": 32,
+        "spawningChance": 0.05
+    },
+    {
+        "name": "Diamond",
+        "price": 750,
+        "strength": 60,
+        "spawningChance": 0.04
+    },
+    {
+        "name": "Prismatic Shard",
+        "price": 2000,
+        "strength": 100,
+        "spawningChance": 0.01
+    },
+    {
+        "name": "Copper",
+        "price": 5,
+        "strength": 5,
+        "spawningChance": 0.4
+    },
+    {
+        "name": "Iron",
+        "price": 10,
+        "strength": 10,
+        "spawningChance": 0.4
+    },
+    {
+        "name": "Gold",
+        "price": 25,
+        "strength": 20,
+        "spawningChance": 0.35
+    },
+    {
+        "name": "Iridium",
+        "price": 100,
+        "strength": 40,
+        "spawningChance": 0.02
+    },
+    {
+        "name": "Coal",
+        "price": 15,
+        "strength": 6,
+        "spawningChance": 0.6
+    }
+]

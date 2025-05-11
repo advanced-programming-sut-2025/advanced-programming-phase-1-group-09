@@ -88,6 +88,7 @@ public class GameMenuController {
                 GameMenu.showPlayerTools(game.getCurrentPlayer());
                 yield new Result(true, "");
             }
+            case UseTool -> useTool(command);
             case ShowCraftInfo -> processCraftInfo(command);
             case ShowAllCrops -> {
                 GameMenu.showAllCrops();
@@ -244,6 +245,27 @@ public class GameMenuController {
 
         game.getCurrentPlayer().getInventory().setCurrentTool(tool);
         return new Result(true, "Current tool set to " + toolName);
+    }
+
+    private Result useTool(String command) {
+        String dir = command.split("\\s+-d\\s+")[1];
+        Direction direction = Direction.valueOf(dir.toUpperCase());
+        if (direction == null) return new Result(false, "Invalid direction!");
+
+        Player player = game.getCurrentPlayer();
+        int oldEnergy = player.getEnergy();
+
+        Tool tool = player.getInventory().getCurrentTool();
+        tool.use(
+                new Coordinate(
+                player.getCoordinate().y() + direction.dy,
+                player.getCoordinate().x() + direction.dx
+                ),
+                player,
+                game
+        );
+
+        return new Result(true, "Energy Consumed: " + (oldEnergy - player.getEnergy()));
     }
 
     private Result processCraftInfo(String command) {

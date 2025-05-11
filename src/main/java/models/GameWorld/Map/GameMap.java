@@ -4,8 +4,9 @@ import models.GameWorld.Coordinate;
 import models.GameWorld.Map.Elements.Prefabs.Lake;
 import models.GameWorld.Map.Elements.MapElement;
 import models.GameWorld.Map.Elements.MultiTileElement;
+import models.TimeObserver;
 
-public abstract class GameMap {
+public abstract class GameMap implements TimeObserver {
     protected final int height;
     protected final int width;
     protected final Tile[][] grid;

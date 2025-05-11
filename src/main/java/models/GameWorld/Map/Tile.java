@@ -47,6 +47,16 @@ public class Tile {
         }
     }
 
+    public void removeElement(MapElement element) {
+        elements.remove(element);
+        for (MapElement e : elements) {
+            if (!(e instanceof Collectable)) {
+                isWalkable = false;
+                return;
+            }
+        }
+    }
+
     public boolean isWalkable() {
         return isWalkable;
     }

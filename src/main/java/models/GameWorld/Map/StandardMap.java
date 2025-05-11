@@ -1,5 +1,6 @@
 package models.GameWorld.Map;
 
+import models.DataManagers.MineralMetaData;
 import models.DataManagers.TreeMetaData;
 import models.GameWorld.Coordinate;
 import models.GameWorld.Enums.SeasonName;
@@ -9,7 +10,7 @@ import models.GameWorld.Map.Elements.Prefabs.GreenHouse;
 import models.GameWorld.Map.Elements.Prefabs.Hut;
 import models.GameWorld.Map.Elements.Prefabs.Lake;
 import models.GameWorld.Map.Elements.Prefabs.Quarry;
-import models.GameWorld.Map.Elements.Rock;
+import models.GameWorld.TimeState;
 
 import java.util.Random;
 
@@ -57,12 +58,17 @@ public class StandardMap extends GameMap {
                     } else if (chance < 0.1) {
                         addElement(PlantedTree.getMatureTree(TreeMetaData.getTree("Pine Tree")), y, x);
                     } else if (chance < 0.2) {
-                        addElement(new Rock(), y, x);
+                        addElement(MineralMetaData.getMineral("Rock"), y, x);
                     } else if (chance < 0.25) {
                         addElement(CollectableManager.getRandom(SeasonName.SPRING), y, x);
                     }
                 }
             }
         }
+    }
+
+    @Override
+    public void onTimeChange(TimeState newState) {
+
     }
 }

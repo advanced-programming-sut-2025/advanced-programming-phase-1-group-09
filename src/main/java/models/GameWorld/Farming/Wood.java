@@ -18,6 +18,11 @@ public class Wood extends Item implements Collectable {
     }
 
     @Override
+    public int getRandom() {
+        return random.nextInt(6) + 5;
+    }
+
+    @Override
     public void use(Coordinate target, Player player, Game game) {
 
     }

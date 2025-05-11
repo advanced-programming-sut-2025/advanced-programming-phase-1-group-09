@@ -31,9 +31,11 @@ public class Game {
         this.players = players;
         for (Player player : players) {
             this.timeState.addObserver(player);
+            this.timeState.addObserver(player.getFarm());
         }
-
         this.playersCount = players.size();
+
+        this.timeState.addObserver(publicMap);
 
         this.season = new Season();
         this.timeState.addObserver(season);
