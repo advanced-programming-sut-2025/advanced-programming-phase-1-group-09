@@ -1,16 +1,21 @@
 package models.GameWorld.Map.Elements.Prefabs;
 
 import models.GameWorld.Entity.Player.Player;
+import models.GameWorld.Items.Item;
 import models.GameWorld.Map.Elements.MultiTileElement;
 import views.ConsoleColors;
 
 public class GreenHouse implements MultiTileElement {
+    public final int NEEDED_WOOD = 500;
+    public final int NEEDED_MONEY = 1000;
     private final int y;
     private final int x;
+    private boolean isBuilt;
 
     public GreenHouse() {
         this.y = 8;
         this.x = 30;
+        this.isBuilt = false;
     }
 
     @Override
@@ -54,5 +59,21 @@ public class GreenHouse implements MultiTileElement {
     @Override
     public String getSymbol() {
         return ConsoleColors.GREEN_BACKGROUND +  "#";
+    }
+
+    public boolean isBuilt() {
+        return isBuilt;
+    }
+
+    public void build(Player player) {
+        if (isBuilt) return;
+
+        Item wood = player.getInventory().findItem("Wood");
+        int amount = player.getMainInventory().getItemQuantity(wood);
+        if (amount >= NEEDED_WOOD && player.getMoney() >= NEEDED_MONEY) {
+            player.getInventory().getMainInventory().reduceItemQuantity(wood, NEEDED_WOOD);
+            player.changeMoney(-NEEDED_MONEY);
+            isBuilt = true;
+        }
     }
 }

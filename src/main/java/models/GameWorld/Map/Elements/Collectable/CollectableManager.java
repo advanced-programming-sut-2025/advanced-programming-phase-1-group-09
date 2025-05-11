@@ -28,7 +28,7 @@ public class CollectableManager {
                 if (crop.growingSeasons().contains(season)) {
                     register(new CollectableWrapper(
                             seed.getSpawningChance(),
-                            () -> seed.newSeed(1)
+                            seed::clone
                     ), season);
                 }
             }
@@ -39,7 +39,7 @@ public class CollectableManager {
                 if (tree.getGrowingSeasons().contains(season)) {
                     register(new CollectableWrapper(
                             seed.getSpawningChance(),
-                            () -> seed.newSeed(1)
+                            seed::clone
                     ), season);
                 }
             }
@@ -55,10 +55,10 @@ public class CollectableManager {
             }
 
             // Wood
-            register(new CollectableWrapper(0.3, () -> new Wood(3)), season);
+            register(new CollectableWrapper(0.3, Wood::new), season);
 
             // Stone
-            register(new CollectableWrapper(0.3, () -> new Stone(3)), season);
+            register(new CollectableWrapper(0.3, Stone::new), season);
         }
     }
 
@@ -96,6 +96,6 @@ public class CollectableManager {
             r -= wrapper.chance();
             if (r <= 0) return wrapper.itemSupplier().get();
         }
-        return pool.get(0).itemSupplier().get();
+        return pool.getFirst().itemSupplier().get();
     }
 }

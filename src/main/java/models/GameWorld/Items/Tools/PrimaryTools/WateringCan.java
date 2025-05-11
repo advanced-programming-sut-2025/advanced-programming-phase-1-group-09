@@ -7,7 +7,7 @@ import models.GameWorld.Items.Tools.Tool;
 
 public class WateringCan extends Tool {
     public WateringCan() {
-        super("WateringCan");
+        super("WateringCan", 0);
     }
 
     @Override

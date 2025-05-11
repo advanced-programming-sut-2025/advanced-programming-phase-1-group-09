@@ -8,7 +8,6 @@ import models.GameWorld.Entity.Player.PlayerInventory;
 import models.GameWorld.Enums.Direction;
 import models.GameWorld.Farming.Crop;
 import models.GameWorld.Items.Item;
-import models.GameWorld.Items.StackableItem;
 import models.GameWorld.Items.Tools.Tool;
 import models.Menu.CheatCommands;
 import models.Menu.Command;
@@ -120,15 +119,20 @@ public class GameMenuController {
         String[] parts = command.split("\\s+-y\\s+|\\s+-x\\s+");
         int y = Integer.parseInt(parts[1]);
         int x = Integer.parseInt(parts[2]);
-        if (!game.getCurrentPlayer().getFarm().isCoordinateWithinMap(y, x)) {
-            return new Result(false, "Destination out of bounds!");
-        }
         return walkTo(new Coordinate(y, x));
     }
 
     private Result walkTo(Coordinate dest) {
         Player player = game.getCurrentPlayer();
-        List<Coordinate> path = PathFinder.findPath(player.getFarm(), player.getCoordinate(), dest);
+
+        if (!player.getFarm().isCoordinateWithinMap(dest)) {
+            return new Result(false, "Destination out of bounds!");
+        }
+        if (!player.getFarm().getTile(dest).isWalkable()) {
+            return new Result(false, "The destination isn't walkable!");
+        }
+
+        List<Coordinate> path = PathFinder.findPathBFS(player.getFarm(), player.getCoordinate(), dest);
         if (path == null || path.size() < 2) {
             return new Result(false, "No path found.");
         }
@@ -183,19 +187,16 @@ public class GameMenuController {
         if (!item.isStackable())
             return new Result(false, "You can't remove a non-stackable item!");
 
-        StackableItem stackableItem = (StackableItem) item;
-        int price = stackableItem.getPrice();
-
         PlayerInventory inventory = game.getCurrentPlayer().getInventory();
         double refundPercentage = inventory.getTrashCan().getRefundPercentage();
 
-        if (quantity < 0 || quantity >= stackableItem.getQuantity()) {
+        if (quantity < 0 || quantity >= inventory.getMainInventory().getItemQuantity(item)) {
             int amount = inventory.getMainInventory().removeItem(item);
-            game.getCurrentPlayer().changeMoney((int) (price * amount * refundPercentage));
+            game.getCurrentPlayer().changeMoney((int) (item.getPrice() * amount * refundPercentage));
             return new Result(true, "Item removed successfully!");
         } else {
             int amount = inventory.getMainInventory().reduceItemQuantity(item, quantity);
-            game.getCurrentPlayer().changeMoney((int) (price * amount * refundPercentage));
+            game.getCurrentPlayer().changeMoney((int) (item.getPrice() * amount * refundPercentage));
             return new Result(true, "Item's quantity reduced successfully!");
         }
     }

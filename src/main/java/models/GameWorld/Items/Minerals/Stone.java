@@ -1,15 +1,23 @@
 package models.GameWorld.Items.Minerals;
 
-import models.GameWorld.Items.StackableItem;
+import models.Game;
+import models.GameWorld.Coordinate;
+import models.GameWorld.Entity.Player.Player;
+import models.GameWorld.Items.Item;
 import models.GameWorld.Map.Elements.Collectable.Collectable;
 
-public class Stone extends StackableItem implements Collectable {
-    public Stone(int quantity) {
-        super("Stone", quantity, 1);
+public class Stone extends Item implements Collectable {
+    public Stone() {
+        super("Stone", true, 1);
     }
 
     @Override
     public Stone collect() {
         return this;
+    }
+
+    @Override
+    public void use(Coordinate target, Player player, Game game) {
+
     }
 }

@@ -9,7 +9,6 @@ import models.GameWorld.Farming.Crop;
 import models.GameWorld.Farming.Tree;
 import models.GameWorld.Items.Item;
 import models.GameWorld.Items.Miscellaneous.InventorySlot;
-import models.GameWorld.Items.StackableItem;
 import models.GameWorld.Items.Tools.Tool;
 import models.Result;
 
@@ -51,7 +50,7 @@ public class GameMenu implements AppMenu {
 
         for (InventorySlot slot : player.getInventory().getMainInventory().getSlots()) {
             Item item = slot.item();
-            String quantity = item.isStackable() ? String.valueOf(((StackableItem) item).getQuantity()) : "----";
+            String quantity = item.isStackable() ? String.valueOf(slot.quantity()) : "----";
 
             System.out.println(String.format("%-20s   %s", item.getName(), quantity));
         }

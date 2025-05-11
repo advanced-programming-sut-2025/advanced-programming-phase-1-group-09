@@ -50,6 +50,10 @@ public class Tile {
         return isWalkable;
     }
 
+    public void setWalkable(boolean walkable) {
+        isWalkable = walkable;
+    }
+
     public void water() {
         for (MapElement element : elements) {
             if (element instanceof Planted planted) {
