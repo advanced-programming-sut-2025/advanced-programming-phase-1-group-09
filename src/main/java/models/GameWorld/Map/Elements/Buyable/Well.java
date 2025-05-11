@@ -1,25 +1,35 @@
-package models.GameWorld.Map.Elements.Barns;
+package models.GameWorld.Map.Elements.Buyable;
 
 import models.GameWorld.Entity.Player.Player;
+import models.GameWorld.Map.Elements.MultiTileElement;
 
-public class BigBarn extends BarnElement{
-    //private boolean isBought ???
-    private int x;
+public class Well implements MultiTileElement,BuyableMapElement {
     private int y;
-    public BigBarn(int x,int y) {
-        super(12000,450,200,8);
-        this.x = x;
-        this.y = y;
+    private int x;
+
+    @Override
+    public int getPrice() {
+        return 1000;
+    }
+
+    @Override
+    public int getWoodCost() {
+        return 0;
+    }
+
+    @Override
+    public int getStoneCost() {
+        return 75;
     }
 
     @Override
     public int getHeight() {
-        return 7;
+        return 3;
     }
 
     @Override
     public int getWidth() {
-        return 4;
+        return 3;
     }
 
     @Override
@@ -34,12 +44,12 @@ public class BigBarn extends BarnElement{
 
     @Override
     public String getName() {
-        return "Big Barn";
+        return "Well";
     }
 
     @Override
     public boolean isInteractable() {
-        return false;
+        return true;
     }
 
     @Override

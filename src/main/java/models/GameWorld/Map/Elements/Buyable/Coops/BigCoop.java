@@ -1,13 +1,13 @@
-package models.GameWorld.Map.Elements.Coops;
+package models.GameWorld.Map.Elements.Buyable.Coops;
 
 import models.GameWorld.Entity.Player.Player;
 
-public class Coop extends CoopElement {
+public class BigCoop extends CoopElement {
     //private boolean isBought ???
     private int x;
     private int y;
-    public Coop(int x,int y) {
-        super(4000,300,100,4);
+    public BigCoop(int x,int y) {
+        super(8);
         this.x = x;
         this.y = y;
     }
@@ -34,16 +34,31 @@ public class Coop extends CoopElement {
 
     @Override
     public String getName() {
-        return "Coop";
+        return "Big Coop";
     }
 
     @Override
     public boolean isInteractable() {
-        return false;
+        return true;
     }
 
     @Override
     public void interact(Player player) {
 
+    }
+
+    @Override
+    public int getPrice() {
+        return 10000;
+    }
+
+    @Override
+    public int getWoodCost() {
+        return 400;
+    }
+
+    @Override
+    public int getStoneCost() {
+        return 150;
     }
 }

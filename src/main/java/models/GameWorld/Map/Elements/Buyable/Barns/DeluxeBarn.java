@@ -1,26 +1,25 @@
-package models.GameWorld.Map.Elements.Coops;
+package models.GameWorld.Map.Elements.Buyable.Barns;
 
 import models.GameWorld.Entity.Player.Player;
-import models.GameWorld.Map.Elements.Barns.BarnElement;
 
-public class DeluxeCoop extends CoopElement {
+public class DeluxeBarn extends BarnElement{
     //private boolean isBought ???
     private int x;
     private int y;
-    public DeluxeCoop(int x,int y) {
-        super(20000,500,200,4);
+    public DeluxeBarn(int x,int y) {
+        super(12);
         this.x = x;
         this.y = y;
     }
 
     @Override
     public int getHeight() {
-        return 6;
+        return 7;
     }
 
     @Override
     public int getWidth() {
-        return 3;
+        return 4;
     }
 
     @Override
@@ -35,16 +34,31 @@ public class DeluxeCoop extends CoopElement {
 
     @Override
     public String getName() {
-        return "Deluxe Coop";
+        return "Deluxe Barn";
     }
 
     @Override
     public boolean isInteractable() {
-        return false;
+        return true;
     }
 
     @Override
     public void interact(Player player) {
 
+    }
+
+    @Override
+    public int getPrice() {
+        return 25000;
+    }
+
+    @Override
+    public int getWoodCost() {
+        return 550;
+    }
+
+    @Override
+    public int getStoneCost() {
+        return 300;
     }
 }
