@@ -1,6 +1,7 @@
 package models.GameWorld.Map;
 
 import models.GameWorld.Coordinate;
+import models.GameWorld.TimeState;
 
 public class PublicMap extends GameMap {
     public PublicMap() {
@@ -23,6 +24,11 @@ public class PublicMap extends GameMap {
 
     @Override
     protected void spawnDynamicElements() {
+
+    }
+
+    @Override
+    public void onTimeChange(TimeState newState) {
 
     }
 }

@@ -7,7 +7,7 @@ import models.GameWorld.Items.Tools.Tool;
 
 public class FishingPole extends Tool {
     public FishingPole() {
-        super("FishingPole");
+        super("FishingPole", 1000);
     }
 
     @Override

@@ -1,8 +1,5 @@
 package models.GameWorld.Items.Tools;
 
-import models.Game;
-import models.GameWorld.Coordinate;
-import models.GameWorld.Entity.Player.Player;
 import models.GameWorld.Items.Item;
 
 public abstract class Tool extends Item {
@@ -10,8 +7,8 @@ public abstract class Tool extends Item {
 
     protected int level;
 
-    public Tool(String name) {
-        super(name, false);
+    public Tool(String name, int price) {
+        super(name, false, price);
         this.level = 0;
     }
 
@@ -28,6 +25,4 @@ public abstract class Tool extends Item {
     }
 
     protected abstract int getMaxLevel();
-
-    public abstract void use(Coordinate target, Player player, Game game);
 }

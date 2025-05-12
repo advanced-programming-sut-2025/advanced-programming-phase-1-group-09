@@ -8,13 +8,13 @@ import models.GameWorld.Entity.Player.PlayerInventory;
 import models.GameWorld.Enums.Direction;
 import models.GameWorld.Farming.Crop;
 import models.GameWorld.Items.Item;
-import models.GameWorld.Items.StackableItem;
 import models.GameWorld.Items.Tools.Tool;
+import models.GameWorld.Map.ForestMap;
+import models.GameWorld.Map.StandardMap;
 import models.Menu.CheatCommands;
 import models.Menu.Command;
 import models.Menu.GameMenuCommands;
 import models.Result;
-import utils.PathFinder;
 import utils.PathUtils;
 import views.GameMenu;
 import views.MapPrinter;
@@ -44,6 +44,7 @@ public class GameMenuController {
         GameMenuCommands matchedGameCommand = Command.findCommand(command, GameMenuCommands.values());
         return switch (matchedGameCommand) {
             case null -> Result.invalidCommand;
+            case WhichMap -> whichMap();
             case NextTurn -> nextTurn();
             case ShowTime ->
                     new Result(true, game.getTimeState().getFormattedTime());
@@ -61,6 +62,10 @@ public class GameMenuController {
                     new Result(true, game.getWeather().getNextDayWeather().toString());
             case Walk -> processWalking(command);
             case PrintMap -> processMapPrinting(command);
+            case MapHelp -> {
+                MapPrinter.help();
+                yield new Result(true, "");
+            }
             case ShowEnergy ->
                     new Result(true,
                             String.format(
@@ -83,6 +88,7 @@ public class GameMenuController {
                 GameMenu.showPlayerTools(game.getCurrentPlayer());
                 yield new Result(true, "");
             }
+            case UseTool -> useTool(command);
             case ShowCraftInfo -> processCraftInfo(command);
             case ShowAllCrops -> {
                 GameMenu.showAllCrops();
@@ -96,16 +102,26 @@ public class GameMenuController {
         };
     }
 
+    public Result whichMap() {
+        if (game.getCurrentPlayer().getFarm() instanceof StandardMap) {
+            return new Result(true, "You are on the Standard Map.");
+        } else if (game.getCurrentPlayer().getFarm() instanceof ForestMap) {
+            return new Result(true, "You are on the Forest Map.");
+        } else {
+            return new Result(false, "You are on an unknown map!");
+        }
+    }
+
     private Result nextTurn() {
         if (game.areAllPlayersFainted()) {
             game.getTimeState().updateDate(1);
             return new Result(false, "All Players Fainted!");
         }
 
-        while (game.getCurrentPlayer().isFainted()) {
+        do {
             if (game.isItLastTurn()) game.getTimeState().updateTime(1);
             game.nextTurn();
-        }
+        } while (game.getCurrentPlayer().isFainted());
 
         return new Result(true, "It's \"" + game.getCurrentPlayer().getName() + "\" turn now.");
     }
@@ -120,15 +136,20 @@ public class GameMenuController {
         String[] parts = command.split("\\s+-y\\s+|\\s+-x\\s+");
         int y = Integer.parseInt(parts[1]);
         int x = Integer.parseInt(parts[2]);
-        if (!game.getCurrentPlayer().getFarm().isCoordinateWithinMap(y, x)) {
-            return new Result(false, "Destination out of bounds!");
-        }
         return walkTo(new Coordinate(y, x));
     }
 
     private Result walkTo(Coordinate dest) {
         Player player = game.getCurrentPlayer();
-        List<Coordinate> path = PathFinder.findPath(player.getFarm(), player.getCoordinate(), dest);
+
+        if (!player.getFarm().isCoordinateWithinMap(dest)) {
+            return new Result(false, "Destination out of bounds!");
+        }
+        if (!player.getFarm().getTile(dest).isWalkable()) {
+            return new Result(false, "The destination isn't walkable!");
+        }
+
+        List<Coordinate> path = PathUtils.findPathAStar(player.getFarm(), player.getCoordinate(), dest);
         if (path == null || path.size() < 2) {
             return new Result(false, "No path found.");
         }
@@ -138,14 +159,33 @@ public class GameMenuController {
         int tiles = path.size() - 1;
 
         int energyNeeded = (tiles + 10 * turns) / 20;
-        if (!player.isEnergyUnlimited() && player.getEnergy() < energyNeeded) {
-            return new Result(
-                    false,
-                    "Not enough energy! Need " + energyNeeded + " but have " + player.getEnergy() + "."
-            );
+        if (!player.isEnergyUnlimited()) {
+            if (player.getEnergy() < energyNeeded) {
+                // Calculate how far the player can go with current energy
+                int maxTiles = (player.getEnergy() * 20 - turns * 10);
+                if (maxTiles <= 0) {
+                    player.setFainted(true);
+                    return new Result(
+                            false,
+                            "Not enough energy to move even one tile. Player fainted!"
+                    );
+                }
+
+                // Move as far as possible along the path
+                int reachableTiles = Math.min(maxTiles, path.size() - 1);
+                Coordinate partialDest = path.get(reachableTiles);
+                player.setCoordinate(partialDest);
+                player.setEnergy(0);
+
+                return new Result(
+                        true,
+                        "Moved " + reachableTiles + " tiles before fainting at " + partialDest +
+                                " (Used all " + player.getEnergy() + " energy)"
+                );
+            }
+            player.changeEnergy(-energyNeeded);
         }
 
-        player.changeEnergy(-energyNeeded);
         player.setCoordinate(dest);
         return new Result(
                 true,
@@ -183,19 +223,16 @@ public class GameMenuController {
         if (!item.isStackable())
             return new Result(false, "You can't remove a non-stackable item!");
 
-        StackableItem stackableItem = (StackableItem) item;
-        int price = stackableItem.getPrice();
-
         PlayerInventory inventory = game.getCurrentPlayer().getInventory();
         double refundPercentage = inventory.getTrashCan().getRefundPercentage();
 
-        if (quantity < 0 || quantity >= stackableItem.getQuantity()) {
+        if (quantity < 0 || quantity >= inventory.getMainInventory().getItemQuantity(item)) {
             int amount = inventory.getMainInventory().removeItem(item);
-            game.getCurrentPlayer().changeMoney((int) (price * amount * refundPercentage));
+            game.getCurrentPlayer().changeMoney((int) (item.getPrice() * amount * refundPercentage));
             return new Result(true, "Item removed successfully!");
         } else {
             int amount = inventory.getMainInventory().reduceItemQuantity(item, quantity);
-            game.getCurrentPlayer().changeMoney((int) (price * amount * refundPercentage));
+            game.getCurrentPlayer().changeMoney((int) (item.getPrice() * amount * refundPercentage));
             return new Result(true, "Item's quantity reduced successfully!");
         }
     }
@@ -208,6 +245,27 @@ public class GameMenuController {
 
         game.getCurrentPlayer().getInventory().setCurrentTool(tool);
         return new Result(true, "Current tool set to " + toolName);
+    }
+
+    private Result useTool(String command) {
+        String dir = command.split("\\s+-d\\s+")[1];
+        Direction direction = Direction.valueOf(dir.toUpperCase());
+        if (direction == null) return new Result(false, "Invalid direction!");
+
+        Player player = game.getCurrentPlayer();
+        int oldEnergy = player.getEnergy();
+
+        Tool tool = player.getInventory().getCurrentTool();
+        tool.use(
+                new Coordinate(
+                player.getCoordinate().y() + direction.dy,
+                player.getCoordinate().x() + direction.dx
+                ),
+                player,
+                game
+        );
+
+        return new Result(true, "Energy Consumed: " + (oldEnergy - player.getEnergy()));
     }
 
     private Result processCraftInfo(String command) {

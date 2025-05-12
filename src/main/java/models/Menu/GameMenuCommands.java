@@ -2,6 +2,7 @@ package models.Menu;
 
 public enum GameMenuCommands implements Command {
     ExitGame("exit\\s+game"),
+    WhichMap("which\\s+map"),
     NextTurn("next\\s+turn"),
     ShowTime("time"),
     ShowDate("date"),

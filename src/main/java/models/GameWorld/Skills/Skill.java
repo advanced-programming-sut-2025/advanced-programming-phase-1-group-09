@@ -27,5 +27,9 @@ public abstract class Skill {
         return level;
     }
 
+    public boolean isMaxLevel() {
+        return level == MAX_LEVEL;
+    }
+
     public abstract String getName();
 }

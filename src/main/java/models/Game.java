@@ -13,6 +13,7 @@ public class Game {
     private static int idCounter = 1;
     private final int id;
     private final ArrayList<Player> players;
+    private final int playersCount;
     private final User creator;
     private final GameMap publicMap;
     private int turn;
@@ -30,7 +31,11 @@ public class Game {
         this.players = players;
         for (Player player : players) {
             this.timeState.addObserver(player);
+            this.timeState.addObserver(player.getFarm());
         }
+        this.playersCount = players.size();
+
+        this.timeState.addObserver(publicMap);
 
         this.season = new Season();
         this.timeState.addObserver(season);
@@ -55,12 +60,12 @@ public class Game {
     }
 
     public boolean isItLastTurn() {
-        return turn == (players.size() - 1);
+        return turn == (playersCount - 1);
     }
 
     public void nextTurn() {
         turn++;
-        if (turn >= players.size()) {
+        if (turn >= playersCount) {
             resetTurn();
         }
     }

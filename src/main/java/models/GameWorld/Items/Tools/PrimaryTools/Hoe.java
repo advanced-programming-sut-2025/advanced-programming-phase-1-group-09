@@ -4,10 +4,12 @@ import models.Game;
 import models.GameWorld.Coordinate;
 import models.GameWorld.Entity.Player.Player;
 import models.GameWorld.Items.Tools.Tool;
+import models.GameWorld.Map.TerrainType;
+import models.GameWorld.Map.Tile;
 
 public class Hoe extends Tool {
     public Hoe() {
-        super("Hoe");
+        super("Hoe", 0);
     }
 
     @Override
@@ -17,6 +19,13 @@ public class Hoe extends Tool {
 
     @Override
     public void use(Coordinate target, Player player, Game game) {
+        Tile tile = player.getFarm().getTile(target);
+        if (tile.getTerrainType() == TerrainType.DIRT) {
+            tile.setTerrainType(TerrainType.PLOWED_DIRT);
+        }
 
+        int energyConsumed = 5 - level;
+        if (player.getSkills().getFarmingSkill().isMaxLevel()) energyConsumed--;
+        player.changeEnergy(-energyConsumed);
     }
 }

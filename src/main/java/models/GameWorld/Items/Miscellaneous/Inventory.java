@@ -1,7 +1,6 @@
 package models.GameWorld.Items.Miscellaneous;
 
 import models.GameWorld.Items.Item;
-import models.GameWorld.Items.StackableItem;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -19,32 +18,39 @@ public class Inventory {
         this.itemCount = 0;
     }
 
-    public void addItem(Item item) {
+    public int getItemQuantity(Item item) {
+        for (InventorySlot slot : slots) {
+            if (slot.item() == item) return slot.quantity();
+        }
+        return 0;
+    }
+
+    public void addItem(Item item, int quantity) {
         if (isInventoryFull()) return;
 
         if (item.isStackable()) {
             for (InventorySlot slot : slots) {
                 if (slot.isStackableWith(item)) {
-                    ((StackableItem) slot.item()).addQuantity(((StackableItem) item).getQuantity());
+                    slot.increaseQuantity(quantity);
                     return;
                 }
             }
-            slots.add(new InventorySlot(item));
+            slots.add(new InventorySlot(item, quantity));
             itemCount++;
         } else {
-            slots.add(new InventorySlot(item));
+            slots.add(new InventorySlot(item, quantity));
         }
     }
 
     /**
-     * This function returns the amount of the specific item that has been removed
+     * @return the amount of the specific item that has been removed
      */
     public int reduceItemQuantity(Item item, int quantity) {
         for (InventorySlot slot : slots) {
             if (slot.item().getName().equals(item.getName())) {
-                int beforeChangeQuantity = ((StackableItem) slot.item()).getQuantity();
-                ((StackableItem) slot.item()).reduceQuantity(quantity);
-                if (((StackableItem) slot.item()).getQuantity() == 0) removeItem(item);
+                int beforeChangeQuantity = slot.quantity();
+                slot.reduceQuantity(quantity);
+                if (slot.quantity() == 0) removeItem(item);
                 return Math.min(quantity, beforeChangeQuantity);
             }
         }
@@ -52,14 +58,14 @@ public class Inventory {
     }
 
     /**
-     * This function returns the amount of the specific item that has been removed
+     * @return the amount of the specific item that has been removed
      */
     public int removeItem(Item item) {
         Iterator<InventorySlot> iterator = slots.iterator();
         while (iterator.hasNext()) {
             InventorySlot slot = iterator.next();
             if (slot.item() == item && item.isStackable()) {
-                int quantity = ((StackableItem) slot.item()).getQuantity();
+                int quantity = slot.quantity();
                 itemCount--;
                 iterator.remove();
                 return quantity;

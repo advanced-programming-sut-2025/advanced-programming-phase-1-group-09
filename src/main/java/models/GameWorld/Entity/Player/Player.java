@@ -3,6 +3,7 @@ package models.GameWorld.Entity.Player;
 import models.App;
 import models.GameWorld.Coordinate;
 import models.GameWorld.Entity.Entity;
+import models.GameWorld.Items.Miscellaneous.Inventory;
 import models.GameWorld.Map.GameMap;
 import models.GameWorld.TimeState;
 import models.TimeObserver;
@@ -141,7 +142,15 @@ public class Player implements Entity, TimeObserver {
         return inventory;
     }
 
+    public Inventory getMainInventory() {
+        return inventory.getMainInventory();
+    }
+
     public boolean isFainted() {
         return isFainted;
+    }
+
+    public void setFainted(boolean fainted) {
+        this.isFainted = fainted;
     }
 }
