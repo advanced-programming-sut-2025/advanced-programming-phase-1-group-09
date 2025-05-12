@@ -4,8 +4,9 @@ import models.GameWorld.Coordinate;
 import models.GameWorld.Map.Elements.Prefabs.Lake;
 import models.GameWorld.Map.Elements.MapElement;
 import models.GameWorld.Map.Elements.MultiTileElement;
+import models.TimeObserver;
 
-public abstract class GameMap {
+public abstract class GameMap implements TimeObserver {
     protected final int height;
     protected final int width;
     protected final Tile[][] grid;
@@ -67,15 +68,17 @@ public abstract class GameMap {
         for (int y = lake.getY(); y < lake.getY() + lake.getHeight(); y++) {
             for (int x = lake.getX(); x < lake.getX() + lake.getWidth(); x++) {
                 grid[y][x].setTerrainType(TerrainType.WATER);
+                grid[y][x].setWalkable(false);
             }
         }
     }
 
     public void addElement(MapElement element, int y, int x) {
         if (!isCoordinateWithinMap(y, x)) return;
-        getTile(y, x).addElement(element);
+        grid[y][x].addElement(element);
         if (element.isFixed()) {
-            getTile(y, x).setTerrainType(TerrainType.RESERVED);
+            grid[y][x].setTerrainType(TerrainType.RESERVED);
+            grid[y][x].setWalkable(false);
         }
     }
 }

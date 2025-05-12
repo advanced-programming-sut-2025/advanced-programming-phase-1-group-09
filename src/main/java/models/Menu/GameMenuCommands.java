@@ -2,6 +2,7 @@ package models.Menu;
 
 public enum GameMenuCommands implements Command {
     ExitGame("exit\\s+game"),
+    WhichMap("which\\s+map"),
     NextTurn("next\\s+turn"),
     ShowTime("time"),
     ShowDate("date"),
@@ -26,8 +27,8 @@ public enum GameMenuCommands implements Command {
     ShowCraftInfo("craftinfo\\s+-n\\s+.+"),
     ShowAllCrops("show\\s+all\\s+crops"),
     ShowAllTrees("show\\s+all\\s+trees"),
-    Plant("plant\\s+(?=.*-s)(?=.*-d).*"),
-    ShowPlant("show\\s+plant\\s+-l\\s+<\\S+, \\S+>"),
+    Plant("plant\\s+-s\\s+\\S+\\s+-d\\s+\\S+"),
+    ShowPlant("show\\s+plant\\s+-y\\s+\\d+\\s+-x\\s+\\d+"),
     Fertilize("fertilize\\s+(?=.*-f)(?=.*-d).*"),
     ShowCurrentWater("how\\s+much\\s+water"),
     ShowCraftingRecipes("show\\s+crafting\\s+recipes"),

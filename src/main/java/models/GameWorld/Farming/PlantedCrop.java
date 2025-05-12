@@ -1,7 +1,9 @@
 package models.GameWorld.Farming;
 
+import models.GameWorld.Coordinate;
 import models.GameWorld.Entity.Player.Player;
 import models.GameWorld.TimeState;
+import views.ConsoleColors;
 
 public class PlantedCrop extends Planted {
     private final Crop cropDefinition;
@@ -38,7 +40,24 @@ public class PlantedCrop extends Planted {
     }
 
     @Override
-    public void interact(Player player) {
+    public void interact(Player player, Coordinate position) {}
 
+    @Override
+    public String getSymbol() {
+        return ConsoleColors.CYAN_BACKGROUND + "C";
+    }
+
+    @Override
+    public String toString() {
+        return String.format(
+                "Crop: %s\n" +
+                "Is Watered Today: %s\n" +
+                "Current Stage: %d\n" +
+                "Is Plant Mature: %s",
+                cropDefinition.name(),
+                wateredToday,
+                currentStage + 1,
+                isMature()
+        );
     }
 }

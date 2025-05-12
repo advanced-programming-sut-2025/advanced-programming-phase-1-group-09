@@ -148,4 +148,8 @@ public class Player implements Entity, TimeObserver {
     public boolean isFainted() {
         return isFainted;
     }
+
+    public void setFainted(boolean fainted) {
+        this.isFainted = fainted;
+    }
 }

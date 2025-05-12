@@ -1,5 +1,6 @@
 package models.GameWorld.Map.Elements.Prefabs;
 
+import models.GameWorld.Coordinate;
 import models.GameWorld.Entity.Player.Player;
 import models.GameWorld.Map.Elements.MultiTileElement;
 import views.ConsoleColors;
@@ -9,18 +10,18 @@ public class Hut implements MultiTileElement {
     private final int x;
 
     public Hut() {
-        this.y = 10;
-        this.x = 76;
+        this.y = 4;
+        this.x = 80;
     }
 
     @Override
     public int getHeight() {
-        return 8;
+        return 4;
     }
 
     @Override
     public int getWidth() {
-        return 8;
+        return 4;
     }
 
     @Override
@@ -49,10 +50,10 @@ public class Hut implements MultiTileElement {
     }
 
     @Override
-    public void interact(Player player) {}
+    public void interact(Player player, Coordinate position) {}
 
     @Override
     public String getSymbol() {
-        return ConsoleColors.GREEN_BACKGROUND +  "#";
+        return ConsoleColors.WHITE_BACKGROUND + ConsoleColors.BLACK_BOLD +  "H";
     }
 }

@@ -36,7 +36,7 @@ public class CropMetaData {
 
             for (Crop crop : cropList) {
                 crops.put(crop.name(), crop);
-                Seed seed = new Seed(crop.source(), 10, crop.spawningChance());
+                Seed seed = new Seed(crop.source(), 10, crop.spawningChance(), true);
                 seeds.put(seed.getName(), seed);
                 seedToCrop.put(seed, crop);
             }

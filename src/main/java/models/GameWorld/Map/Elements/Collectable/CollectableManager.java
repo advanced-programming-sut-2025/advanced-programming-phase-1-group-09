@@ -2,10 +2,11 @@ package models.GameWorld.Map.Elements.Collectable;
 
 import models.DataManagers.CropMetaData;
 import models.DataManagers.ForagingCropMetaData;
+import models.DataManagers.MineralMetaData;
 import models.DataManagers.TreeMetaData;
 import models.GameWorld.Enums.SeasonName;
 import models.GameWorld.Farming.*;
-import models.GameWorld.Items.Minerals.Stone;
+import models.GameWorld.Minerals.UnextractedMineral;
 
 import java.util.*;
 
@@ -57,8 +58,9 @@ public class CollectableManager {
             // Wood
             register(new CollectableWrapper(0.3, Wood::new), season);
 
-            // Stone
-            register(new CollectableWrapper(0.3, Stone::new), season);
+            // Rock
+            UnextractedMineral rock = MineralMetaData.getMineral("Rock");
+            register(new CollectableWrapper(rock.getSpawningChance(), rock::extract), season);
         }
     }
 

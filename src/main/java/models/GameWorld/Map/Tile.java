@@ -3,6 +3,7 @@ package models.GameWorld.Map;
 import models.GameWorld.Farming.Planted;
 import models.GameWorld.Map.Elements.Collectable.Collectable;
 import models.GameWorld.Map.Elements.MapElement;
+import views.ConsoleColors;
 
 import java.util.ArrayList;
 
@@ -46,6 +47,16 @@ public class Tile {
         }
     }
 
+    public void removeElement(MapElement element) {
+        elements.remove(element);
+        for (MapElement e : elements) {
+            if (!(e instanceof Collectable)) {
+                isWalkable = false;
+                return;
+            }
+        }
+    }
+
     public boolean isWalkable() {
         return isWalkable;
     }
@@ -68,12 +79,6 @@ public class Tile {
             return top.getSymbol();
         }
 
-        return switch (terrainType) {
-            case GRASS -> "G";
-            case WATER -> "~";
-            case FOREST -> "F";
-            case RESERVED -> " ";
-            default -> ".";
-        };
+        return ConsoleColors.YELLOW_BACKGROUND + " ";
     }
 }

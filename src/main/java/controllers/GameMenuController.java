@@ -1,24 +1,32 @@
 package controllers;
 
 import models.DataManagers.CropMetaData;
+import models.DataManagers.ItemHolder;
+import models.DataManagers.TreeMetaData;
 import models.Game;
 import models.GameWorld.Coordinate;
 import models.GameWorld.Entity.Player.Player;
 import models.GameWorld.Entity.Player.PlayerInventory;
 import models.GameWorld.Enums.Direction;
-import models.GameWorld.Farming.Crop;
+import models.GameWorld.Farming.*;
 import models.GameWorld.Items.Item;
 import models.GameWorld.Items.Tools.Tool;
+import models.GameWorld.Map.Elements.MapElement;
+import models.GameWorld.Map.ForestMap;
+import models.GameWorld.Map.StandardMap;
+import models.GameWorld.Map.TerrainType;
+import models.GameWorld.Map.Tile;
 import models.Menu.CheatCommands;
 import models.Menu.Command;
 import models.Menu.GameMenuCommands;
 import models.Result;
-import utils.PathFinder;
 import utils.PathUtils;
 import views.GameMenu;
 import views.MapPrinter;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class GameMenuController {
     private final CheatController cheatController;
@@ -43,6 +51,7 @@ public class GameMenuController {
         GameMenuCommands matchedGameCommand = Command.findCommand(command, GameMenuCommands.values());
         return switch (matchedGameCommand) {
             case null -> Result.invalidCommand;
+            case WhichMap -> whichMap();
             case NextTurn -> nextTurn();
             case ShowTime ->
                     new Result(true, game.getTimeState().getFormattedTime());
@@ -60,6 +69,10 @@ public class GameMenuController {
                     new Result(true, game.getWeather().getNextDayWeather().toString());
             case Walk -> processWalking(command);
             case PrintMap -> processMapPrinting(command);
+            case MapHelp -> {
+                MapPrinter.help();
+                yield new Result(true, "");
+            }
             case ShowEnergy ->
                     new Result(true,
                             String.format(
@@ -82,6 +95,7 @@ public class GameMenuController {
                 GameMenu.showPlayerTools(game.getCurrentPlayer());
                 yield new Result(true, "");
             }
+            case UseTool -> useTool(command);
             case ShowCraftInfo -> processCraftInfo(command);
             case ShowAllCrops -> {
                 GameMenu.showAllCrops();
@@ -91,8 +105,20 @@ public class GameMenuController {
                 GameMenu.showAllTrees();
                 yield new Result(true, "");
             }
+            case Plant -> processPlanting(command);
+            case ShowPlant -> processShowingPlant(command);
             default -> new Result(false, "Coming Soon...");
         };
+    }
+
+    public Result whichMap() {
+        if (game.getCurrentPlayer().getFarm() instanceof StandardMap) {
+            return new Result(true, "You are on the Standard Map.");
+        } else if (game.getCurrentPlayer().getFarm() instanceof ForestMap) {
+            return new Result(true, "You are on the Forest Map.");
+        } else {
+            return new Result(false, "You are on an unknown map!");
+        }
     }
 
     private Result nextTurn() {
@@ -101,10 +127,10 @@ public class GameMenuController {
             return new Result(false, "All Players Fainted!");
         }
 
-        while (game.getCurrentPlayer().isFainted()) {
+        do {
             if (game.isItLastTurn()) game.getTimeState().updateTime(1);
             game.nextTurn();
-        }
+        } while (game.getCurrentPlayer().isFainted());
 
         return new Result(true, "It's \"" + game.getCurrentPlayer().getName() + "\" turn now.");
     }
@@ -132,7 +158,7 @@ public class GameMenuController {
             return new Result(false, "The destination isn't walkable!");
         }
 
-        List<Coordinate> path = PathFinder.findPathBFS(player.getFarm(), player.getCoordinate(), dest);
+        List<Coordinate> path = PathUtils.findPathAStar(player.getFarm(), player.getCoordinate(), dest);
         if (path == null || path.size() < 2) {
             return new Result(false, "No path found.");
         }
@@ -142,14 +168,33 @@ public class GameMenuController {
         int tiles = path.size() - 1;
 
         int energyNeeded = (tiles + 10 * turns) / 20;
-        if (!player.isEnergyUnlimited() && player.getEnergy() < energyNeeded) {
-            return new Result(
-                    false,
-                    "Not enough energy! Need " + energyNeeded + " but have " + player.getEnergy() + "."
-            );
+        if (!player.isEnergyUnlimited()) {
+            if (player.getEnergy() < energyNeeded) {
+                // Calculate how far the player can go with current energy
+                int maxTiles = (player.getEnergy() * 20 - turns * 10);
+                if (maxTiles <= 0) {
+                    player.setFainted(true);
+                    return new Result(
+                            false,
+                            "Not enough energy to move even one tile. Player fainted!"
+                    );
+                }
+
+                // Move as far as possible along the path
+                int reachableTiles = Math.min(maxTiles, path.size() - 1);
+                Coordinate partialDest = path.get(reachableTiles);
+                player.setCoordinate(partialDest);
+                player.setEnergy(0);
+
+                return new Result(
+                        true,
+                        "Moved " + reachableTiles + " tiles before fainting at " + partialDest +
+                                " (Used all " + player.getEnergy() + " energy)"
+                );
+            }
+            player.changeEnergy(-energyNeeded);
         }
 
-        player.changeEnergy(-energyNeeded);
         player.setCoordinate(dest);
         return new Result(
                 true,
@@ -211,10 +256,79 @@ public class GameMenuController {
         return new Result(true, "Current tool set to " + toolName);
     }
 
+    private Result useTool(String command) {
+        String dir = command.split("\\s+-d\\s+")[1];
+        Direction direction = Direction.valueOf(dir.toUpperCase());
+        if (direction == null) return new Result(false, "Invalid direction!");
+
+        Player player = game.getCurrentPlayer();
+        int oldEnergy = player.getEnergy();
+
+        Tool tool = player.getInventory().getCurrentTool();
+        tool.use(
+                new Coordinate(
+                player.getCoordinate().y() + direction.dy,
+                player.getCoordinate().x() + direction.dx
+                ),
+                player,
+                game
+        );
+
+        return new Result(true, "Energy Consumed: " + (oldEnergy - player.getEnergy()));
+    }
+
     private Result processCraftInfo(String command) {
         String craftName = command.split("\\s+-n\\s+")[1];
         Crop crop = CropMetaData.getCrop(craftName);
         if (crop == null) return new Result(false, "Crop not found!");
         return new Result(true, crop.toString());
+    }
+
+    private Result processPlanting(String command) {
+        String[] parts = command.split("\\s+-s\\s+|\\s+-d\\s+");
+        Seed seed = ItemHolder.getSeed(parts[1]);
+        if (seed == null) return new Result(false, "There is no seed with that name!");
+
+        Direction direction = Direction.valueOf(parts[2].toUpperCase());
+        if (direction == null) return new Result(false, "Invalid direction!");
+
+        return plant(seed, direction);
+    }
+
+    private Result plant(Seed seed, Direction direction) {
+        Player player = game.getCurrentPlayer();
+        Coordinate target = new Coordinate(
+                player.getCoordinate().y() + direction.dy,
+                player.getCoordinate().x() + direction.dx
+        );
+
+        Tile targetTile = player.getFarm().getTile(target);
+        if (!targetTile.getElements().isEmpty())
+            return new Result(false, "You must clear the tile first!");
+        if (targetTile.getTerrainType() != TerrainType.PLOWED_DIRT)
+            return new Result(false, "You must plow the ground first!");
+
+        Planted plant;
+        if (seed.isCropSeed()) {
+            plant = new PlantedCrop(CropMetaData.getCrop(seed));
+        } else {
+            plant = new PlantedTree(TreeMetaData.getTree(seed));
+        }
+        targetTile.addElement(plant);
+        game.getTimeState().addObserver(plant);
+
+        return new Result(true, "Seed planted successfully!");
+    }
+
+    private Result processShowingPlant(String command) {
+        String[] parts = command.split("\\s+-y\\s+|\\s+-x\\s+");
+        Coordinate target = new Coordinate(Integer.parseInt(parts[1]), Integer.parseInt(parts[2]));
+        Tile targetTile = game.getCurrentPlayer().getFarm().getTile(target);
+        for (MapElement element : targetTile.getElements()) {
+            if (element instanceof Planted plant) {
+                return new Result(true, plant.toString());
+            }
+        }
+        return new Result(false, "There is no plant at this location!");
     }
 }
