@@ -1,10 +1,11 @@
 package controllers;
 
 import models.DataManagers.CropMetaData;
-import models.DataManagers.ItemHolder;
+import models.DataManagers.DataHolder;
 import models.DataManagers.TreeMetaData;
 import models.Game;
 import models.GameWorld.Coordinate;
+import models.GameWorld.Entity.Animals.Animal;
 import models.GameWorld.Entity.Player.Player;
 import models.GameWorld.Entity.Player.PlayerInventory;
 import models.GameWorld.Enums.Direction;
@@ -26,11 +27,11 @@ import views.MapPrinter;
 
 import java.util.List;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class GameMenuController {
     private final CheatController cheatController;
     private Game game;
+    private Matcher matcher;
 
     public GameMenuController() {
         this.cheatController = new CheatController();
@@ -107,6 +108,7 @@ public class GameMenuController {
             }
             case Plant -> processPlanting(command);
             case ShowPlant -> processShowingPlant(command);
+            case BuyAnimal -> buyAnimal(command,matchedGameCommand);
             default -> new Result(false, "Coming Soon...");
         };
     }
@@ -286,7 +288,7 @@ public class GameMenuController {
 
     private Result processPlanting(String command) {
         String[] parts = command.split("\\s+-s\\s+|\\s+-d\\s+");
-        Seed seed = ItemHolder.getSeed(parts[1]);
+        Seed seed = DataHolder.getSeed(parts[1]);
         if (seed == null) return new Result(false, "There is no seed with that name!");
 
         Direction direction = Direction.valueOf(parts[2].toUpperCase());
@@ -330,5 +332,20 @@ public class GameMenuController {
             }
         }
         return new Result(false, "There is no plant at this location!");
+    }
+
+    //Animal
+    private Result buyAnimal(String command,GameMenuCommands gameMenuCommands) {
+        matcher = GameMenuCommands.BuyAnimal.matcher(command);
+        Animal animal = DataHolder.getAnimal(matcher.group("animal"));
+        String nickname = matcher.group("name");
+
+        //check to be at marnie's ranch
+        //TODO
+
+        //check if the barn/coop are full
+
+        //add the animal
+        return new Result(true, "");
     }
 }

@@ -1,5 +1,8 @@
 package models.DataManagers;
 
+import models.GameWorld.Entity.Animals.Animal;
+import models.GameWorld.Entity.Animals.BarnAnimal;
+import models.GameWorld.Entity.Animals.CoopAnimal;
 import models.GameWorld.Items.Item;
 import models.GameWorld.Farming.*;
 import models.GameWorld.Items.Tools.AchievableTools.Elements.*;
@@ -8,10 +11,10 @@ import models.GameWorld.Minerals.UnextractedMineral;
 
 import java.util.HashMap;
 
-public class ItemHolder {
+public class DataHolder {
     private static final HashMap<String, Item> items = new HashMap<>();
     private static final HashMap<String, Seed> seeds = new HashMap<>();
-
+    private static final HashMap<String, Animal> animals = new HashMap<>();
     static {
         // Tools
         items.put("Axe", new Axe());
@@ -48,6 +51,16 @@ public class ItemHolder {
         for (UnextractedMineral mineral : MineralMetaData.getAllMinerals()) {
             items.put(mineral.getName(), mineral.extract());
         }
+
+        // Barn Animals
+        for (BarnAnimal animal : BarnAnimalMetaData.getBarnAnimals()) {
+            animals.put(animal.getName() , animal.clone());
+        }
+
+        //Coop Animals
+        for(CoopAnimal animal : CoopAnimalMetaData.getCoopAnimals()) {
+            animals.put(animal.getName(), animal.clone());
+        }
     }
 
     public static Item getItem(String name) {
@@ -57,4 +70,6 @@ public class ItemHolder {
     public static Seed getSeed(String name) {
         return seeds.get(name);
     }
+
+    public static Animal getAnimal(String name) {return animals.get(name);}
 }

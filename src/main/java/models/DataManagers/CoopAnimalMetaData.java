@@ -29,5 +29,9 @@ public class CoopAnimalMetaData {
             throw new RuntimeException("Failed to load coop animals", e);
         }
     }
+
+    public static List<CoopAnimal> getCoopAnimals() {
+        return coopAnimals;
+    }
 }
 

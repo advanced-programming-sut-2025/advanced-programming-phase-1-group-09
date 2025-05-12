@@ -29,4 +29,8 @@ public class BarnAnimalMetaData {
             throw new RuntimeException("Failed to load barn animals", e);
         }
     }
+
+    public static List<BarnAnimal> getBarnAnimals() {
+        return barnAnimals;
+    }
 }

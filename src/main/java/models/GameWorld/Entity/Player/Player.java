@@ -2,6 +2,8 @@ package models.GameWorld.Entity.Player;
 
 import models.App;
 import models.GameWorld.Coordinate;
+import models.GameWorld.Entity.Animals.Animal;
+import models.GameWorld.Entity.Entity;
 import models.GameWorld.Items.Miscellaneous.Inventory;
 import models.GameWorld.Map.GameMap;
 import models.GameWorld.TimeState;
@@ -9,6 +11,7 @@ import models.TimeObserver;
 import models.User;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Player implements Entity, TimeObserver {
     public static final int INITIAL_ENERGY = 200;
@@ -25,6 +28,7 @@ public class Player implements Entity, TimeObserver {
     private final PlayerInventory inventory;
     private final ArrayList<PlayerFriendship> friendships;
     private final ArrayList<PlayerTrade> trades;
+    private final HashMap<String, Animal> animals;
     private boolean isHome;
     private boolean isSleep;
     private boolean isFainted;
@@ -43,6 +47,7 @@ public class Player implements Entity, TimeObserver {
         this.inventory = new PlayerInventory();
         this.friendships = new ArrayList<>();
         this.trades = new ArrayList<>();
+        this.animals = new HashMap<>();
         this.isHome = false;
         this.isSleep = false;
         this.isFainted = false;
@@ -75,6 +80,16 @@ public class Player implements Entity, TimeObserver {
     public String getName() {
         return name;
     }
+
+    @Override
+    public boolean isInteractable() {
+        return true;
+    } //???
+
+    @Override
+    public void interact(Player player) {
+
+    } //???
 
     public GameMap getFarm() {
         return farm;

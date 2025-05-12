@@ -1,5 +1,6 @@
 package models.GameWorld.Map.Elements.Buyable.Coops;
 
+import models.GameWorld.Coordinate;
 import models.GameWorld.Entity.Player.Player;
 
 public class Coop extends CoopElement {
@@ -43,7 +44,7 @@ public class Coop extends CoopElement {
     }
 
     @Override
-    public void interact(Player player) {
+    public void interact(Player player, Coordinate position) {
 
     }
 

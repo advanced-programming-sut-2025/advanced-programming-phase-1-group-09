@@ -6,11 +6,9 @@ import models.GameWorld.Map.Elements.Buyable.Barns.BarnElement;
 import java.util.ArrayList;
 
 public class BarnAnimal extends Animal {
-    private final String[] livingPlaces;
     private BarnElement livingBarn = null;
     public BarnAnimal(int price, String name, ArrayList<AnimalProduct> products, String[] livingPlaces) {
-        super(price, name, products);
-        this.livingPlaces = livingPlaces;
+        super(price, name, products, livingPlaces);
     }
 
     //TODO

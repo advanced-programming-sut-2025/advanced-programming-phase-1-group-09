@@ -1,5 +1,6 @@
 package models.GameWorld.Map.Elements.Buyable.Coops;
 
+import models.GameWorld.Coordinate;
 import models.GameWorld.Entity.Player.Player;
 
 public class DeluxeCoop extends CoopElement {
@@ -43,7 +44,7 @@ public class DeluxeCoop extends CoopElement {
     }
 
     @Override
-    public void interact(Player player) {
+    public void interact(Player player, Coordinate position) {
 
     }
 

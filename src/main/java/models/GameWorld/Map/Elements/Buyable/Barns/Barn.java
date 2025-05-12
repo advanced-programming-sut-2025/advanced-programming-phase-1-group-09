@@ -1,5 +1,6 @@
 package models.GameWorld.Map.Elements.Buyable.Barns;
 
+import models.GameWorld.Coordinate;
 import models.GameWorld.Entity.Player.Player;
 
 public class Barn extends BarnElement{
@@ -43,7 +44,7 @@ public class Barn extends BarnElement{
     }
 
     @Override
-    public void interact(Player player) {
+    public void interact(Player player, Coordinate position) {
 
     }
 
