@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AnimalProductMetaData {
-    private static final List<AnimalProduct> animalProducts = new ArrayList<>();
+    static final List<AnimalProduct> animalProducts = new ArrayList<>();
     static{
         try{
             ObjectMapper mapper = new ObjectMapper();
