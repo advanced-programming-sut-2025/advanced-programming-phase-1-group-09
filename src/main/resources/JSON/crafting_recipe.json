@@ -1,127 +1,127 @@
 [
   {
     "Name": "Cherry Bomb",
-    "Ingredients": ["4,copper ore","1,coal"],
+    "Ingredients": ["4,Copper Ore","1,Coal"],
     "Source": "Mining Level,1",
     "Sell Price": 50
   },
   {
     "Name": "Bomb",
-    "Ingredients": ["4,iron ore","1,coal"],
+    "Ingredients": ["4,Iron Ore","1,Coal"],
     "Source": "Mining Level,2",
     "Sell Price": 50
   },
   {
     "Name": "Mega Bomb",
-    "Ingredients": ["4,gold ore","1,coal"],
+    "Ingredients": ["4,Gold Ore","1,Coal"],
     "Source": "Mining Level,3",
     "Sell Price": 50
   },
   {
     "Name": "Sprinkler",
-    "Ingredients": ["1,copper bar","1,iron bar"],
+    "Ingredients": ["1,Copper Bar","1,Iron Bar"],
     "Source": "Farming Level,1",
     "Sell Price": 0
   },
   {
     "Name": "Quality Sprinkler",
-    "Ingredients": ["1,Iron bar","1,Gold bar"],
+    "Ingredients": ["1,Iron Bar","1,Gold Bar"],
     "Source": "Farming Level,2",
     "Sell Price": 0
   },
   {
     "Name": "Iridium Sprinkler",
-    "Ingredients": ["1,gold bar","1,iridium bar"],
+    "Ingredients": ["1,Gold Bar","1,Iridium Bar"],
     "Source": "Farming Level,3",
     "Sell Price": 0
   },
   {
     "Name": "Charcoal Klin",
-    "Ingredients": ["20,wood","2,Copper bar"],
+    "Ingredients": ["20,Wood","2,Copper Bar"],
     "Source": "Foraging Level,1",
     "Sell Price": 0
   },
   {
     "Name": "Furnace",
-    "Ingredients": ["20,Copper ore","25,Stone"],
+    "Ingredients": ["20,Copper Ore","25,Stone"],
     "Source": "",
     "Sell Price": 0
   },
   {
     "Name": "Scarecrow",
-    "Ingredients": ["50,wood","1,coal","20,Fiber"],
+    "Ingredients": ["50,Wood","1,Coal","20,Fiber"],
     "Source": "",
     "Sell Price": 0
   },
   {
     "Name": "Deluxe Scarecrow",
-    "Ingredients": ["50,wood","1,coal","20,Fiber","1,iridium ore"],
+    "Ingredients": ["50,Wood","1,Coal","20,Fiber","1,Iridium Ore"],
     "Source": "Farming Level,2",
     "Sell Price": 0
   },
   {
     "Name": "Bee House",
-    "Ingredients": ["40,wood","8,coal","1,iron bar"],
+    "Ingredients": ["40,Wood","8,Coal","1,Iron Bar"],
     "Source": "Farming Level,1",
     "Sell Price": 0
   },
   {
     "Name": "Cheese Press",
-    "Ingredients": ["45,wood","45,stone","1,copper bar"],
+    "Ingredients": ["45,Wood","45,Stone","1,Copper Bar"],
     "Source": "Farming Level,2",
     "Sell Price": 0
   },
   {
     "Name": "Keg",
-    "Ingredients": ["30,wood","1,copper bar","1,iron bar"],
+    "Ingredients": ["30,Wood","1,Copper Bar","1,Iron Bar"],
     "Source": "Farming Level,3",
     "Sell Price": 0
   },
   {
     "Name": "Loom",
-    "Ingredients": ["60,wood","30,fiber"],
+    "Ingredients": ["60,Wood","30,Fiber"],
     "Source": "Farming Level,3",
     "Sell Price": 0
   },
   {
     "Name": "Mayonnaise Machine",
-    "Ingredients": ["15,wood","15,stone","1,copper bar"],
+    "Ingredients": ["15,Wood","15,Stone","1,Copper Bar"],
     "Source": "",
     "Sell Price": 0
   },
   {
     "Name": "Oil Maker",
-    "Ingredients": ["100,wood","1,gold bar","1,iron bar"],
+    "Ingredients": ["100,Wood","1,Gold Bar","1,Iron Bar"],
     "Source": "Farming Level,3",
     "Sell Price": 0
   },
   {
     "Name": "Preserves Jar",
-    "Ingredients": ["50,wood","40,stone","8,coal"],
+    "Ingredients": ["50,Wood","40,Stone","8,Coal"],
     "Source": "Farming Level,2",
     "Sell Price": 0
   },
   {
     "Name": "Dehydrator",
-    "Ingredients": ["30,wood","20,stone","30,fiber"],
+    "Ingredients": ["30,Wood","20,Stone","30,Fiber"],
     "Source": "Pierre's General Store",
     "Sell Price": 0
   },
   {
     "Name": "Grass Starter",
-    "Ingredients": ["1,wood","1,fiber"],
+    "Ingredients": ["1,Wood","1,Fiber"],
     "Source": "Pierre's General Store",
     "Sell Price": 0
   },
   {
     "Name": "Fish Smoker",
-    "Ingredients": ["50,wood","3,iron bar","10,coal"],
+    "Ingredients": ["50,Wood","3,Iron Bar","10,Coal"],
     "Source": "Fish Shop",
     "Sell Price": 0
   },
   {
     "Name": "Mystic Tree Seed",
-    "Ingredients": ["5,acorn","5,maple seed","5,pine cone","5,mahogany seed"],
+    "Ingredients": ["5,Acorn","5,Maple Seed","5,Pine Cone","5,Mahogany Seed"],
     "Source": "Foraging Level,4",
     "Sell Price": 100
   }
