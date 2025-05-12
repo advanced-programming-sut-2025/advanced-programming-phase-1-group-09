@@ -1,16 +1,21 @@
 package controllers;
 
 import models.DataManagers.CropMetaData;
+import models.DataManagers.ItemHolder;
+import models.DataManagers.TreeMetaData;
 import models.Game;
 import models.GameWorld.Coordinate;
 import models.GameWorld.Entity.Player.Player;
 import models.GameWorld.Entity.Player.PlayerInventory;
 import models.GameWorld.Enums.Direction;
-import models.GameWorld.Farming.Crop;
+import models.GameWorld.Farming.*;
 import models.GameWorld.Items.Item;
 import models.GameWorld.Items.Tools.Tool;
+import models.GameWorld.Map.Elements.MapElement;
 import models.GameWorld.Map.ForestMap;
 import models.GameWorld.Map.StandardMap;
+import models.GameWorld.Map.TerrainType;
+import models.GameWorld.Map.Tile;
 import models.Menu.CheatCommands;
 import models.Menu.Command;
 import models.Menu.GameMenuCommands;
@@ -20,6 +25,8 @@ import views.GameMenu;
 import views.MapPrinter;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class GameMenuController {
     private final CheatController cheatController;
@@ -98,6 +105,8 @@ public class GameMenuController {
                 GameMenu.showAllTrees();
                 yield new Result(true, "");
             }
+            case Plant -> processPlanting(command);
+            case ShowPlant -> processShowingPlant(command);
             default -> new Result(false, "Coming Soon...");
         };
     }
@@ -273,5 +282,53 @@ public class GameMenuController {
         Crop crop = CropMetaData.getCrop(craftName);
         if (crop == null) return new Result(false, "Crop not found!");
         return new Result(true, crop.toString());
+    }
+
+    private Result processPlanting(String command) {
+        String[] parts = command.split("\\s+-s\\s+|\\s+-d\\s+");
+        Seed seed = ItemHolder.getSeed(parts[1]);
+        if (seed == null) return new Result(false, "There is no seed with that name!");
+
+        Direction direction = Direction.valueOf(parts[2].toUpperCase());
+        if (direction == null) return new Result(false, "Invalid direction!");
+
+        return plant(seed, direction);
+    }
+
+    private Result plant(Seed seed, Direction direction) {
+        Player player = game.getCurrentPlayer();
+        Coordinate target = new Coordinate(
+                player.getCoordinate().y() + direction.dy,
+                player.getCoordinate().x() + direction.dx
+        );
+
+        Tile targetTile = player.getFarm().getTile(target);
+        if (!targetTile.getElements().isEmpty())
+            return new Result(false, "You must clear the tile first!");
+        if (targetTile.getTerrainType() != TerrainType.PLOWED_DIRT)
+            return new Result(false, "You must plow the ground first!");
+
+        Planted plant;
+        if (seed.isCropSeed()) {
+            plant = new PlantedCrop(CropMetaData.getCrop(seed));
+        } else {
+            plant = new PlantedTree(TreeMetaData.getTree(seed));
+        }
+        targetTile.addElement(plant);
+        game.getTimeState().addObserver(plant);
+
+        return new Result(true, "Seed planted successfully!");
+    }
+
+    private Result processShowingPlant(String command) {
+        String[] parts = command.split("\\s+-y\\s+|\\s+-x\\s+");
+        Coordinate target = new Coordinate(Integer.parseInt(parts[1]), Integer.parseInt(parts[2]));
+        Tile targetTile = game.getCurrentPlayer().getFarm().getTile(target);
+        for (MapElement element : targetTile.getElements()) {
+            if (element instanceof Planted plant) {
+                return new Result(true, plant.toString());
+            }
+        }
+        return new Result(false, "There is no plant at this location!");
     }
 }

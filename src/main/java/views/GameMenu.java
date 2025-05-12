@@ -4,12 +4,16 @@ import models.DataManagers.CropMetaData;
 import controllers.GameMenuController;
 import models.DataManagers.TreeMetaData;
 import models.Game;
+import models.GameWorld.Coordinate;
 import models.GameWorld.Entity.Player.Player;
 import models.GameWorld.Farming.Crop;
+import models.GameWorld.Farming.Planted;
 import models.GameWorld.Farming.Tree;
 import models.GameWorld.Items.Item;
 import models.GameWorld.Items.Miscellaneous.InventorySlot;
 import models.GameWorld.Items.Tools.Tool;
+import models.GameWorld.Map.Elements.MapElement;
+import models.GameWorld.Map.Tile;
 import models.Result;
 
 import java.util.Scanner;
@@ -74,5 +78,21 @@ public class GameMenu implements AppMenu {
         for (Tree tree : TreeMetaData.getAllTrees()) {
             System.out.println(tree.getName());
         }
+    }
+
+    public static void showPlant(Player player, Coordinate position) {
+        if (!player.getFarm().isCoordinateWithinMap(position)) {
+            System.out.println("Invalid coordinate.");
+            return;
+        }
+
+        Tile tile = player.getFarm().getTile(position);
+        for (MapElement e : tile.getElements()) {
+            if (e instanceof Planted plant) {
+                System.out.println(plant.toString());
+                return;
+            }
+        }
+        System.out.println("There is no plant here.");
     }
 }

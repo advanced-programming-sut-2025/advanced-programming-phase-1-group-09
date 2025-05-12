@@ -70,4 +70,18 @@ public class PlantedTree extends Planted {
     public String getSymbol() {
         return ConsoleColors.GREEN_BACKGROUND_BRIGHT + ConsoleColors.WHITE_BOLD_BRIGHT + "T";
     }
+
+    @Override
+    public String toString() {
+        return String.format(
+                "Tree: %s\n" +
+                "Is Watered Today: %s\n" +
+                "Current Stage: %d\n" +
+                "Is Plant Mature: %s",
+                treeDefinition.getName(),
+                wateredToday,
+                currentStage + 1,
+                isMature()
+        );
+    }
 }
