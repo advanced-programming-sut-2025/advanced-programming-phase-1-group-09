@@ -6,7 +6,9 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import models.GameWorld.Enums.SeasonName;
 import models.GameWorld.Farming.Crop;
+import models.GameWorld.Items.Item;
 import models.GameWorld.Items.Recipes.CraftingRecipe.CraftingRecipe;
+import models.GameWorld.Items.Recipes.Ingredient;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -17,32 +19,13 @@ public class CraftingRecipeDeserializer extends JsonDeserializer<CraftingRecipe>
     @Override
     public CraftingRecipe deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
         JsonNode node = p.getCodec().readTree(p);
-
         String name = node.get("Name").asText();
-        String  = node.get("source").asText();
-
-        String[] stageStrings = node.get("growthStages").asText().split("-");
-        ArrayList<Integer> growthStages = new ArrayList<>();
-        for (String s : stageStrings) {
-            growthStages.add(Integer.parseInt(s));
+        int sellPrice = node.get("Sell Price").asInt();
+        ArrayList<Ingredient> ingredients = new ArrayList<>();
+        for (JsonNode ingredient : node.get("Ingredients")) {
+            String[] details = ingredient.get("Details").asText().split(",");
+            ingredients.add(new Ingredient(details[0],Integer.parseInt(details[1])));
         }
-
-        int totalGrowthDays = node.get("totalGrowthDays").asInt();
-        boolean oneTime = node.get("oneTime").asBoolean();
-        int regrowDays = node.get("regrowDays").asInt();
-        int baseSellPrice = node.get("baseSellPrice").asInt();
-        boolean isEdible = node.get("isEdible").asBoolean();
-        int baseEnergy = node.get("baseEnergy").asInt();
-        int baseHealth = node.get("baseHealth").asInt();
-
-        Set<SeasonName> growingSeasons = new HashSet<>();
-        for (JsonNode seasonNode : node.get("growingSeasons")) {
-            growingSeasons.add(SeasonName.valueOf(seasonNode.asText()));
-        }
-
-        boolean canBecomeGiant = node.get("canBecomeGiant").asBoolean();
-        double spawningChance = node.get("spawningChance").asDouble();
-
-        return new CraftingRecipe();
+        return new CraftingRecipe()
     }
 }

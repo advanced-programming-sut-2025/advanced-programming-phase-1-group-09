@@ -1,17 +1,38 @@
 package models.GameWorld.Items.Recipes.CraftingRecipe;
 
-import models.GameWorld.Items.Item;
-import models.GameWorld.Items.Recipes.Recipe;
-import models.GameWorld.Items.StackableItem;
+import models.GameWorld.Enums.Shops;
 import models.GameWorld.Enums.Skills;
+import models.GameWorld.Items.Item;
+import models.GameWorld.Items.Recipes.Ingredient;
+import models.GameWorld.Items.Recipes.Recipe;
 
 import java.util.List;
 
 public class CraftingRecipe extends Recipe {
-    private final Skills relatedSkill;
-    private final int minimunSkillLevel;
-    private final
-    public CraftingRecipe(StackableItem result, List<Item> ingredients, int price, ) {
+    private final Skills skillTypeNeeded;
+    private final int skillLevelNeeded;
+    private final Shops shopNeeded;
+    private final int woodCost;
+    private final int stoneCost;
+    public CraftingRecipe(Item result, List<Ingredient> ingredients, int price, Skills skillTypeNeeded, int skillLevelNeeded, Shops shopNeeded, int woodCost, int stoneCost) {
         super(result, ingredients, price);
+        this.skillTypeNeeded = skillTypeNeeded;
+        this.skillLevelNeeded = skillLevelNeeded;
+        this.shopNeeded = shopNeeded;
+        this.woodCost = woodCost;
+        this.stoneCost = stoneCost;
+    }
+
+    public Skills getSkillTypeNeeded() {
+        return skillTypeNeeded;
+    }
+
+    public int getSkillLevelNeeded() {
+        return skillLevelNeeded;
+    }
+
+    //TODO
+    public CraftedItem craft(){
+
     }
 }
