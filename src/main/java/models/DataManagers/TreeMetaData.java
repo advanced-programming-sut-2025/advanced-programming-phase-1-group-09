@@ -36,7 +36,7 @@ public class TreeMetaData {
 
             for (Tree tree : treeList) {
                 trees.put(tree.getName(), tree);
-                Seed seed = new Seed(tree.getSource(), 10, tree.getSpawningChance());
+                Seed seed = new Seed(tree.getSource(), 10, tree.getSpawningChance(), false);
                 seeds.put(seed.getName(), seed);
                 seedToTree.put(seed, tree);
             }

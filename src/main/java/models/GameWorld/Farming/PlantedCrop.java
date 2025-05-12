@@ -40,12 +40,24 @@ public class PlantedCrop extends Planted {
     }
 
     @Override
-    public void interact(Player player, Coordinate position) {
-
-    }
+    public void interact(Player player, Coordinate position) {}
 
     @Override
     public String getSymbol() {
         return ConsoleColors.CYAN_BACKGROUND + "C";
+    }
+
+    @Override
+    public String toString() {
+        return String.format(
+                "Crop: %s\n" +
+                "Is Watered Today: %s\n" +
+                "Current Stage: %d\n" +
+                "Is Plant Mature: %s",
+                cropDefinition.name(),
+                wateredToday,
+                currentStage + 1,
+                isMature()
+        );
     }
 }

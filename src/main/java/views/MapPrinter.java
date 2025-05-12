@@ -23,7 +23,7 @@ public class MapPrinter {
         elements.put("Hut", new Hut());
         elements.put("Lake", new Lake(0, 0, 0, 0));
         elements.put("Quarry", new Quarry());
-        elements.put("Seed", new Seed("Seed", 0, 0));
+        elements.put("Seed", new Seed("Seed", 0, 0, false));
         elements.put("Wood", new Wood());
         elements.put("Crop", new PlantedCrop(CropMetaData.getCrop("Carrot")));
         elements.put("Tree", new PlantedTree(TreeMetaData.getTree("Oak Tree")));

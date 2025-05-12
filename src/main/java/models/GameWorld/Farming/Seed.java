@@ -21,19 +21,25 @@ import views.ConsoleColors;
 public class Seed extends Item implements Collectable {
     // This will be needed for foraging
     private final double spawningChance;
+    private final boolean isCropSeed;
 
-    public Seed(String name, int price, double spawningChance) {
+    public Seed(String name, int price, double spawningChance, boolean isCropSeed) {
         super(name, true, price);
         this.spawningChance = spawningChance;
+        this.isCropSeed = isCropSeed;
     }
 
     public double getSpawningChance() {
         return spawningChance;
     }
 
+    public boolean isCropSeed() {
+        return isCropSeed;
+    }
+
     @Override
     public Seed clone() {
-        return new Seed(name, price, spawningChance);
+        return new Seed(name, price, spawningChance, isCropSeed);
     }
 
     @Override
