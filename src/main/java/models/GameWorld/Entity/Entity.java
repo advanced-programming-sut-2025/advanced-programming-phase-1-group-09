@@ -1,8 +1,17 @@
 package models.GameWorld.Entity;
 
-import models.GameWorld.Coordinate;
+import models.GameWorld.Entity.Player.Player;
 
 public interface Entity {
     String getName();
-    Coordinate getCoordinate();
+    boolean isInteractable();
+    void interact(Player player);
+
+    default boolean isFixed() {
+        return false;
+    }
+
+    default String getSymbol() {
+        return "·";
+    }
 }

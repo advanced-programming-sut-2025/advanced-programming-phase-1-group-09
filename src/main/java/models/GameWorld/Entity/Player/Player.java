@@ -2,7 +2,6 @@ package models.GameWorld.Entity.Player;
 
 import models.App;
 import models.GameWorld.Coordinate;
-import models.GameWorld.Entity.Entity;
 import models.GameWorld.Items.Miscellaneous.Inventory;
 import models.GameWorld.Map.GameMap;
 import models.GameWorld.TimeState;

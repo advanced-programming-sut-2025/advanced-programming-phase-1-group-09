@@ -1,12 +1,9 @@
 package models.GameWorld.Entity.Fish;
 
 import models.GameWorld.Coordinate;
-import models.GameWorld.Entity.Entity;
 import models.GameWorld.Enums.SeasonName;
 
 public class Fish implements Entity {
-    private int x;
-    private int y;
     private final int sellPrice;
     private final SeasonName season;
     private final String name;
