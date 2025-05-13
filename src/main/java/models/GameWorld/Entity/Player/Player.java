@@ -3,13 +3,19 @@ package models.GameWorld.Entity.Player;
 import models.App;
 import models.GameWorld.Coordinate;
 import models.GameWorld.Entity.Entity;
+import models.GameWorld.Enums.Direction;
 import models.GameWorld.Items.Miscellaneous.Inventory;
+import models.GameWorld.Map.Elements.Collectable.Collectable;
+import models.GameWorld.Map.Elements.MapElement;
 import models.GameWorld.Map.GameMap;
+import models.GameWorld.Map.Tile;
 import models.GameWorld.TimeState;
 import models.TimeObserver;
 import models.User;
+import utils.PathUtils;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Player implements Entity, TimeObserver {
     public static final int INITIAL_ENERGY = 200;
@@ -57,6 +63,11 @@ public class Player implements Entity, TimeObserver {
         *  Bottom of page 22 of the document should be implemented here
         *  All works related to entering next day
         */
+        // Go Home
+        List<Coordinate> path = PathUtils.findPath(getFarm(), coordinate, farm.getStartingPoint());
+        if (energy < PathUtils.calculateEnergy(path)) isFainted = true;
+        coordinate = farm.getStartingPoint();
+
         if (isFainted) {
             this.energy = (int) (0.75 * INITIAL_ENERGY);
             isFainted = false;
@@ -152,5 +163,17 @@ public class Player implements Entity, TimeObserver {
 
     public void setFainted(boolean fainted) {
         this.isFainted = fainted;
+    }
+
+    public void collectAround() {
+        for (Direction direction : Direction.values()) {
+            Coordinate position = new Coordinate(coordinate.y() + direction.dy, coordinate.x() + direction.dx);
+            Tile tile = getFarm().getTile(position);
+            for (MapElement element : tile.getElements()) {
+                if (element instanceof Collectable) {
+                    element.interact(this, position);
+                }
+            }
+        }
     }
 }

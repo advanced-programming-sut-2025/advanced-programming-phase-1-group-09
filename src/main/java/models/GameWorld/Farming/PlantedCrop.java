@@ -2,29 +2,38 @@ package models.GameWorld.Farming;
 
 import models.GameWorld.Coordinate;
 import models.GameWorld.Entity.Player.Player;
+import models.GameWorld.Enums.WeatherType;
+import models.GameWorld.Items.Tools.Tool;
 import models.GameWorld.TimeState;
 import views.ConsoleColors;
 
 public class PlantedCrop extends Planted {
-    private final Crop cropDefinition;
+    private final CropDefinition cropDefinition;
 
-    public PlantedCrop(Crop cropDefinition) {
+    public PlantedCrop(CropDefinition cropDefinition) {
         super(false, 0, 0);
         this.cropDefinition = cropDefinition;
     }
 
-    public Crop getCropDefinition() {
+    public CropDefinition getCropDefinition() {
         return cropDefinition;
     }
 
     @Override
     public void onTimeChange(TimeState newState) {
+        // The previous day
         if (!isMature() && wateredToday) {
             daysSinceLastStage++;
             if (daysSinceLastStage >= cropDefinition.growthStages().get(currentStage)) {
                 currentStage++;
                 daysSinceLastStage = 0;
             }
+        }
+
+        // The next day
+        if (newState.getWeather().getCurrentWeather() == WeatherType.RAINY
+         || newState.getWeather().getCurrentWeather() == WeatherType.STORM) {
+            wateredToday = true;
         }
         // TODO
     }
@@ -40,7 +49,15 @@ public class PlantedCrop extends Planted {
     }
 
     @Override
-    public void interact(Player player, Coordinate position) {}
+    public void interact(Player player, Coordinate position) {
+        Tool tool = player.getInventory().getCurrentTool();
+        if (tool.getName().equals("Scythe")) {
+            if (isMature()) {
+                player.getFarm().getTile(position).removeElement(this);
+                player.getFarm().getTile(position).addElement(new ItemCrop(cropDefinition));
+            }
+        }
+    }
 
     @Override
     public String getSymbol() {

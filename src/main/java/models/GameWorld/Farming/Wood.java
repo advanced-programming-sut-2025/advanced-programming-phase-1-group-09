@@ -18,7 +18,7 @@ public class Wood extends Item implements Collectable {
     }
 
     @Override
-    public int getRandom() {
+    public int getRandomQuantity() {
         return random.nextInt(6) + 5;
     }
 

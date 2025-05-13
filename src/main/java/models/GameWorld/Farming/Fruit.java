@@ -26,7 +26,10 @@ public class Fruit extends Item implements Edible, Collectable {
     }
 
     @Override
-    public void use(Coordinate target, Player player, Game game) {
+    public void use(Coordinate target, Player player, Game game) {}
 
+    @Override
+    public Fruit clone() {
+        return new Fruit(name, gainedEnergy, price);
     }
 }

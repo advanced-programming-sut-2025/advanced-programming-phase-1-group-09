@@ -38,6 +38,11 @@ public class UnextractedMineral implements MapElement {
     }
 
     @Override
+    public String getSymbol() {
+        return ConsoleColors.BLUE_BACKGROUND_BRIGHT + ConsoleColors.WHITE_BOLD + symbol;
+    }
+
+    @Override
     public boolean isInteractable() {
         return true;
     }

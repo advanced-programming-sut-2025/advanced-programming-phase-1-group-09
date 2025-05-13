@@ -45,8 +45,8 @@ public class PlayerInventory {
         this.trashCan = trashCan;
     }
 
-    public void addItem(Item item, int amount) {
-        mainInventory.addItem(item, amount);
+    public boolean addItem(Item item, int amount) {
+        return mainInventory.addItem(item, amount);
     }
 
     public Inventory getMainInventory() {

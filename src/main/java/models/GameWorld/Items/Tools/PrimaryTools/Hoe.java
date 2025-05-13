@@ -26,6 +26,6 @@ public class Hoe extends Tool {
 
         int energyConsumed = 5 - level;
         if (player.getSkills().getFarmingSkill().isMaxLevel()) energyConsumed--;
-        player.changeEnergy(-energyConsumed);
+        player.changeEnergy(- (int) (energyConsumed * energyCoefficient(game.getWeather().getCurrentWeather())));
     }
 }

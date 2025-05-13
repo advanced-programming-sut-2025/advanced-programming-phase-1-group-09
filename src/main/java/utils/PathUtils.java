@@ -3,7 +3,6 @@ package utils;
 import models.GameWorld.Coordinate;
 import models.GameWorld.Enums.Direction;
 import models.GameWorld.Map.GameMap;
-import models.GameWorld.Map.TerrainType;
 import models.GameWorld.Map.Tile;
 
 import java.util.*;
@@ -12,7 +11,7 @@ public class PathUtils {
     private static class Node implements Comparable<Node> {
         Coordinate coordinate;
         Node parent;
-        int g; // cost from start
+        int g; // cost from the start
         int h; // heuristic to goal
 
         Node(Coordinate coordinate, Node parent, int g, int h) {
@@ -32,7 +31,7 @@ public class PathUtils {
         }
     }
 
-    public static List<Coordinate> findPathAStar(GameMap map, Coordinate start, Coordinate goal) {
+    public static List<Coordinate> findPath(GameMap map, Coordinate start, Coordinate goal) {
         if (!map.isCoordinateWithinMap(start) || !map.isCoordinateWithinMap(goal)) {
             return null;
         }
@@ -89,47 +88,6 @@ public class PathUtils {
         return null;
     }
 
-    public static List<Coordinate> findPathBFS(GameMap map, Coordinate start, Coordinate end) {
-        int h = map.getHeight(), w = map.getWidth();
-        boolean[][] visited = new boolean[h][w];
-        Map<Coordinate, Coordinate> cameFrom = new HashMap<>();
-        Queue<Coordinate> queue = new LinkedList<>();
-        queue.add(start);
-        visited[start.y()][start.x()] = true;
-
-        while (!queue.isEmpty()) {
-            Coordinate current = queue.poll();
-            if (current.equals(end)) break;
-
-            for (Direction d : Direction.values()) {
-                int nx = current.x() + d.dx;
-                int ny = current.y() + d.dy;
-
-                if (nx < 0 || ny < 0 || nx >= w || ny >= h) continue;
-                if (visited[ny][nx]) continue;
-
-                Tile tile = map.getTile(ny, nx);
-                if (tile == null || tile.getTerrainType() == TerrainType.WATER
-                        || tile.getTerrainType() == TerrainType.RESERVED)
-                    continue;
-
-                Coordinate next = new Coordinate(nx, ny);
-                queue.add(next);
-                visited[ny][nx] = true;
-                cameFrom.put(next, current);
-            }
-        }
-
-        if (!cameFrom.containsKey(end)) return null;
-
-        List<Coordinate> path = new ArrayList<>();
-        for (Coordinate at = end; at != null; at = cameFrom.get(at)) {
-            path.add(at);
-        }
-        Collections.reverse(path);
-        return path;
-    }
-
     private static int heuristic(Coordinate a, Coordinate b) {
         return Math.abs(a.x() - b.x()) + Math.abs(a.y() - b.y());
     }
@@ -150,5 +108,13 @@ public class PathUtils {
             if (dirs.get(i) != dirs.get(i - 1)) turns++;
         }
         return turns;
+    }
+
+    public static int calculateEnergy(List<Coordinate> path) {
+        List<Direction> dirs = calculateDirections(path);
+        int turns = countTurns(dirs);
+        int tiles = path.size() - 1;
+
+        return (tiles + 10 * turns) / 20;
     }
 }

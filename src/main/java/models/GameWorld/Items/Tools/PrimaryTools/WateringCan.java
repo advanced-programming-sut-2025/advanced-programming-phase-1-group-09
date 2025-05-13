@@ -18,6 +18,10 @@ public class WateringCan extends Tool {
         this.waterLevel = capacities[level];
     }
 
+    public int getWaterLevel() {
+        return waterLevel;
+    }
+
     @Override
     protected int getMaxLevel() {
         return 4;
@@ -28,7 +32,7 @@ public class WateringCan extends Tool {
         int energyConsumed = 5 - level;
 
         Tile tile = player.getFarm().getTile(target);
-        if (tile.getTerrainType() == TerrainType.WATER) {
+        if (tile.getTerrainType() == TerrainType.LAKE) {
             waterLevel = capacities[level];
         } else if (waterLevel > 0) {
             for (MapElement element : tile.getElements()) {
@@ -39,6 +43,10 @@ public class WateringCan extends Tool {
         }
 
         if (player.getSkills().getFarmingSkill().isMaxLevel()) energyConsumed--;
-        player.changeEnergy(-Math.max(energyConsumed, 0));
+        int finalEnergyConsumption = (int)(
+                Math.max(energyConsumed, 0) *
+                energyCoefficient(game.getWeather().getCurrentWeather())
+        );
+        player.changeEnergy(-finalEnergyConsumption);
     }
 }

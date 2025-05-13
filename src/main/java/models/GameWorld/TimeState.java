@@ -11,11 +11,15 @@ public class TimeState implements TimeSubject {
     private int hour;
     private int day;
     private final ArrayList<TimeObserver> observers;
+    private final Season season;
+    private final Weather weather;
 
-    public TimeState() {
+    public TimeState(Season season, Weather weather) {
         hour = 9;
         day = 0;
         observers = new ArrayList<>();
+        this.season = season;
+        this.weather = weather;
     }
 
     @Override
@@ -30,6 +34,8 @@ public class TimeState implements TimeSubject {
 
     @Override
     public void notifyObservers() {
+        season.onTimeChange(this);
+        weather.onTimeChange(this);
         for (TimeObserver observer : observers) {
             observer.onTimeChange(this);
         }
@@ -79,5 +85,13 @@ public class TimeState implements TimeSubject {
 
     public Day getDayOfTheWeek() {
         return Day.values()[day % 7];
+    }
+
+    public Season getSeason() {
+        return season;
+    }
+
+    public Weather getWeather() {
+        return weather;
     }
 }

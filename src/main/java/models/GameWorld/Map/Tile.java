@@ -74,11 +74,12 @@ public class Tile {
     }
 
     public String getDisplaySymbol() {
-        if (!elements.isEmpty()) {
-            MapElement top = elements.get(elements.size() - 1);
-            return top.getSymbol();
-        }
-
-        return ConsoleColors.YELLOW_BACKGROUND + " ";
+        return switch (terrainType) {
+            case GREENHOUSE -> ConsoleColors.GREEN_BACKGROUND +  "#";
+            case HUT -> ConsoleColors.WHITE_BACKGROUND + ConsoleColors.BLACK_BOLD +  "H";
+            case LAKE -> ConsoleColors.BLUE_BACKGROUND_BRIGHT +  "L";
+            case QUARRY -> ConsoleColors.BLACK_BACKGROUND +  "Q";
+            default -> elements.isEmpty() ? (ConsoleColors.YELLOW_BACKGROUND + " ") : (elements.getLast().getSymbol());
+        };
     }
 }

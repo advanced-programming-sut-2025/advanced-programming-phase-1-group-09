@@ -26,7 +26,11 @@ public class Game {
         this.creator = creator;
         this.publicMap = new PublicMap();
         this.turn = 0;
-        this.timeState = new TimeState();
+        this.season = new Season();
+        this.weather = new Weather(this.season);
+
+        // Don't add season and weather to the timeState, because they will be updated by the TimeState.
+        this.timeState = new TimeState(season, weather);
 
         this.players = players;
         for (Player player : players) {
@@ -36,12 +40,6 @@ public class Game {
         this.playersCount = players.size();
 
         this.timeState.addObserver(publicMap);
-
-        this.season = new Season();
-        this.timeState.addObserver(season);
-
-        this.weather = new Weather(this.season);
-        this.timeState.addObserver(weather);
     }
 
     public int getId() {

@@ -31,6 +31,10 @@ public class Axe extends Tool {
         }
 
         if (player.getSkills().getForagingSkill().isMaxLevel()) energyConsumed--;
-        player.changeEnergy(-Math.max(energyConsumed, 0));
+        int finalEnergyConsumption = (int) (
+                Math.max(energyConsumed, 0) *
+                energyCoefficient(game.getWeather().getCurrentWeather())
+        );
+        player.changeEnergy(-finalEnergyConsumption);
     }
 }

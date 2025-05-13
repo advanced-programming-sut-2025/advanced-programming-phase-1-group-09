@@ -10,6 +10,7 @@ import models.GameWorld.Entity.Player.PlayerInventory;
 import models.GameWorld.Enums.Direction;
 import models.GameWorld.Farming.*;
 import models.GameWorld.Items.Item;
+import models.GameWorld.Items.Tools.PrimaryTools.WateringCan;
 import models.GameWorld.Items.Tools.Tool;
 import models.GameWorld.Map.Elements.MapElement;
 import models.GameWorld.Map.ForestMap;
@@ -25,8 +26,6 @@ import views.GameMenu;
 import views.MapPrinter;
 
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class GameMenuController {
     private final CheatController cheatController;
@@ -107,11 +106,12 @@ public class GameMenuController {
             }
             case Plant -> processPlanting(command);
             case ShowPlant -> processShowingPlant(command);
+            case ShowCurrentWater -> showWateringCan();
             default -> new Result(false, "Coming Soon...");
         };
     }
 
-    public Result whichMap() {
+    private Result whichMap() {
         if (game.getCurrentPlayer().getFarm() instanceof StandardMap) {
             return new Result(true, "You are on the Standard Map.");
         } else if (game.getCurrentPlayer().getFarm() instanceof ForestMap) {
@@ -158,7 +158,7 @@ public class GameMenuController {
             return new Result(false, "The destination isn't walkable!");
         }
 
-        List<Coordinate> path = PathUtils.findPathAStar(player.getFarm(), player.getCoordinate(), dest);
+        List<Coordinate> path = PathUtils.findPath(player.getFarm(), player.getCoordinate(), dest);
         if (path == null || path.size() < 2) {
             return new Result(false, "No path found.");
         }
@@ -167,7 +167,7 @@ public class GameMenuController {
         int turns = PathUtils.countTurns(dirs);
         int tiles = path.size() - 1;
 
-        int energyNeeded = (tiles + 10 * turns) / 20;
+        int energyNeeded = PathUtils.calculateEnergy(path);
         if (!player.isEnergyUnlimited()) {
             if (player.getEnergy() < energyNeeded) {
                 // Calculate how far the player can go with current energy
@@ -196,6 +196,7 @@ public class GameMenuController {
         }
 
         player.setCoordinate(dest);
+        player.collectAround();
         return new Result(
                 true,
                 "Moved to " + dest +
@@ -279,9 +280,9 @@ public class GameMenuController {
 
     private Result processCraftInfo(String command) {
         String craftName = command.split("\\s+-n\\s+")[1];
-        Crop crop = CropMetaData.getCrop(craftName);
-        if (crop == null) return new Result(false, "Crop not found!");
-        return new Result(true, crop.toString());
+        CropDefinition cropDefinition = CropMetaData.getCrop(craftName);
+        if (cropDefinition == null) return new Result(false, "Crop not found!");
+        return new Result(true, cropDefinition.toString());
     }
 
     private Result processPlanting(String command) {
@@ -330,5 +331,12 @@ public class GameMenuController {
             }
         }
         return new Result(false, "There is no plant at this location!");
+    }
+
+    private Result showWateringCan() {
+        Player player = game.getCurrentPlayer();
+        WateringCan wateringCan = (WateringCan) player.getInventory().findItem("WateringCan");
+        if (wateringCan == null) return new Result(false, "Watering Can not found!");
+        return new Result(true, "" + wateringCan.getWaterLevel());
     }
 }

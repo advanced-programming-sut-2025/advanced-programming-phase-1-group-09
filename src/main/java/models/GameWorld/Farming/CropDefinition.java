@@ -10,10 +10,10 @@ import java.util.Set;
  * so you shouldn't instantiate an object everytime you need to add a crop to the game.
  * Instead, you may use PlantedCrop to instantiate a crop object.
  */
-public record Crop(String name, String source, ArrayList<Integer> growthStages,
-                   int totalGrowthDays, boolean oneTime, int regrowDays,
-                   int baseSellPrice, boolean isEdible, int baseEnergy, int baseHealth,
-                   Set<SeasonName> growingSeasons, boolean canBecomeGiant, double spawningChance) {
+public record CropDefinition(String name, String source, ArrayList<Integer> growthStages,
+                             int totalGrowthDays, boolean oneTime, int regrowDays,
+                             int baseSellPrice, boolean isEdible, int baseEnergy, int baseHealth,
+                             Set<SeasonName> growingSeasons, boolean canBecomeGiant, double spawningChance) {
 
     public String getStringStages() {
         String stages = "";

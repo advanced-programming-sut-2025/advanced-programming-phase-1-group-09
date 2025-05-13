@@ -1,5 +1,7 @@
 package models.GameWorld.Map;
 
 public enum TerrainType {
-    RESERVED, DIRT, PLOWED_DIRT, GRASS, SAND, WATER, FOREST, ROCKS, SNOW
+    HUT, GREENHOUSE, QUARRY, LAKE,
+    DIRT, PLOWED_DIRT,
+    GRASS, SAND, FOREST, ROCKS, SNOW
 }

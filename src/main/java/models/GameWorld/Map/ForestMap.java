@@ -5,7 +5,7 @@ import models.DataManagers.TreeMetaData;
 import models.GameWorld.Coordinate;
 import models.GameWorld.Enums.SeasonName;
 import models.GameWorld.Farming.PlantedTree;
-import models.GameWorld.Map.Elements.Collectable.CollectableManager;
+import models.GameWorld.Map.Elements.Collectable.CollectableHolder;
 import models.GameWorld.Map.Elements.Prefabs.GreenHouse;
 import models.GameWorld.Map.Elements.Prefabs.Hut;
 import models.GameWorld.Map.Elements.Prefabs.Lake;
@@ -30,25 +30,13 @@ public class ForestMap extends GameMap {
 
     @Override
     protected void placeStaticElements() {
-        placeMultiTileElement(new Quarry());
-        placeMultiTileElement(new Hut());
-        placeMultiTileElement(new GreenHouse());
-
-        Lake smallLake1 = new Lake(8, 8, 40, 86);
-        placeMultiTileElement(smallLake1);
-        setLake(smallLake1);
-
-        Lake smallLake2 = new Lake(12, 12, 64, 16);
-        placeMultiTileElement(smallLake2);
-        setLake(smallLake2);
-
-        Lake bigLake1 = new Lake(25, 25, 30, 40);
-        placeMultiTileElement(bigLake1);
-        setLake(bigLake1);
-
-        Lake bigLake2 = new Lake(20, 20, 56, 74);
-        placeMultiTileElement(bigLake2);
-        setLake(bigLake2);
+        setPrefab(new Quarry());
+        setPrefab(new Hut());
+        setPrefab(new GreenHouse());
+        setPrefab(new Lake(8, 8, 40, 86));
+        setPrefab(new Lake(12, 12, 64, 16));
+        setPrefab(new Lake(25, 25, 30, 40));
+        setPrefab(new Lake(20, 20, 56, 74));
     }
 
     @Override
@@ -68,15 +56,10 @@ public class ForestMap extends GameMap {
                     } else if (chance < 0.25) {
                         addElement(MineralMetaData.getMineral("Rock"), y, x);
                     } else if (chance < 0.3) {
-                        addElement(CollectableManager.getRandom(SeasonName.SPRING), y, x);
+                        addElement(CollectableHolder.getRandomCollectable(SeasonName.SPRING), y, x);
                     }
                 }
             }
         }
-    }
-
-    @Override
-    public void onTimeChange(TimeState newState) {
-
     }
 }

@@ -8,22 +8,22 @@ import models.GameWorld.TimeState;
 import views.ConsoleColors;
 
 public class PlantedTree extends Planted {
-    private final Tree treeDefinition;
+    private final TreeDefinition treeDefinition;
     private double damaged;
     private final int strength;
 
-    public PlantedTree(Tree treeDefinition) {
+    public PlantedTree(TreeDefinition treeDefinition) {
         super(false, 0, 0);
         this.treeDefinition = treeDefinition;
         this.damaged = 0;
         this.strength = 10;
     }
 
-    public Tree getTreeDefinition() {
+    public TreeDefinition getTreeDefinition() {
         return treeDefinition;
     }
 
-    public static PlantedTree getMatureTree(Tree treeDefinition) {
+    public static PlantedTree getMatureTree(TreeDefinition treeDefinition) {
         PlantedTree tree = new PlantedTree(treeDefinition);
         tree.currentStage = tree.treeDefinition.getGrowthStages().size();
         return tree;
@@ -53,15 +53,20 @@ public class PlantedTree extends Planted {
 
     @Override
     public void interact(Player player, Coordinate position) {
+        Tile tile = player.getFarm().getTile(position);
         Tool currentTool = player.getInventory().getCurrentTool();
+
         if (currentTool.getName().equals("Axe")) {
             damaged += (1 + 0.3 * player.getSkills().getForagingSkill().getLevel()) *
                     (1 + 0.4 * currentTool.getLevel());
 
             if (damaged >= strength) {
-                Tile tile = player.getFarm().getTile(position);
                 tile.removeElement(this);
                 tile.addElement(new Wood());
+            }
+        } else if (currentTool.getName().equals("Scythe")) {
+            if (isMature() && treeDefinition.isFruitEdible()) {
+                tile.addElement(treeDefinition.getFruit().clone());
             }
         }
     }
