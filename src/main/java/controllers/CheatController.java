@@ -76,7 +76,7 @@ public class CheatController {
         String[] parts = cheat.split("\\s+-y\\s+|\\s+-x\\s+");
         int y = Integer.parseInt(parts[1]);
         int x = Integer.parseInt(parts[2]);
-        GameMap.thunder(game.getCurrentPlayer().getFarm(), y, x);
+        GameMap.thunder(game.getCurrentPlayer().getField(), y, x);
         return new Result(true, "Time set to 00:00:00");
     }
 

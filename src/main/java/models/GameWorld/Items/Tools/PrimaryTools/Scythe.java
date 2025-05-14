@@ -19,7 +19,7 @@ public class Scythe extends Tool {
 
     @Override
     public void use(Coordinate target, Player player, Game game) {
-        for (MapElement e : player.getFarm().getTile(target).getElements()) {
+        for (MapElement e : player.getField().getTile(target).getElements()) {
             if (e.getName().equals("Grass")) {
                 e.interact(player, target);
             } else if (e instanceof Planted) {

@@ -67,6 +67,8 @@ public class GameMenuController {
             case ShowWeatherForecast ->
                     new Result(true, game.getWeather().getNextDayWeather().toString());
             case Walk -> processWalking(command);
+            case GoPublic -> goPublic();
+            case GoHome -> goHome();
             case PrintMap -> processMapPrinting(command);
             case MapHelp -> {
                 MapPrinter.help();
@@ -112,9 +114,9 @@ public class GameMenuController {
     }
 
     private Result whichMap() {
-        if (game.getCurrentPlayer().getFarm() instanceof StandardMap) {
+        if (game.getCurrentPlayer().getField() instanceof StandardMap) {
             return new Result(true, "You are on the Standard Map.");
-        } else if (game.getCurrentPlayer().getFarm() instanceof ForestMap) {
+        } else if (game.getCurrentPlayer().getField() instanceof ForestMap) {
             return new Result(true, "You are on the Forest Map.");
         } else {
             return new Result(false, "You are on an unknown map!");
@@ -151,14 +153,14 @@ public class GameMenuController {
     private Result walkTo(Coordinate dest) {
         Player player = game.getCurrentPlayer();
 
-        if (!player.getFarm().isCoordinateWithinMap(dest)) {
+        if (!player.getField().isCoordinateWithinMap(dest)) {
             return new Result(false, "Destination out of bounds!");
         }
-        if (!player.getFarm().getTile(dest).isWalkable()) {
+        if (!player.getField().getTile(dest).isWalkable()) {
             return new Result(false, "The destination isn't walkable!");
         }
 
-        List<Coordinate> path = PathUtils.findPath(player.getFarm(), player.getCoordinate(), dest);
+        List<Coordinate> path = PathUtils.findPath(player.getField(), player.getCoordinate(), dest);
         if (path == null || path.size() < 2) {
             return new Result(false, "No path found.");
         }
@@ -202,6 +204,24 @@ public class GameMenuController {
                 "Moved to " + dest +
                         " (Tiles: " + tiles + ", Turns: " + turns + ", Energy used: " + energyNeeded + ")"
         );
+    }
+
+    private Result goPublic() {
+        Player player = game.getCurrentPlayer();
+        if (!player.isHome()) return new Result(false, "You are already in public!");
+
+        player.setIsHome(false);
+        player.setCoordinate(player.getPublicMap().getStartingPoint());
+        return new Result(true, "You are now in public.");
+    }
+
+    private Result goHome() {
+        Player player = game.getCurrentPlayer();
+        if (player.isHome()) return new Result(false, "You are already home!");
+
+        player.setIsHome(true);
+        player.setCoordinate(player.getFarm().getStartingPoint());
+        return new Result(true, "You are now home.");
     }
 
     private Result processInventoryTrash(String command) {
@@ -303,7 +323,7 @@ public class GameMenuController {
                 player.getCoordinate().x() + direction.dx
         );
 
-        Tile targetTile = player.getFarm().getTile(target);
+        Tile targetTile = player.getField().getTile(target);
         if (!targetTile.getElements().isEmpty())
             return new Result(false, "You must clear the tile first!");
         if (targetTile.getTerrainType() != TerrainType.PLOWED_DIRT)
@@ -324,7 +344,7 @@ public class GameMenuController {
     private Result processShowingPlant(String command) {
         String[] parts = command.split("\\s+-y\\s+|\\s+-x\\s+");
         Coordinate target = new Coordinate(Integer.parseInt(parts[1]), Integer.parseInt(parts[2]));
-        Tile targetTile = game.getCurrentPlayer().getFarm().getTile(target);
+        Tile targetTile = game.getCurrentPlayer().getField().getTile(target);
         for (MapElement element : targetTile.getElements()) {
             if (element instanceof Planted plant) {
                 return new Result(true, plant.toString());

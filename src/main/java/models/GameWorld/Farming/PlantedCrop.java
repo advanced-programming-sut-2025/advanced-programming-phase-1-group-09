@@ -53,8 +53,8 @@ public class PlantedCrop extends Planted {
         Tool tool = player.getInventory().getCurrentTool();
         if (tool.getName().equals("Scythe")) {
             if (isMature()) {
-                player.getFarm().getTile(position).removeElement(this);
-                player.getFarm().getTile(position).addElement(new ItemCrop(cropDefinition));
+                player.getField().getTile(position).removeElement(this);
+                player.getField().getTile(position).addElement(new ItemCrop(cropDefinition));
             }
         }
     }

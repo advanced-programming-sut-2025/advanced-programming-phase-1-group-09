@@ -11,6 +11,7 @@ import models.GameWorld.Map.Elements.Prefabs.Lake;
 import models.GameWorld.Map.Elements.MapElement;
 import models.GameWorld.Map.Elements.MultiTileElement;
 import models.GameWorld.Map.Elements.Prefabs.Prefab;
+import models.GameWorld.Map.Elements.Prefabs.Shop.Shop;
 import models.GameWorld.TimeState;
 import models.Result;
 import models.TimeObserver;
@@ -45,6 +46,9 @@ public abstract class GameMap implements TimeObserver {
     protected abstract void spawnDynamicElements();
 
     protected void setPrefab(Prefab prefab) {
+        // We can only add shops to the public map
+        if (prefab instanceof Shop && !(this instanceof PublicMap)) return;
+
         for (int y = prefab.getY(); y < prefab.getY() + prefab.getHeight(); y++) {
             for (int x = prefab.getX(); x < prefab.getX() + prefab.getWidth(); x++) {
                 Tile tile = grid[y][x];
@@ -54,6 +58,13 @@ public abstract class GameMap implements TimeObserver {
                     case "Quarry" -> tile.setTerrainType(TerrainType.QUARRY);
                     case "Hut" -> tile.setTerrainType(TerrainType.HUT);
                     case "GreenHouse" -> tile.setTerrainType(TerrainType.GREENHOUSE);
+                    case "Blacksmith" -> tile.setTerrainType(TerrainType.BLACKSMITH);
+                    case "JojaMart" -> tile.setTerrainType(TerrainType.JOJA_MART);
+                    case "Pierre's General Store" -> tile.setTerrainType(TerrainType.GENERAL_STORE);
+                    case "Carpenter's Shop" -> tile.setTerrainType(TerrainType.CARPENTER_SHOP);
+                    case "Fish Shop" -> tile.setTerrainType(TerrainType.FISH_SHOP);
+                    case "Marnie's Ranch" -> tile.setTerrainType(TerrainType.MARNIE_RANCH);
+                    case "Stardrop Saloon" -> tile.setTerrainType(TerrainType.STARDROP_SALOON);
                 }
 
                 tile.setWalkable(false);

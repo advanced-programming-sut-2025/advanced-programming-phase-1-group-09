@@ -19,7 +19,7 @@ public class Hoe extends Tool {
 
     @Override
     public void use(Coordinate target, Player player, Game game) {
-        Tile tile = player.getFarm().getTile(target);
+        Tile tile = player.getField().getTile(target);
         if (tile.getTerrainType() == TerrainType.DIRT) {
             tile.setTerrainType(TerrainType.PLOWED_DIRT);
         }

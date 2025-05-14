@@ -81,12 +81,12 @@ public class GameMenu implements AppMenu {
     }
 
     public static void showPlant(Player player, Coordinate position) {
-        if (!player.getFarm().isCoordinateWithinMap(position)) {
+        if (!player.getField().isCoordinateWithinMap(position)) {
             System.out.println("Invalid coordinate.");
             return;
         }
 
-        Tile tile = player.getFarm().getTile(position);
+        Tile tile = player.getField().getTile(position);
         for (MapElement e : tile.getElements()) {
             if (e instanceof Planted plant) {
                 System.out.println(plant.toString());

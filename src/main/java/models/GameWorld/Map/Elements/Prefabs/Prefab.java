@@ -1,5 +1,7 @@
 package models.GameWorld.Map.Elements.Prefabs;
 
+import models.GameWorld.Coordinate;
+import models.GameWorld.Entity.Player.Player;
 import models.GameWorld.Map.Elements.MultiTileElement;
 
 public abstract class Prefab implements MultiTileElement {
@@ -35,4 +37,12 @@ public abstract class Prefab implements MultiTileElement {
     public int getX() {
         return x;
     }
+
+    @Override
+    public boolean isInteractable() {
+        return false;
+    }
+
+    @Override
+    public void interact(Player player, Coordinate position) {}
 }

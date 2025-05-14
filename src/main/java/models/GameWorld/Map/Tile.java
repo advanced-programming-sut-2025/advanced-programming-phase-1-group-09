@@ -79,6 +79,13 @@ public class Tile {
             case HUT -> ConsoleColors.WHITE_BACKGROUND + ConsoleColors.BLACK_BOLD +  "H";
             case LAKE -> ConsoleColors.BLUE_BACKGROUND_BRIGHT +  "L";
             case QUARRY -> ConsoleColors.BLACK_BACKGROUND +  "Q";
+            case BLACKSMITH -> ConsoleColors.BLACK_BACKGROUND + "B";
+            case JOJA_MART -> ConsoleColors.BLUE_BACKGROUND + "J";
+            case GENERAL_STORE -> ConsoleColors.YELLOW_BACKGROUND_BRIGHT + ConsoleColors.BLACK_BOLD + "P";
+            case CARPENTER_SHOP -> ConsoleColors.RED_BACKGROUND + ConsoleColors.BLACK_BOLD + "C";
+            case FISH_SHOP -> ConsoleColors.GREEN_BACKGROUND_BRIGHT + ConsoleColors.BLACK_BOLD + "F";
+            case MARNIE_RANCH -> ConsoleColors.WHITE_BACKGROUND_BRIGHT + ConsoleColors.BLACK_BOLD + "M";
+            case STARDROP_SALOON -> ConsoleColors.YELLOW_BACKGROUND_BRIGHT + ConsoleColors.BLACK_BOLD + "S";
             default -> elements.isEmpty() ? (ConsoleColors.YELLOW_BACKGROUND + " ") : (elements.getLast().getSymbol());
         };
     }

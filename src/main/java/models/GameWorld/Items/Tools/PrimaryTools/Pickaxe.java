@@ -23,7 +23,7 @@ public class Pickaxe extends Tool {
     public void use(Coordinate target, Player player, Game game) {
         int energyConsumed = 5 - level;
 
-        Tile tile = player.getFarm().getTile(target);
+        Tile tile = player.getField().getTile(target);
         for (MapElement element : tile.getElements()) {
             if (element instanceof UnextractedMineral) {
                 element.interact(player, target);

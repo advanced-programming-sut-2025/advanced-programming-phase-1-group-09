@@ -55,7 +55,7 @@ public class UnextractedMineral implements MapElement {
                       (1 + 0.4 * currentTool.getLevel());
 
            if (damaged >= strength) {
-               Tile tile = player.getFarm().getTile(position);
+               Tile tile = player.getField().getTile(position);
                tile.removeElement(this);
                tile.addElement(extract());
 

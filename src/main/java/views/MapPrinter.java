@@ -31,7 +31,7 @@ public class MapPrinter {
 
     public static void printFarm(Player player, int size) {
         System.out.println(player.getName() + "'s Farm");
-        GameMap farm = player.getFarm();
+        GameMap farm = player.getField();
         int bound = (size < 10) ? 10 : size / 2;
 
         Coordinate playerPosition = player.getCoordinate();
@@ -46,7 +46,7 @@ public class MapPrinter {
         for (int y = startY; y <= endY; y++) {
             for (int x = startX; x <= endX; x++) {
                 if ((y == playerPosition.y()) && (x == playerPosition.x())) {
-                    System.out.print(ConsoleColors.RED_BOLD_BRIGHT + "☺" + ConsoleColors.RESET + " ");
+                    System.out.print(ConsoleColors.RED_BOLD_BRIGHT + "☺" + ConsoleColors.RESET);
                     continue;
                 }
 

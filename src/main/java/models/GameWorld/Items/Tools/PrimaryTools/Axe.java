@@ -23,7 +23,7 @@ public class Axe extends Tool {
     public void use(Coordinate target, Player player, Game game) {
         int energyConsumed = 5 - level;
 
-        Tile tile = player.getFarm().getTile(target);
+        Tile tile = player.getField().getTile(target);
         for (MapElement element : tile.getElements()) {
             if (element instanceof PlantedTree) {
                 element.interact(player, target);

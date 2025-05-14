@@ -31,7 +31,7 @@ public class WateringCan extends Tool {
     public void use(Coordinate target, Player player, Game game) {
         int energyConsumed = 5 - level;
 
-        Tile tile = player.getFarm().getTile(target);
+        Tile tile = player.getField().getTile(target);
         if (tile.getTerrainType() == TerrainType.LAKE) {
             waterLevel = capacities[level];
         } else if (waterLevel > 0) {

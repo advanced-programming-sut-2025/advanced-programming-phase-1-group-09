@@ -23,6 +23,8 @@ public class Player implements Entity, TimeObserver {
     private final String username;
     private final String name;
     private final GameMap farm;
+    private final GameMap publicMap;
+    private boolean isHome;
     private Coordinate coordinate;
     private int maxEnergy;
     private int energy;
@@ -32,15 +34,15 @@ public class Player implements Entity, TimeObserver {
     private final PlayerInventory inventory;
     private final ArrayList<PlayerFriendship> friendships;
     private final ArrayList<PlayerTrade> trades;
-    private boolean isHome;
-    private boolean isSleep;
     private boolean isFainted;
     private Player partner;
 
-    public Player(String username, GameMap farm) {
+    public Player(String username, GameMap farm, GameMap publicMap) {
         this.username = username;
         this.name = getUser().getNickname();
         this.farm = farm;
+        this.publicMap = publicMap;
+        this.isHome = true;
         this.coordinate = farm.getStartingPoint();
         this.maxEnergy = INITIAL_ENERGY;
         this.energy = INITIAL_ENERGY;
@@ -50,8 +52,6 @@ public class Player implements Entity, TimeObserver {
         this.inventory = new PlayerInventory();
         this.friendships = new ArrayList<>();
         this.trades = new ArrayList<>();
-        this.isHome = false;
-        this.isSleep = false;
         this.isFainted = false;
         this.partner = null;
     }
@@ -64,9 +64,10 @@ public class Player implements Entity, TimeObserver {
         *  All works related to entering next day
         */
         // Go Home
-        List<Coordinate> path = PathUtils.findPath(getFarm(), coordinate, farm.getStartingPoint());
+        List<Coordinate> path = PathUtils.findPath(getField(), coordinate, farm.getStartingPoint());
         if (energy < PathUtils.calculateEnergy(path)) isFainted = true;
         coordinate = farm.getStartingPoint();
+        isHome = true;
 
         if (isFainted) {
             this.energy = (int) (0.75 * INITIAL_ENERGY);
@@ -88,8 +89,24 @@ public class Player implements Entity, TimeObserver {
         return name;
     }
 
+    public GameMap getField() {
+        return isHome ? farm : publicMap;
+    }
+
     public GameMap getFarm() {
         return farm;
+    }
+
+    public GameMap getPublicMap() {
+        return publicMap;
+    }
+
+    public boolean isHome() {
+        return isHome;
+    }
+
+    public void setIsHome(boolean condition) {
+        isHome = condition;
     }
 
     public Coordinate getCoordinate() {
@@ -168,7 +185,7 @@ public class Player implements Entity, TimeObserver {
     public void collectAround() {
         for (Direction direction : Direction.values()) {
             Coordinate position = new Coordinate(coordinate.y() + direction.dy, coordinate.x() + direction.dx);
-            Tile tile = getFarm().getTile(position);
+            Tile tile = getField().getTile(position);
             for (MapElement element : tile.getElements()) {
                 if (element instanceof Collectable) {
                     element.interact(this, position);

@@ -19,7 +19,7 @@ public class Grass implements MapElement {
     @Override
     public void interact(Player player, Coordinate position) {
         if (player.getInventory().getCurrentTool().getName().equals("Scythe")) {
-            player.getFarm().getTile(position).removeElement(this);
+            player.getField().getTile(position).removeElement(this);
         }
     }
 

@@ -53,7 +53,7 @@ public class PlantedTree extends Planted {
 
     @Override
     public void interact(Player player, Coordinate position) {
-        Tile tile = player.getFarm().getTile(position);
+        Tile tile = player.getField().getTile(position);
         Tool currentTool = player.getInventory().getCurrentTool();
 
         if (currentTool.getName().equals("Axe")) {
