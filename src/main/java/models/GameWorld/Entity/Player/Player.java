@@ -4,6 +4,7 @@ import models.App;
 import models.GameWorld.Coordinate;
 import models.GameWorld.Entity.Entity;
 import models.GameWorld.Enums.Direction;
+import models.GameWorld.Farming.ForagingCrop;
 import models.GameWorld.Items.Miscellaneous.Inventory;
 import models.GameWorld.Map.Elements.Collectable.Collectable;
 import models.GameWorld.Map.Elements.MapElement;
@@ -186,11 +187,18 @@ public class Player implements Entity, TimeObserver {
         for (Direction direction : Direction.values()) {
             Coordinate position = new Coordinate(coordinate.y() + direction.dy, coordinate.x() + direction.dx);
             Tile tile = getField().getTile(position);
-            for (MapElement element : tile.getElements()) {
-                if (element instanceof Collectable) {
-                    element.interact(this, position);
+
+            tile.getElements().removeIf(element -> {
+                if (element instanceof Collectable collectable) {
+                    if (getMainInventory().addItem(collectable.collect(), collectable.getRandomQuantity())) {
+                        if (collectable instanceof ForagingCrop) {
+                            getSkills().getForagingSkill().addExperience(10);
+                        }
+                        return true; // Remove the element
+                    }
                 }
-            }
+                return false; // Keep the element
+            });
         }
     }
 }

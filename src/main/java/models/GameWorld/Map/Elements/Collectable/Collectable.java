@@ -22,12 +22,5 @@ public interface Collectable extends MapElement {
     }
 
     @Override
-    default void interact(Player player, Coordinate position) {
-        if (player.getMainInventory().addItem(collect(), getRandomQuantity())) {
-            player.getField().getTile(position).removeElement(this);
-            if (this instanceof ForagingCrop) {
-                player.getSkills().getForagingSkill().addExperience(10);
-            }
-        }
-    }
+    default void interact(Player player, Coordinate position) {}
 }

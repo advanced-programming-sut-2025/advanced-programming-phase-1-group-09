@@ -6,6 +6,7 @@ import models.GameWorld.Entity.Player.Player;
 import models.GameWorld.Farming.Planted;
 import models.GameWorld.Items.Tools.Tool;
 import models.GameWorld.Map.Elements.MapElement;
+import models.GameWorld.Map.Tile;
 
 public class Scythe extends Tool {
     public Scythe() {
@@ -19,7 +20,10 @@ public class Scythe extends Tool {
 
     @Override
     public void use(Coordinate target, Player player, Game game) {
-        for (MapElement e : player.getField().getTile(target).getElements()) {
+        Tile tile = player.getField().getTile(target);
+        if (tile == null) return;
+
+        for (MapElement e : tile.getElements()) {
             if (e.getName().equals("Grass")) {
                 e.interact(player, target);
             } else if (e instanceof Planted) {

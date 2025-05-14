@@ -279,8 +279,12 @@ public class GameMenuController {
 
     private Result useTool(String command) {
         String dir = command.split("\\s+-d\\s+")[1];
-        Direction direction = Direction.valueOf(dir.toUpperCase());
-        if (direction == null) return new Result(false, "Invalid direction!");
+        Direction direction;
+        try {
+            direction = Direction.valueOf(dir.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            return new Result(false, "Invalid direction!");
+        }
 
         Player player = game.getCurrentPlayer();
         int oldEnergy = player.getEnergy();
@@ -310,8 +314,12 @@ public class GameMenuController {
         Seed seed = ItemHolder.getSeed(parts[1]);
         if (seed == null) return new Result(false, "There is no seed with that name!");
 
-        Direction direction = Direction.valueOf(parts[2].toUpperCase());
-        if (direction == null) return new Result(false, "Invalid direction!");
+        Direction direction;
+        try {
+            direction = Direction.valueOf(parts[2].toUpperCase());
+        } catch (IllegalArgumentException e) {
+            return new Result(false, "Invalid direction!");
+        }
 
         return plant(seed, direction);
     }

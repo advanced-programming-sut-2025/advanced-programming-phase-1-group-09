@@ -21,12 +21,15 @@ public class Axe extends Tool {
 
     @Override
     public void use(Coordinate target, Player player, Game game) {
-        int energyConsumed = 5 - level;
+        int energyConsumed = 4 - level;
 
         Tile tile = player.getField().getTile(target);
+        if (tile == null) return;
+
         for (MapElement element : tile.getElements()) {
             if (element instanceof PlantedTree) {
                 element.interact(player, target);
+                energyConsumed = 5 - level;
             }
         }
 

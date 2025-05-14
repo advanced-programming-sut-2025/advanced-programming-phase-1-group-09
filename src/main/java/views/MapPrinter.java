@@ -11,6 +11,7 @@ import models.GameWorld.Map.Elements.Prefabs.Hut;
 import models.GameWorld.Map.Elements.Prefabs.Lake;
 import models.GameWorld.Map.Elements.Prefabs.Quarry;
 import models.GameWorld.Map.GameMap;
+import models.GameWorld.Map.TerrainType;
 import models.GameWorld.Map.Tile;
 
 import java.util.HashMap;
@@ -51,7 +52,10 @@ public class MapPrinter {
                 }
 
                 Tile tile = farm.getTile(y, x);
-                System.out.print(tile.getDisplaySymbol() + " " + ConsoleColors.RESET);
+                if (tile.getTerrainType() == TerrainType.PLOWED_DIRT)
+                    System.out.println(tile.getDisplaySymbol() + tile.getDisplaySymbol() + ConsoleColors.RESET);
+                else
+                    System.out.print(tile.getDisplaySymbol() + " " + ConsoleColors.RESET);
             }
             System.out.println();
         }

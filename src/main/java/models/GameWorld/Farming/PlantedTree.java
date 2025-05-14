@@ -16,7 +16,7 @@ public class PlantedTree extends Planted {
         super(false, 0, 0);
         this.treeDefinition = treeDefinition;
         this.damaged = 0;
-        this.strength = 10;
+        this.strength = 5;
     }
 
     public TreeDefinition getTreeDefinition() {

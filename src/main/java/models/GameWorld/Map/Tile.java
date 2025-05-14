@@ -1,6 +1,5 @@
 package models.GameWorld.Map;
 
-import models.GameWorld.Farming.Planted;
 import models.GameWorld.Map.Elements.Collectable.Collectable;
 import models.GameWorld.Map.Elements.MapElement;
 import views.ConsoleColors;
@@ -65,14 +64,6 @@ public class Tile {
         isWalkable = walkable;
     }
 
-    public void water() {
-        for (MapElement element : elements) {
-            if (element instanceof Planted planted) {
-                planted.setWateredToday(true);
-            }
-        }
-    }
-
     public String getDisplaySymbol() {
         return switch (terrainType) {
             case GREENHOUSE -> ConsoleColors.GREEN_BACKGROUND +  "#";
@@ -86,6 +77,7 @@ public class Tile {
             case FISH_SHOP -> ConsoleColors.GREEN_BACKGROUND_BRIGHT + ConsoleColors.BLACK_BOLD + "F";
             case MARNIE_RANCH -> ConsoleColors.WHITE_BACKGROUND_BRIGHT + ConsoleColors.BLACK_BOLD + "M";
             case STARDROP_SALOON -> ConsoleColors.YELLOW_BACKGROUND_BRIGHT + ConsoleColors.BLACK_BOLD + "S";
+            case PLOWED_DIRT -> ConsoleColors.YELLOW_BACKGROUND + ConsoleColors.WHITE_BOLD_BRIGHT + "▒";
             default -> elements.isEmpty() ? (ConsoleColors.YELLOW_BACKGROUND + " ") : (elements.getLast().getSymbol());
         };
     }
