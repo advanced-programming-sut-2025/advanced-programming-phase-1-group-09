@@ -3,6 +3,7 @@ package models.DataManagers;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import models.GameWorld.Items.Item;
 import models.GameWorld.Items.Recipes.CraftingRecipe.CraftingRecipe;
 
 import java.io.IOException;
@@ -11,7 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CraftingRecipeMetaData {
-    private static List<CraftingRecipe> craftingRecipes = new ArrayList<CraftingRecipe>();
+    private static final List<CraftingRecipe> craftingRecipes = new ArrayList<>();
+    private static final List<Item> craftedItems = new ArrayList<>();
     static {
         try {
             ObjectMapper mapper = new ObjectMapper();
@@ -25,7 +27,10 @@ public class CraftingRecipeMetaData {
             }
 
             List<CraftingRecipe> recipesList = mapper.readValue(inputStream, new TypeReference<>() {});
-            craftingRecipes.addAll(recipesList);
+            for(CraftingRecipe recipe : recipesList) {
+                craftingRecipes.add(recipe);
+                craftedItems.add(recipe.getResult());
+            }
         } catch (IOException e) {
             throw new RuntimeException("Failed to load crafting recipes", e);
         }
@@ -33,5 +38,9 @@ public class CraftingRecipeMetaData {
 
     public static List<CraftingRecipe> getCraftingRecipes() {
         return craftingRecipes;
+    }
+
+    public static List<Item> getCraftedItems() {
+        return craftedItems;
     }
 }

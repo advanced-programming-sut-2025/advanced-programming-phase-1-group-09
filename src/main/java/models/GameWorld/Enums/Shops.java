@@ -1,8 +1,5 @@
 package models.GameWorld.Enums;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 public enum Shops {
     blacksmith("blacksmith"),
     MarnieRanch("Marnie's Ranch"),

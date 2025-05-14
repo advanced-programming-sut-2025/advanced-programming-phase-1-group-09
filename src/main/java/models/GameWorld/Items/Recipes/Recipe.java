@@ -16,10 +16,6 @@ public class Recipe {
         this.price = price;
     }
 
-    public Item getResult() {
-        return result;
-    }
-
     public List<Ingredient> getIngredients() {
         return ingredients;
     }
@@ -30,6 +26,11 @@ public class Recipe {
 
     public int getPrice() {
         return price;
+    }
+
+
+    public Item getResult() {
+        return result;
     }
 
     public void setUnlocked(boolean unlocked) {

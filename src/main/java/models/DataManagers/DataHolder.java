@@ -57,10 +57,18 @@ public class DataHolder {
             animals.put(animal.getName() , animal.clone());
         }
 
-        //Coop Animals
+        // Coop Animals
         for(CoopAnimal animal : CoopAnimalMetaData.getCoopAnimals()) {
             animals.put(animal.getName(), animal.clone());
         }
+
+        // Crafted Items
+        for(Item craftedItem : CraftingRecipeMetaData.getCraftedItems())
+            items.put(craftedItem.getName(), craftedItem.clone());
+
+        //Cooked Items
+        for(Item cookedItem : CookingRecipeMetaData.getCookedItems())
+            items.put(cookedItem.getName(), cookedItem.clone());
     }
 
     public static Item getItem(String name) {

@@ -13,7 +13,7 @@ public class CraftingRecipe extends Recipe {
     private final int skillLevelNeeded;
     private final Shops shopNeeded;
     public CraftingRecipe(Item result, List<Ingredient> ingredients, int price, Skills skillTypeNeeded, int skillLevelNeeded, Shops shopNeeded) {
-        super(result, ingredients, price);
+        super(result,ingredients, price);
         this.skillTypeNeeded = skillTypeNeeded;
         this.skillLevelNeeded = skillLevelNeeded;
         this.shopNeeded = shopNeeded;
@@ -26,6 +26,11 @@ public class CraftingRecipe extends Recipe {
     public int getSkillLevelNeeded() {
         return skillLevelNeeded;
     }
+
+    public Shops getShopNeeded() {
+        return shopNeeded;
+    }
+
 
     //TODO
     public CraftedItem craft(){

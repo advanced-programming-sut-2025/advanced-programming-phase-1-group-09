@@ -12,6 +12,13 @@ public class CraftedItem extends Item {
     }
 
     @Override
+    public CraftedItem clone() {
+        return (CraftedItem) super.clone();
+    }
+
+
+
+    @Override
     public void use(Coordinate target, Player player, Game game) {
 
     }
