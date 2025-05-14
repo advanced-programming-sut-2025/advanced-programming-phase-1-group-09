@@ -21,7 +21,7 @@ public class CraftingRecipeDeserializer extends JsonDeserializer<CraftingRecipe>
         ArrayList<Ingredient> ingredients = new ArrayList<>();
         for (JsonNode ingredient : node.get("Ingredients")) {
             String[] details = ingredient.get("Details").asText().split(",");
-            ingredients.add(new Ingredient(DataHolder.getItem(details[0]),Integer.parseInt(details[1])));
+            ingredients.add(new Ingredient(DataHolder.getItem(details[0]),Integer.parseInt(details[1]),null));
         }
         String[] skill = node.get("Skill").asText().split(",");
         if(skill.length == 0)

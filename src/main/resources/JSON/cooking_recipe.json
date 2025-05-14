@@ -50,112 +50,112 @@
   },
   {
     "Name": "Tortilla",
-    "Ingredient": "1 Corn",
+    "Ingredient": "1,Corn",
     "Energy": 50,
     "Source": "Stardrop Saloon",
     "Sell Price": 50
   },
   {
     "Name": "Maki Roll",
-    "Ingredient": "1 any Fish + 1 Rice + 1 Fiber",
+    "Ingredient": "1,any,Fish + 1,Rice + 1,Fiber",
     "Energy": 100,
     "Source": "Stardrop Saloon",
     "Sell Price": 220
   },
   {
     "Name": "Triple Shot Espresso",
-    "Ingredient": "3 Coffee",
+    "Ingredient": "3,Coffee",
     "Energy": 200,
     "Source": "Stardrop Saloon",
     "Sell Price": 450
   },
   {
     "Name": "Cookie",
-    "Ingredient": "1 Wheat Flour + 1 Sugar + 1 Egg",
+    "Ingredient": "1,Wheat Flour + 1,Sugar + 1,Egg",
     "Energy": 90,
     "Source": "Stardrop Saloon",
     "Sell Price": 140
   },
   {
     "Name": "Hash Browns",
-    "Ingredient": "1 Potato + 1 Oil",
+    "Ingredient": "1,Potato + 1,Oil",
     "Energy": 90,
     "Source": "Stardrop Saloon",
     "Sell Price": 120
   },
   {
     "Name": "Pancakes",
-    "Ingredient": "1 Wheat Flour + 1 Egg",
+    "Ingredient": "1,Wheat Flour + 1,Egg",
     "Energy": 90,
     "Source": "Stardrop Saloon",
     "Sell Price": 80
   },
   {
     "Name": "Fruit Salad",
-    "Ingredient": "1 Blueberry + 1 Melon + 1 Apricot",
+    "Ingredient": "1,Blueberry + 1,Melon + 1,Apricot",
     "Energy": 263,
     "Source": "Stardrop Saloon",
     "Sell Price": 450
   },
   {
     "Name": "Red Plate",
-    "Ingredient": "1 Red Cabbage + 1 Radish",
+    "Ingredient": "1,Red Cabbage + 1,Radish",
     "Energy": 240,
     "Source": "Stardrop Saloon",
     "Sell Price": 400
   },
   {
     "Name": "Bread",
-    "Ingredient": "1 Wheat Flour",
+    "Ingredient": "1,Wheat Flour",
     "Energy": 50,
     "Source": "Stardrop Saloon",
     "Sell Price": 60
   },
   {
     "Name": "Salmon Dinner",
-    "Ingredient": "1 Salmon + 1 Amaranth + 1 Kale",
+    "Ingredient": "1,Salmon + 1,Amaranth + 1,Kale",
     "Energy": 125,
     "Source": "Leah reward",
     "Sell Price": 300
   },
   {
     "Name": "Vegetable Medley",
-    "Ingredient": "1 Tomato + 1 Beet",
+    "Ingredient": "1,Tomato + 1,Beet",
     "Energy": 165,
     "Source": "Foraging 2",
     "Sell Price": 120
   },
   {
     "Name": "Farmer's Lunch",
-    "Ingredient": "1 Omelet + 1 Parsnip",
+    "Ingredient": "1,Omelet + 1,Parsnip",
     "Energy": 200,
     "Source": "Farming 1",
     "Sell Price": 150
   },
   {
     "Name": "Survival Burger",
-    "Ingredient": "1 Bread + 1 Carrot + 1 Eggplant",
+    "Ingredient": "1,Bread + 1,Carrot + 1,Eggplant",
     "Energy": 125,
     "Source": "Foraging 3",
     "Sell Price": 180
   },
   {
     "Name": "Dish O' The Sea",
-    "Ingredient": "2 Sardines + 1 Hash Browns",
+    "Ingredient": "2,Sardines + 1,Hash Browns",
     "Energy": 150,
     "Source": "Fishing 2",
     "Sell Price": 220
   },
   {
     "Name": "Seaform Pudding",
-    "Ingredient": "1 Flounder + 1 Midnight Carp",
+    "Ingredient": "1,Flounder + 1,Midnight Carp",
     "Energy": 175,
     "Source": "Fishing 3",
     "Sell Price": 300
   },
   {
     "Name": "Miner's Treat",
-    "Ingredient": "2 Carrot + 1 Sugar + 1 Milk",
+    "Ingredient": "2,Carrot + 1,Sugar + 1,Milk",
     "Energy": 125,
     "Source": "Mining 1",
     "Sell Price": 200

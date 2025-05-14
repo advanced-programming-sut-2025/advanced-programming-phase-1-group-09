@@ -3,6 +3,7 @@ package models.DataManagers;
 import models.GameWorld.Entity.Animals.Animal;
 import models.GameWorld.Entity.Animals.BarnAnimal;
 import models.GameWorld.Entity.Animals.CoopAnimal;
+import models.GameWorld.Entity.Fish.LiveFish;
 import models.GameWorld.Items.Item;
 import models.GameWorld.Farming.*;
 import models.GameWorld.Items.Tools.AchievableTools.Elements.*;
@@ -15,6 +16,7 @@ public class DataHolder {
     private static final HashMap<String, Item> items = new HashMap<>();
     private static final HashMap<String, Seed> seeds = new HashMap<>();
     private static final HashMap<String, Animal> animals = new HashMap<>();
+    private static final HashMap<String, LiveFish> fish = new HashMap<>();
     static {
         // Tools
         items.put("Axe", new Axe());
@@ -62,6 +64,14 @@ public class DataHolder {
             animals.put(animal.getName(), animal.clone());
         }
 
+        // LiveFish
+        for(LiveFish fishElement : FishMetaData.getFish())
+            fish.put(fishElement.getName(), fishElement.clone());
+
+        // CaughtFish
+        for(Item fishElement : FishMetaData.getCaught())
+            items.put(fishElement.getName(), fishElement.clone());
+
         // Crafted Items
         for(Item craftedItem : CraftingRecipeMetaData.getCraftedItems())
             items.put(craftedItem.getName(), craftedItem.clone());
@@ -69,6 +79,8 @@ public class DataHolder {
         //Cooked Items
         for(Item cookedItem : CookingRecipeMetaData.getCookedItems())
             items.put(cookedItem.getName(), cookedItem.clone());
+
+
     }
 
     public static Item getItem(String name) {
@@ -80,4 +92,6 @@ public class DataHolder {
     }
 
     public static Animal getAnimal(String name) {return animals.get(name);}
+
+    public static LiveFish getFish(String name) {return fish.get(name);}
 }

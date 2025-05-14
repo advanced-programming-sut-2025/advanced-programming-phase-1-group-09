@@ -20,11 +20,14 @@ public class CookingRecipeDeserializer extends JsonDeserializer<CookingRecipe> {
         int sellPrice = node.get("Sell Price").asInt();
         String[] source = node.get("Source").asText().split(" ");
         String[] ingredients = node.get("Ingredients").asText().split("\\+");
-        ArrayList<Ingredient> ingredientList = new ArrayList<Ingredient>();
+        ArrayList<Ingredient> ingredientList = new ArrayList<>();
         for(String ingredient : ingredients){
             ingredient = ingredient.trim();
-            String[] details = ingredient.split(" ");
-            ingredientList.add(new Ingredient(DataHolder.getItem(details[0]),Integer.parseInt(details[1])));
+            String[] details = ingredient.split(",");
+            if(details.length == 2)
+                ingredientList.add(new Ingredient(DataHolder.getItem(details[1]),Integer.parseInt(details[0]),null));
+            else
+                ingredientList.add(new Ingredient(DataHolder.getItem(details[2]),Integer.parseInt(details[0]),FishMetaData.getCaught()));
         }
 
         switch (source[0]) {
