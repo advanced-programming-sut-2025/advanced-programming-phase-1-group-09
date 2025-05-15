@@ -4,10 +4,10 @@ import models.App;
 import models.GameWorld.Coordinate;
 import models.GameWorld.Entity.Entity;
 import models.GameWorld.Enums.Direction;
+import models.GameWorld.Enums.Gender;
 import models.GameWorld.Farming.ForagingCrop;
 import models.GameWorld.Items.Miscellaneous.Inventory;
 import models.GameWorld.Map.Elements.Collectable.Collectable;
-import models.GameWorld.Map.Elements.MapElement;
 import models.GameWorld.Map.GameMap;
 import models.GameWorld.Map.Tile;
 import models.GameWorld.TimeState;
@@ -24,6 +24,7 @@ public class Player implements Entity, TimeObserver {
 
     private final String username;
     private final String name;
+    private final Gender gender;
     private final GameMap farm;
     private final GameMap publicMap;
     private boolean isHome;
@@ -31,17 +32,20 @@ public class Player implements Entity, TimeObserver {
     private int maxEnergy;
     private int energy;
     private boolean isEnergyUnlimited;
-    private int money;
+    private int balance;
     private final PlayerSkills skills;
     private final PlayerInventory inventory;
     private final HashMap<String, PlayerFriendship> friendships;
+    private boolean isRejected;
+    private int depressionDaysCount;
     private final ArrayList<PlayerTrade> trades;
     private boolean isFainted;
-    private Player partner;
+    private Partnership partnership;
 
     public Player(String username, GameMap farm, GameMap publicMap) {
         this.username = username;
         this.name = getUser().getNickname();
+        this.gender = getUser().getGender();
         this.farm = farm;
         this.publicMap = publicMap;
         this.isHome = true;
@@ -49,13 +53,15 @@ public class Player implements Entity, TimeObserver {
         this.maxEnergy = INITIAL_ENERGY;
         this.energy = INITIAL_ENERGY;
         this.isEnergyUnlimited = false;
-        this.money = 0;
+        this.balance = 0;
         this.skills = new PlayerSkills();
         this.inventory = new PlayerInventory();
         this.friendships = new HashMap<>();
+        this.isRejected = false;
+        this.depressionDaysCount = 0;
         this.trades = new ArrayList<>();
         this.isFainted = false;
-        this.partner = null;
+        this.partnership = null;
     }
 
     @Override
@@ -71,11 +77,17 @@ public class Player implements Entity, TimeObserver {
         coordinate = farm.getStartingPoint();
         isHome = true;
 
-        if (isFainted) {
-            this.energy = (int) (0.75 * INITIAL_ENERGY);
+        if (isRejected) {
+            energy = (int) (0.5 * maxEnergy);
+            if (++depressionDaysCount >= 7) {
+                isRejected = false;
+                depressionDaysCount = 0;
+            }
+        } else if (isFainted) {
+            this.energy = (int) (0.75 * maxEnergy);
             isFainted = false;
         } else {
-            this.energy = INITIAL_ENERGY;
+            this.energy = maxEnergy;
         }
 
         for (PlayerFriendship friendship : friendships.values()) {
@@ -103,6 +115,10 @@ public class Player implements Entity, TimeObserver {
 
     public User getUser() {
         return App.getInstance().getUserByUsername(username);
+    }
+
+    public Gender getGender() {
+        return gender;
     }
 
     public GameMap getField() {
@@ -166,16 +182,31 @@ public class Player implements Entity, TimeObserver {
         isEnergyUnlimited = !isEnergyUnlimited;
     }
 
-    public int getMoney() {
-        return money;
+    public int getBalance() {
+        return (partnership != null) ? partnership.getBalance() : balance;
     }
 
-    /**
-     * Positive input to increase money,
-     * Negative input to decrease money
-     */
-    public void changeMoney(int money) {
-        this.money = Math.max(this.money + money, 0);
+    public void setBalance(int balance) {
+        if (partnership != null) return;
+        this.balance = balance;
+    }
+
+    public void deposit(int amount) {
+        if (partnership != null) {
+            partnership.deposit(amount);
+        } else {
+            if (amount > 0) balance += amount;
+        }
+    }
+
+    public boolean withdraw(int amount) {
+        if (partnership != null) {
+            return partnership.withdraw(amount);
+        } else {
+            if (amount > balance) return false;
+            balance -= amount;
+            return true;
+        }
     }
 
     public PlayerSkills getSkills() {
@@ -219,12 +250,37 @@ public class Player implements Entity, TimeObserver {
         return null;
     }
 
+    public String getNewProposals() {
+        if (gender == Gender.MALE || partnership != null) return "";
+
+        String proposal = "";
+        for (PlayerFriendship friendship : friendships.values()) {
+            int newProposals = friendship.countNewProposals();
+            if (newProposals != 0) {
+                proposal += String.format(
+                        "You have a proposal from %s!\n",
+                        friendship.getEntity().getName()
+                );
+            }
+        }
+
+        return proposal;
+    }
+
+    public void setRejected(boolean rejected) {
+        isRejected = rejected;
+    }
+
     public boolean isFainted() {
         return isFainted;
     }
 
     public void setFainted(boolean fainted) {
         this.isFainted = fainted;
+    }
+
+    public void setPartnership(Partnership partnership) {
+        this.partnership = partnership;
     }
 
     public void collectAround() {

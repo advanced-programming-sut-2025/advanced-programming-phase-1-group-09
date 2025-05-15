@@ -5,11 +5,9 @@ import models.DataManagers.ItemHolder;
 import models.DataManagers.TreeMetaData;
 import models.Game;
 import models.GameWorld.Coordinate;
-import models.GameWorld.Entity.Player.Gift;
-import models.GameWorld.Entity.Player.Player;
-import models.GameWorld.Entity.Player.PlayerFriendship;
-import models.GameWorld.Entity.Player.PlayerInventory;
+import models.GameWorld.Entity.Player.*;
 import models.GameWorld.Enums.Direction;
+import models.GameWorld.Enums.Gender;
 import models.GameWorld.Farming.*;
 import models.GameWorld.Items.Item;
 import models.GameWorld.Items.Tools.PrimaryTools.WateringCan;
@@ -28,7 +26,6 @@ import views.GameMenu;
 import views.MapPrinter;
 
 import java.util.List;
-import java.util.regex.Matcher;
 
 public class GameMenuController {
     private final CheatController cheatController;
@@ -86,7 +83,7 @@ public class GameMenuController {
                             )
                     );
             case ShowBalance ->
-                    new Result(true, String.format("Balance: %d$", game.getCurrentPlayer().getMoney()));
+                    new Result(true, String.format("Balance: %d$", game.getCurrentPlayer().getBalance()));
             case ShowInventory -> {
                 GameMenu.showPlayerInventory(game.getCurrentPlayer());
                 yield new Result(true, "");
@@ -126,6 +123,9 @@ public class GameMenuController {
             }
             case RateGift -> rateGift(command);
             case ShowGifts -> giftHistory(command);
+            case Hug -> hug(command);
+            case Flower -> flower(command);
+            case AskMarriage -> processMarriage(command);
             default -> new Result(false, "Coming Soon...");
         };
     }
@@ -152,9 +152,11 @@ public class GameMenuController {
         } while (game.getCurrentPlayer().isFainted());
 
         String newMessages = game.getCurrentPlayer().getNewMessages();
+        String newProposals = game.getCurrentPlayer().getNewProposals();
         return new Result(true,
                 "It's \"" + game.getCurrentPlayer().getName() + "\" turn now." +
-                        (newMessages.isEmpty() ? "" : "\n" + newMessages)
+                        (newMessages.isEmpty() ? "" : "\n" + newMessages) +
+                        (newProposals.isEmpty() ? "" : "\n" + newProposals)
         );
     }
 
@@ -279,11 +281,11 @@ public class GameMenuController {
 
         if (quantity < 0 || quantity >= inventory.getMainInventory().getItemQuantity(item)) {
             int amount = inventory.getMainInventory().removeItem(item);
-            game.getCurrentPlayer().changeMoney((int) (item.getPrice() * amount * refundPercentage));
+            game.getCurrentPlayer().deposit((int) (item.getPrice() * amount * refundPercentage));
             return new Result(true, "Item removed successfully!");
         } else {
             int amount = inventory.getMainInventory().reduceItemQuantity(item, quantity);
-            game.getCurrentPlayer().changeMoney((int) (item.getPrice() * amount * refundPercentage));
+            game.getCurrentPlayer().deposit((int) (item.getPrice() * amount * refundPercentage));
             return new Result(true, "Item's quantity reduced successfully!");
         }
     }
@@ -476,7 +478,7 @@ public class GameMenuController {
         if (!other.getInventory().addItem(item, amount))
             return new Result(
                     false,
-                    "Oops! It seems like your friend doesn't have enough space in his/her inventory!"
+                    "Oops! It seems your friend doesn't have enough space in his/her inventory!"
             );
         current.getMainInventory().reduceItemQuantity(item, amount);
 
@@ -522,5 +524,153 @@ public class GameMenuController {
         if (other == null) return new Result(false, "Player not found!");
         GameMenu.showGiftHistory(current, other);
         return new Result(true, "");
+    }
+
+    private Result hug(String command) {
+        String username = command.split("\\s+-u\\s+")[1];
+
+        // Player Validation
+        Player current = game.getCurrentPlayer();
+        Player other = game.getPlayer(username);
+        if (other == null) return new Result(false, "Player not found!");
+        else if (current == other) return new Result(false, "You can't hug yourself!");
+
+        // Position Validation
+        if (current.getField() != other.getField())
+            return new Result(false, "You can't hug a player in another field!");
+        else if (!current.getCoordinate().isNeighbor(other.getCoordinate()))
+            return new Result(false, "You must be near the player to hug him/her!");
+
+        // Friendship Validation
+        PlayerFriendship friendship = current.getFriendships().get(other.getUsername());
+        if (friendship.getLevel() < 2)
+            return new Result(false, "You must level up your friendship to hug!");
+
+        friendship.addExperience(60);
+        other.getFriendships().get(current.getUsername()).addExperience(60);
+        return new Result(true, "You hugged " + username + " successfully!");
+    }
+
+    private Result flower(String command) {
+        String username = command.split("\\s+-u\\s+")[1];
+
+        // Player Validation
+        Player current = game.getCurrentPlayer();
+        Player other = game.getPlayer(username);
+        if (other == null) return new Result(false, "Player not found!");
+        else if (current == other) return new Result(false, "You can't flower yourself!");
+
+        // Position Validation
+        if (current.getField() != other.getField())
+            return new Result(false, "You can't flower a player in another field!");
+        else if (!current.getCoordinate().isNeighbor(other.getCoordinate()))
+            return new Result(false, "You must be near the player to flower him/her!");
+
+        // Friendship Validation
+        PlayerFriendship friendship = current.getFriendships().get(other.getUsername());
+        if (friendship.getLevel() < 2 || (friendship.getLevel() == 2 && !friendship.isLevelMaxed()))
+            return new Result(false, "You must level up your friendship to send flower!");
+
+        // Inventory Handling
+        Item flower = current.getInventory().findItem("Bouquet");
+        if (flower == null) return new Result(false, "You don't have any flowers to send!");
+        else if (!other.getInventory().addItem(flower, 1))
+            return new Result(
+                    false,
+                    "Oops! It seems your friend doesn't have enough space in his/her inventory!"
+            );
+        current.getMainInventory().reduceItemQuantity(flower, 1);
+
+        // Friendship Handling
+        friendship.fulfillSpecialRequirement(2);
+        friendship.addExperience(10);
+        other.getFriendships().get(current.getUsername()).fulfillSpecialRequirement(2);
+        other.getFriendships().get(current.getUsername()).addExperience(10);
+
+        return new Result(true, "Flower sent successfully!");
+    }
+
+    private Result processMarriage(String command) {
+        String username = command.split("\\s+-u\\s+")[1];
+
+        // Player Validation
+        Player current = game.getCurrentPlayer();
+        Player other = game.getPlayer(username);
+        if (other == null) return new Result(false, "Player not found!");
+        else if (current == other) return new Result(false, "You can't marry yourself!");
+
+        // Gender Validation
+        if (current.getGender() == Gender.FEMALE)
+            return new Result(false, "You must be male to send a proposal!");
+        else if (current.getGender() == other.getGender())
+            return new Result(false, "You can't marry a player with the same gender!");
+
+        // Position Validation
+        if (current.getField() != other.getField() || !current.getCoordinate().isNeighbor(other.getCoordinate()))
+            return new Result(false, "You must be near the player to propose her!");
+
+        // Friendship Validation
+        PlayerFriendship friendship = current.getFriendships().get(other.getUsername());
+        if (friendship.getLevel() < 3 || (friendship.getLevel() == 3 && !friendship.isLevelMaxed()))
+            return new Result(false, "You must level up your friendship to send a proposal!");
+
+        // Ring Validation
+        Item ring = current.getInventory().findItem("Wedding Ring");
+        if (ring == null)
+            return new Result(false, "You don't have any wedding rings to send!");
+        else if (!other.getInventory().addItem(ring, 1))
+            return new Result(
+                    false,
+                    "Oops! It seems your friend doesn't have enough space in her inventory!"
+            );
+        current.getMainInventory().reduceItemQuantity(ring, 1);
+
+        // Snd Proposal
+        friendship.getProposalHistory().add(other.getUsername());
+        other.getFriendships().get(current.getUsername()).getProposalHistory().add(current.getUsername());
+
+        return new Result(true, "Proposal sent successfully!");
+    }
+
+    private Result processMarriageResponse(String command) {
+        String[] parts = command.split("\\s+-r\\s+|\\s+-u\\s+");
+        String username = parts[1];
+        boolean accept = parts[2].equalsIgnoreCase("accept");
+
+        // Player Validation
+        Player current = game.getCurrentPlayer();
+        Player other = game.getPlayer(username);
+        if (other == null) return new Result(false, "Player not found!");
+        else if (current == other) return new Result(false, "You can't marry yourself!");
+        else if (current.getGender() == Gender.MALE)
+            return new Result(false, "You must be female to respond to a proposal!");
+
+        // Friendship Validation
+        PlayerFriendship friendship = current.getFriendships().get(other.getUsername());
+        PlayerFriendship otherFriendship = other.getFriendships().get(current.getUsername());
+        if (!friendship.getProposalHistory().contains(username))
+            return new Result(false, "That player didn't send you a proposal!");
+
+        if (!accept) {
+            friendship.getProposalHistory().remove(username);
+            friendship.resetLevel();
+
+            otherFriendship.getProposalHistory().remove(username);
+            otherFriendship.resetLevel();
+            other.setRejected(true);
+
+            return new Result(true, "Proposal rejected successfully!");
+        } else {
+            friendship.fulfillSpecialRequirement(3);
+            friendship.addExperience(10);
+            otherFriendship.fulfillSpecialRequirement(3);
+            otherFriendship.addExperience(10);
+
+            Partnership partnership = new Partnership(current, other);
+            current.setPartnership(partnership);
+            other.setPartnership(partnership);
+
+            return new Result(true, "Marriage accepted successfully!");
+        }
     }
 }

@@ -17,6 +17,8 @@ public class PlayerFriendship {
     private int lastMessageSeen;
     private final ArrayList<Gift> sentGifts;
     private final ArrayList<Gift> receivedGifts;
+    private final ArrayList<String> proposalHistory;
+    private int lastProposalSeen;
 
     public PlayerFriendship(Entity entity) {
         this.entity = entity;
@@ -33,6 +35,9 @@ public class PlayerFriendship {
 
         this.sentGifts = new ArrayList<>();
         this.receivedGifts = new ArrayList<>();
+
+        this.proposalHistory = new ArrayList<>();
+        this.lastProposalSeen = 0;
     }
 
     public void addExperience(int xp) {
@@ -67,6 +72,8 @@ public class PlayerFriendship {
     }
 
     public void reduceExperience(int xp) {
+        if (level == MAX_LEVEL) return;
+
         while (xp > experience && level > 0) {
             xp -= experience;
             level--;
@@ -80,12 +87,21 @@ public class PlayerFriendship {
         return (level + 1) * 100;
     }
 
+    public boolean isLevelMaxed() {
+        return requiredXpForNextLevel() <= experience;
+    }
+
     public Entity getEntity() {
         return entity;
     }
 
     public int getLevel() {
         return level;
+    }
+
+    public void resetLevel() {
+        level = 0;
+        experience = 0;
     }
 
     public boolean isMaxLevel() {
@@ -138,6 +154,23 @@ public class PlayerFriendship {
 
     public ArrayList<Gift> getSentGifts() {
         return sentGifts;
+    }
+
+    public ArrayList<String> getProposalHistory() {
+        return proposalHistory;
+    }
+
+    public ArrayList<String> getLastProposals() {
+        ArrayList<String> proposals = new ArrayList<>();
+        for (int i = lastProposalSeen; i < proposalHistory.size(); i++) {
+            proposals.add(proposalHistory.get(i));
+        }
+        lastProposalSeen = proposalHistory.size();
+        return proposals;
+    }
+
+    public int countNewProposals() {
+        return proposalHistory.size() - lastProposalSeen;
     }
 
     @Override

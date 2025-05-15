@@ -122,7 +122,7 @@ public class CheatController {
         } catch (NumberFormatException e) {
             return new Result(false, "Please enter a valid amount for balance.");
         }
-        game.getCurrentPlayer().changeMoney(amount);
+        game.getCurrentPlayer().deposit(amount);
         return new Result(
                 true,
                 "Balance changed to " + amount + " for " + game.getCurrentPlayer().getName() + "."
