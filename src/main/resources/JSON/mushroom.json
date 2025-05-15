@@ -1,0 +1,7 @@
+[
+  { "name": "Common Mushroom", "base_sell_price": 40 },
+  { "name": "Chanterelle", "base_sell_price": 160 },
+  { "name": "Morel", "base_sell_price": 150 },
+  { "name": "Red Mushroom", "base_sell_price": 75 },
+  { "name": "Purple Mushroom", "base_sell_price": 250 }
+]
