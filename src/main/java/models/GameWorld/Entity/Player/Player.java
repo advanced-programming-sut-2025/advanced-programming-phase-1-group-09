@@ -16,6 +16,7 @@ import models.User;
 import utils.PathUtils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class Player implements Entity, TimeObserver {
@@ -33,7 +34,7 @@ public class Player implements Entity, TimeObserver {
     private int money;
     private final PlayerSkills skills;
     private final PlayerInventory inventory;
-    private final ArrayList<PlayerFriendship> friendships;
+    private final HashMap<String, PlayerFriendship> friendships;
     private final ArrayList<PlayerTrade> trades;
     private boolean isFainted;
     private Player partner;
@@ -51,7 +52,7 @@ public class Player implements Entity, TimeObserver {
         this.money = 0;
         this.skills = new PlayerSkills();
         this.inventory = new PlayerInventory();
-        this.friendships = new ArrayList<>();
+        this.friendships = new HashMap<>();
         this.trades = new ArrayList<>();
         this.isFainted = false;
         this.partner = null;
@@ -76,7 +77,25 @@ public class Player implements Entity, TimeObserver {
         } else {
             this.energy = INITIAL_ENERGY;
         }
+
+        for (PlayerFriendship friendship : friendships.values()) {
+            if (!friendship.isGreeted()) friendship.reduceExperience(10);
+            friendship.setGreeted(false);
+        }
     }
+
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public boolean isInteractable() {
+        return true;
+    }
+
+    @Override
+    public void interact(Player player) {}
 
     public String getUsername() {
         return username;
@@ -84,10 +103,6 @@ public class Player implements Entity, TimeObserver {
 
     public User getUser() {
         return App.getInstance().getUserByUsername(username);
-    }
-
-    public String getName() {
-        return name;
     }
 
     public GameMap getField() {
@@ -175,6 +190,35 @@ public class Player implements Entity, TimeObserver {
         return inventory.getMainInventory();
     }
 
+    public HashMap<String, PlayerFriendship> getFriendships() {
+        return friendships;
+    }
+
+    public String getNewMessages() {
+        String messages = "";
+        for (PlayerFriendship friendship : friendships.values()) {
+            int newMessages = friendship.countNewMessages();
+            if (newMessages != 0) {
+                messages += String.format(
+                        "You have %d new message%s from %s!\n",
+                        newMessages,
+                        newMessages == 1 ? "" : "s",
+                        friendship.getEntity().getName()
+                );
+            }
+        }
+        return messages;
+    }
+
+    public PlayerFriendship findFriendship(int receivedGiftId) {
+        for (PlayerFriendship friendship : friendships.values()) {
+            for (Gift gift : friendship.getReceivedGifts()) {
+                if (gift.getId() == receivedGiftId) return friendship;
+            }
+        }
+        return null;
+    }
+
     public boolean isFainted() {
         return isFainted;
     }
@@ -187,6 +231,7 @@ public class Player implements Entity, TimeObserver {
         for (Direction direction : Direction.values()) {
             Coordinate position = new Coordinate(coordinate.y() + direction.dy, coordinate.x() + direction.dx);
             Tile tile = getField().getTile(position);
+            if (tile == null) continue;
 
             tile.getElements().removeIf(element -> {
                 if (element instanceof Collectable collectable) {

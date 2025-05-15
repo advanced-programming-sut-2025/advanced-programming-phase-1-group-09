@@ -1,5 +1,6 @@
 package models.GameWorld.Entity.Player;
 
+import models.GameWorld.Farming.Fruit;
 import models.GameWorld.Items.Miscellaneous.Backpack;
 import models.GameWorld.Items.Miscellaneous.Inventory;
 import models.GameWorld.Items.Item;

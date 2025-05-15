@@ -1,6 +1,7 @@
 package models.GameWorld.Entity.Animals;
 
 import models.GameWorld.Entity.Entity;
+import models.GameWorld.Entity.Player.Player;
 import models.GameWorld.Items.Edibles.AnimalEdibleProduct.AnimalEdibleProduct;
 
 import java.util.ArrayList;
@@ -13,5 +14,20 @@ public class Animal implements Entity {
     public Animal(int price, ArrayList<AnimalEdibleProduct> products) {
         this.price = price;
         this.products = products;
+    }
+
+    @Override
+    public String getName() {
+        return "";
+    }
+
+    @Override
+    public boolean isInteractable() {
+        return false;
+    }
+
+    @Override
+    public void interact(Player player) {
+
     }
 }

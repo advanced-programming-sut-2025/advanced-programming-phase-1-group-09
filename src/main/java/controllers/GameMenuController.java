@@ -5,7 +5,9 @@ import models.DataManagers.ItemHolder;
 import models.DataManagers.TreeMetaData;
 import models.Game;
 import models.GameWorld.Coordinate;
+import models.GameWorld.Entity.Player.Gift;
 import models.GameWorld.Entity.Player.Player;
+import models.GameWorld.Entity.Player.PlayerFriendship;
 import models.GameWorld.Entity.Player.PlayerInventory;
 import models.GameWorld.Enums.Direction;
 import models.GameWorld.Farming.*;
@@ -26,6 +28,7 @@ import views.GameMenu;
 import views.MapPrinter;
 
 import java.util.List;
+import java.util.regex.Matcher;
 
 public class GameMenuController {
     private final CheatController cheatController;
@@ -109,6 +112,20 @@ public class GameMenuController {
             case Plant -> processPlanting(command);
             case ShowPlant -> processShowingPlant(command);
             case ShowCurrentWater -> showWateringCan();
+            case ShowFriendships -> {
+                GameMenu.showFriendship(game.getCurrentPlayer());
+                yield new Result(true, "");
+            }
+            case Talk -> talk(command);
+            case ShowNewMessages -> processNewMessage(command);
+            case ShowTalkHistory -> processMessages(command);
+            case SendGift -> gift(command);
+            case ShowReceivedGifts -> {
+                GameMenu.showReceivedGifts(game.getCurrentPlayer());
+                yield new Result(true, "");
+            }
+            case RateGift -> rateGift(command);
+            case ShowGifts -> giftHistory(command);
             default -> new Result(false, "Coming Soon...");
         };
     }
@@ -134,7 +151,11 @@ public class GameMenuController {
             game.nextTurn();
         } while (game.getCurrentPlayer().isFainted());
 
-        return new Result(true, "It's \"" + game.getCurrentPlayer().getName() + "\" turn now.");
+        String newMessages = game.getCurrentPlayer().getNewMessages();
+        return new Result(true,
+                "It's \"" + game.getCurrentPlayer().getName() + "\" turn now." +
+                        (newMessages.isEmpty() ? "" : "\n" + newMessages)
+        );
     }
 
     private Result processMapPrinting(String command) {
@@ -366,5 +387,140 @@ public class GameMenuController {
         WateringCan wateringCan = (WateringCan) player.getInventory().findItem("WateringCan");
         if (wateringCan == null) return new Result(false, "Watering Can not found!");
         return new Result(true, "" + wateringCan.getWaterLevel());
+    }
+
+    private Result talk(String command) {
+        String[] parts = command.split("\\s+-u\\s+|\\s+-m\\s+");
+        String username = parts[1];
+        String message = parts[2];
+
+        Player current = game.getCurrentPlayer();
+        Player other = game.getPlayer(username);
+        if (other == null) return new Result(false, "Player not found!");
+        else if (current == other) return new Result(false, "You can't talk to yourself!");
+
+        if (current.getField() != other.getField())
+            return new Result(false, "You can't talk to a player in another field!");
+        else if (!current.getCoordinate().isNeighbor(other.getCoordinate()))
+            return new Result(false, "You must be near the player to talk to him/her!");
+
+        other.getFriendships().get(current.getUsername()).addMessage(message);
+        PlayerFriendship friendship = current.getFriendships().get(other.getUsername());
+        if (!friendship.isGreeted()) {
+            friendship.addExperience(20);
+            friendship.setGreeted(true);
+        }
+
+        return new Result(false, "Message sent to " + username + " successfully!");
+    }
+
+    private Result processNewMessage(String command) {
+        String username = command.split("\\s+-u\\s+")[1];
+
+        Player current = game.getCurrentPlayer();
+        Player other = game.getPlayer(username);
+        if (other == null) return new Result(false, "Player not found!");
+
+        GameMenu.showNewMessages(current, other);
+        return new Result(true, "");
+    }
+
+    private Result processMessages(String command) {
+        String username = command.split("\\s+-u\\s+")[1];
+
+        Player current = game.getCurrentPlayer();
+        Player other = game.getPlayer(username);
+        if (other == null) return new Result(false, "Player not found!");
+
+        GameMenu.showMessages(current, other);
+        return new Result(true, "");
+    }
+
+    private Result gift(String command) {
+        String[] parts = command.split("\\s+-u\\s+|\\s+-i\\s+|\\s+-a\\s+");
+        String username = parts[1];
+        String itemName = parts[2];
+        int amount = Integer.parseInt(parts[3]);
+
+        // Player Validation
+        Player current = game.getCurrentPlayer();
+        Player other = game.getPlayer(username);
+        if (other == null) return new Result(false, "Player not found!");
+        else if (current == other) return new Result(false, "You can't gift yourself!");
+
+        // Position Validation
+        if (current.getField() != other.getField())
+            return new Result(false, "You can't gift a player in another field!");
+        else if (!current.getCoordinate().isNeighbor(other.getCoordinate()))
+            return new Result(false, "You must be near the player to gift him/her!");
+
+        // Item Validation
+        Item item = current.getInventory().findItem(itemName);
+        if (item == null)
+            return new Result(false, "There is no item with that name in your inventory!");
+        else if (item instanceof Tool)
+            return new Result(false, "You can't gift a tool!");
+
+        // Amount Validation
+        if (amount <= 0)
+            return new Result(false, "Amount must be greater than 0!");
+        else if (amount > current.getMainInventory().getItemQuantity(item))
+            return new Result(false, "You don't have that many of that item!");
+
+        // Friendship Validation
+        PlayerFriendship friendship = current.getFriendships().get(other.getUsername());
+        if (friendship.getLevel() == 0)
+            return new Result(false, "You must level up your friendship to gift items!");
+
+        // Inventory Handling
+        if (!other.getInventory().addItem(item, amount))
+            return new Result(
+                    false,
+                    "Oops! It seems like your friend doesn't have enough space in his/her inventory!"
+            );
+        current.getMainInventory().reduceItemQuantity(item, amount);
+
+        // Set Gift to Players
+        Gift gift = new Gift(item, amount);
+        friendship.getSentGifts().add(gift);
+        other.getFriendships().get(current.getUsername()).getReceivedGifts().add(gift);
+
+        return new Result(true, "Gift sent successfully!");
+    }
+
+    private Result rateGift(String command) {
+        String[] parts = command.split("\\s+-i\\s+|\\s+-r\\s+");
+        int giftId = Integer.parseInt(parts[1]);
+        int rating = Integer.parseInt(parts[2]);
+
+        // Gift Validation
+        Player current = game.getCurrentPlayer();
+        PlayerFriendship friendship = current.findFriendship(giftId);
+        if (friendship == null) return new Result(false, "There is no gift with that ID!");
+
+        // Rating
+        if (rating < 1 || rating > 5) return new Result(false, "Rating must be between 1 and 5!");
+        friendship.findReceivedGift(giftId).rate(rating);
+
+        // XP
+        int xp = (rating - 3) * 30 + 15;
+        if (xp > 0) {
+            friendship.addExperience(xp);
+            ((Player) friendship.getEntity()).getFriendships().get(current.getUsername()).addExperience(xp);
+        } else {
+            friendship.reduceExperience(-xp);
+            ((Player) friendship.getEntity()).getFriendships().get(current.getUsername()).reduceExperience(-xp);
+        }
+
+        return new Result(true, "Rating sent successfully!");
+    }
+
+    private Result giftHistory(String command) {
+        String username = command.split("\\s+-u\\s+")[1];
+        Player current = game.getCurrentPlayer();
+        Player other = game.getPlayer(username);
+        if (other == null) return new Result(false, "Player not found!");
+        GameMenu.showGiftHistory(current, other);
+        return new Result(true, "");
     }
 }
