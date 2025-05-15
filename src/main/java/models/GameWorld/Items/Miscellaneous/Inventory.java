@@ -25,21 +25,21 @@ public class Inventory {
         return 0;
     }
 
-    public void addItem(Item item, int quantity) {
-        if (isInventoryFull()) return;
-
+    public boolean addItem(Item item, int quantity) {
         if (item.isStackable()) {
             for (InventorySlot slot : slots) {
                 if (slot.isStackableWith(item)) {
                     slot.increaseQuantity(quantity);
-                    return;
+                    return true;
                 }
             }
-            slots.add(new InventorySlot(item, quantity));
-            itemCount++;
-        } else {
-            slots.add(new InventorySlot(item, quantity));
         }
+
+        if (isInventoryFull()) return false;
+
+        slots.add(new InventorySlot(item, quantity));
+        itemCount++;
+        return true;
     }
 
     /**

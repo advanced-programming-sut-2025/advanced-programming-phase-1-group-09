@@ -21,18 +21,26 @@ public class Pickaxe extends Tool {
 
     @Override
     public void use(Coordinate target, Player player, Game game) {
-        int energyConsumed = 5 - level;
+        int energyConsumed = 4 - level;
 
-        Tile tile = player.getFarm().getTile(target);
+        Tile tile = player.getField().getTile(target);
+        if (tile == null) return;
+
         for (MapElement element : tile.getElements()) {
             if (element instanceof UnextractedMineral) {
                 element.interact(player, target);
+                energyConsumed = 5 - level;
             } else if (tile.getTerrainType() == TerrainType.PLOWED_DIRT) {
                 tile.setTerrainType(TerrainType.DIRT);
+                energyConsumed = 5 - level;
             }
         }
 
         if (player.getSkills().getMiningSkill().isMaxLevel()) energyConsumed--;
-        player.changeEnergy(-Math.max(energyConsumed, 0));
+        int finalEnergyConsumption = (int) (
+                Math.max(energyConsumed, 0) *
+                energyCoefficient(game.getWeather().getCurrentWeather())
+        );
+        player.changeEnergy(-finalEnergyConsumption);
     }
 }

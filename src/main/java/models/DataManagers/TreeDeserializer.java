@@ -5,16 +5,16 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import models.GameWorld.Enums.SeasonName;
-import models.GameWorld.Farming.Tree;
+import models.GameWorld.Farming.TreeDefinition;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
-public class TreeDeserializer extends JsonDeserializer<Tree> {
+public class TreeDeserializer extends JsonDeserializer<TreeDefinition> {
     @Override
-    public Tree deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
+    public TreeDefinition deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
         JsonNode node = p.getCodec().readTree(p);
 
         String name = node.get("name").asText();
@@ -40,7 +40,7 @@ public class TreeDeserializer extends JsonDeserializer<Tree> {
 
         double spawningChance = node.get("spawningChance").asDouble();
 
-        return new Tree(
+        return new TreeDefinition(
                 name, source, growthStages, totalGrowthDays,
                 fruitName, fruitHarvestCycle, fruitBaseSellPrice, isFruitEdible,
                 fruitEnergy, growingSeasons, spawningChance

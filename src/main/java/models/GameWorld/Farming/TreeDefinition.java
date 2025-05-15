@@ -10,7 +10,7 @@ import java.util.Set;
  * so you shouldn't instantiate an object everytime you need to add a tree to the game.
  * Instead, you may use PlantedTree to instantiate a crop object.
  */
-public final class Tree {
+public final class TreeDefinition {
     private final String name;
     private final String source;
     private final ArrayList<Integer> growthStages;
@@ -23,10 +23,10 @@ public final class Tree {
     private final Set<SeasonName> growingSeasons;
     private final double spawningChance;
 
-    public Tree(String name, String source, ArrayList<Integer> growthStages,
-                int totalGrowthDays, String fruitName, int fruitHarvestCycle,
-                int fruitBaseSellPrice, boolean isFruitEdible, int fruitEnergy,
-                Set<SeasonName> growingSeasons, double spawningChance) {
+    public TreeDefinition(String name, String source, ArrayList<Integer> growthStages,
+                          int totalGrowthDays, String fruitName, int fruitHarvestCycle,
+                          int fruitBaseSellPrice, boolean isFruitEdible, int fruitEnergy,
+                          Set<SeasonName> growingSeasons, double spawningChance) {
         this.name = name;
         this.source = source;
         this.growthStages = growthStages;

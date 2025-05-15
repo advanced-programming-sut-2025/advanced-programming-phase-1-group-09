@@ -2,6 +2,7 @@ package models.GameWorld.Map.Elements.Collectable;
 
 import models.GameWorld.Coordinate;
 import models.GameWorld.Entity.Player.Player;
+import models.GameWorld.Farming.ForagingCrop;
 import models.GameWorld.Items.Item;
 import models.GameWorld.Map.Elements.MapElement;
 
@@ -11,7 +12,7 @@ public interface Collectable extends MapElement {
     Random random = new Random();
     Item collect();
 
-    default int getRandom() {
+    default int getRandomQuantity() {
         return random.nextInt(4) + 1;
     }
 
@@ -21,10 +22,5 @@ public interface Collectable extends MapElement {
     }
 
     @Override
-    default void interact(Player player, Coordinate position) {
-        if (!player.getMainInventory().isInventoryFull()) {
-            player.getMainInventory().addItem(collect(), getRandom());
-            player.getFarm().getTile(position).removeElement(this);
-        }
-    }
+    default void interact(Player player, Coordinate position) {}
 }

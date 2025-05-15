@@ -9,10 +9,6 @@ public interface MapElement {
     boolean isInteractable();
     void interact(Player player, Coordinate position);
 
-    default boolean isFixed() {
-        return false;
-    }
-
     default String getSymbol() {
         return ConsoleColors.YELLOW_BACKGROUND + " ";
     }

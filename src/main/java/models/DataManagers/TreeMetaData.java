@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import models.GameWorld.Enums.SeasonName;
 import models.GameWorld.Farming.Seed;
-import models.GameWorld.Farming.Tree;
+import models.GameWorld.Farming.TreeDefinition;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,15 +16,15 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class TreeMetaData {
-    private static final Map<String, Tree> trees = new HashMap<>();
+    private static final Map<String, TreeDefinition> trees = new HashMap<>();
     private static final Map<String, Seed> seeds = new HashMap<>();
-    private static final Map<Seed, Tree> seedToTree = new HashMap<>();
+    private static final Map<Seed, TreeDefinition> seedToTree = new HashMap<>();
 
     static {
         try {
             ObjectMapper mapper = new ObjectMapper();
             SimpleModule module = new SimpleModule();
-            module.addDeserializer(Tree.class, new TreeDeserializer());
+            module.addDeserializer(TreeDefinition.class, new TreeDeserializer());
             mapper.registerModule(module);
 
             InputStream inputStream = CropMetaData.class.getClassLoader().getResourceAsStream("JSON/trees.json");
@@ -32,24 +32,24 @@ public class TreeMetaData {
                 throw new RuntimeException("File not found in resources!");
             }
 
-            List<Tree> treeList = mapper.readValue(inputStream, new TypeReference<>() {});
+            List<TreeDefinition> treeDefinitionList = mapper.readValue(inputStream, new TypeReference<>() {});
 
-            for (Tree tree : treeList) {
-                trees.put(tree.getName(), tree);
-                Seed seed = new Seed(tree.getSource(), 10, tree.getSpawningChance(), false);
+            for (TreeDefinition treeDefinition : treeDefinitionList) {
+                trees.put(treeDefinition.getName(), treeDefinition);
+                Seed seed = new Seed(treeDefinition.getSource(), 10, treeDefinition.getSpawningChance(), false);
                 seeds.put(seed.getName(), seed);
-                seedToTree.put(seed, tree);
+                seedToTree.put(seed, treeDefinition);
             }
         } catch (IOException e) {
             throw new RuntimeException("Failed to load trees", e);
         }
     }
 
-    public static Tree getTree(String name) {
+    public static TreeDefinition getTree(String name) {
         return trees.get(name);
     }
 
-    public static Tree getTree(Seed seed) {
+    public static TreeDefinition getTree(Seed seed) {
         return seedToTree.get(seed);
     }
 
@@ -64,18 +64,18 @@ public class TreeMetaData {
     public static Collection<Seed> getSelectedSeeds(SeasonName season) {
         return seedToTree.entrySet().stream()
                 .filter(entry -> {
-                    Tree tree = entry.getValue();
-                    return tree.getGrowingSeasons().contains(season);
+                    TreeDefinition treeDefinition = entry.getValue();
+                    return treeDefinition.getGrowingSeasons().contains(season);
                 })
                 .map(Map.Entry::getKey)
                 .collect(Collectors.toList());
     }
 
-    public static Collection<Tree> getAllTrees() {
+    public static Collection<TreeDefinition> getAllTrees() {
         return trees.values();
     }
 
-    public static Collection<Tree> getSelectedTrees(SeasonName season) {
+    public static Collection<TreeDefinition> getSelectedTrees(SeasonName season) {
         return trees.values().stream()
                 .filter(tree -> tree.getGrowingSeasons().contains(season))
                 .collect(Collectors.toList());

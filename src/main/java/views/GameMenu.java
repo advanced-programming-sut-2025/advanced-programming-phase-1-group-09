@@ -6,9 +6,9 @@ import models.DataManagers.TreeMetaData;
 import models.Game;
 import models.GameWorld.Coordinate;
 import models.GameWorld.Entity.Player.Player;
-import models.GameWorld.Farming.Crop;
+import models.GameWorld.Farming.CropDefinition;
 import models.GameWorld.Farming.Planted;
-import models.GameWorld.Farming.Tree;
+import models.GameWorld.Farming.TreeDefinition;
 import models.GameWorld.Items.Item;
 import models.GameWorld.Items.Miscellaneous.InventorySlot;
 import models.GameWorld.Items.Tools.Tool;
@@ -69,24 +69,24 @@ public class GameMenu implements AppMenu {
     }
 
     public static void showAllCrops() {
-        for (Crop crop : CropMetaData.getAllCrops()) {
-            System.out.println(crop.name());
+        for (CropDefinition cropDefinition : CropMetaData.getAllCrops()) {
+            System.out.println(cropDefinition.name());
         }
     }
 
     public static void showAllTrees() {
-        for (Tree tree : TreeMetaData.getAllTrees()) {
-            System.out.println(tree.getName());
+        for (TreeDefinition treeDefinition : TreeMetaData.getAllTrees()) {
+            System.out.println(treeDefinition.getName());
         }
     }
 
     public static void showPlant(Player player, Coordinate position) {
-        if (!player.getFarm().isCoordinateWithinMap(position)) {
+        if (!player.getField().isCoordinateWithinMap(position)) {
             System.out.println("Invalid coordinate.");
             return;
         }
 
-        Tile tile = player.getFarm().getTile(position);
+        Tile tile = player.getField().getTile(position);
         for (MapElement e : tile.getElements()) {
             if (e instanceof Planted plant) {
                 System.out.println(plant.toString());

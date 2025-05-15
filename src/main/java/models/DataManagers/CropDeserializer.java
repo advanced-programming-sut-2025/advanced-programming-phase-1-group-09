@@ -5,16 +5,16 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import models.GameWorld.Enums.SeasonName;
-import models.GameWorld.Farming.Crop;
+import models.GameWorld.Farming.CropDefinition;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
-public class CropDeserializer extends JsonDeserializer<Crop> {
+public class CropDeserializer extends JsonDeserializer<CropDefinition> {
     @Override
-    public Crop deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
+    public CropDefinition deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
         JsonNode node = p.getCodec().readTree(p);
 
         String name = node.get("name").asText();
@@ -42,7 +42,7 @@ public class CropDeserializer extends JsonDeserializer<Crop> {
         boolean canBecomeGiant = node.get("canBecomeGiant").asBoolean();
         double spawningChance = node.get("spawningChance").asDouble();
 
-        return new Crop(
+        return new CropDefinition(
                 name, source, growthStages, totalGrowthDays,
                 oneTime, regrowDays, baseSellPrice, isEdible,
                 baseEnergy, baseHealth, growingSeasons, canBecomeGiant, spawningChance

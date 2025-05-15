@@ -11,6 +11,7 @@ import models.GameWorld.Map.Elements.Prefabs.Hut;
 import models.GameWorld.Map.Elements.Prefabs.Lake;
 import models.GameWorld.Map.Elements.Prefabs.Quarry;
 import models.GameWorld.Map.GameMap;
+import models.GameWorld.Map.TerrainType;
 import models.GameWorld.Map.Tile;
 
 import java.util.HashMap;
@@ -31,7 +32,7 @@ public class MapPrinter {
 
     public static void printFarm(Player player, int size) {
         System.out.println(player.getName() + "'s Farm");
-        GameMap farm = player.getFarm();
+        GameMap farm = player.getField();
         int bound = (size < 10) ? 10 : size / 2;
 
         Coordinate playerPosition = player.getCoordinate();
@@ -46,12 +47,15 @@ public class MapPrinter {
         for (int y = startY; y <= endY; y++) {
             for (int x = startX; x <= endX; x++) {
                 if ((y == playerPosition.y()) && (x == playerPosition.x())) {
-                    System.out.print(ConsoleColors.RED_BOLD_BRIGHT + "☺" + ConsoleColors.RESET + " ");
+                    System.out.print(ConsoleColors.RED_BOLD_BRIGHT + "☺" + ConsoleColors.RESET);
                     continue;
                 }
 
                 Tile tile = farm.getTile(y, x);
-                System.out.print(tile.getDisplaySymbol() + " " + ConsoleColors.RESET);
+                if (tile.getTerrainType() == TerrainType.PLOWED_DIRT)
+                    System.out.println(tile.getDisplaySymbol() + tile.getDisplaySymbol() + ConsoleColors.RESET);
+                else
+                    System.out.print(tile.getDisplaySymbol() + " " + ConsoleColors.RESET);
             }
             System.out.println();
         }

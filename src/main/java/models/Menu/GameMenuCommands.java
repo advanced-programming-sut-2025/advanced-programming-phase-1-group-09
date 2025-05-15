@@ -16,6 +16,8 @@ public enum GameMenuCommands implements Command {
     ShowWeatherForecast("weather\\s+forecast"),
     BuildGreenhouse("build\\s+greenhouse"),
     Walk("walk\\s+-y\\s+\\d+\\s+-x\\s+\\d+"),
+    GoPublic("go\\s+public"),
+    GoHome("go\\s+home"),
     PrintMap("print\\s+map\\s+-s\\s+\\d+"),
     MapHelp("help\\s+reading\\s+map"),
     ShowEnergy("show\\s+energy"),

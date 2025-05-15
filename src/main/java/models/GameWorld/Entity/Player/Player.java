@@ -4,14 +4,21 @@ import models.App;
 import models.GameWorld.Coordinate;
 import models.GameWorld.Entity.Animals.Animal;
 import models.GameWorld.Entity.Entity;
+import models.GameWorld.Enums.Direction;
+import models.GameWorld.Farming.ForagingCrop;
 import models.GameWorld.Items.Miscellaneous.Inventory;
+import models.GameWorld.Map.Elements.Collectable.Collectable;
+import models.GameWorld.Map.Elements.MapElement;
 import models.GameWorld.Map.GameMap;
+import models.GameWorld.Map.Tile;
 import models.GameWorld.TimeState;
 import models.TimeObserver;
 import models.User;
+import utils.PathUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class Player implements Entity, TimeObserver {
     public static final int INITIAL_ENERGY = 200;
@@ -19,6 +26,8 @@ public class Player implements Entity, TimeObserver {
     private final String username;
     private final String name;
     private final GameMap farm;
+    private final GameMap publicMap;
+    private boolean isHome;
     private Coordinate coordinate;
     private int maxEnergy;
     private int energy;
@@ -29,15 +38,16 @@ public class Player implements Entity, TimeObserver {
     private final ArrayList<PlayerFriendship> friendships;
     private final ArrayList<PlayerTrade> trades;
     private final HashMap<String, Animal> animals;
-    private boolean isHome;
     private boolean isSleep;
     private boolean isFainted;
     private Player partner;
 
-    public Player(String username, GameMap farm) {
+    public Player(String username, GameMap farm, GameMap publicMap) {
         this.username = username;
         this.name = getUser().getNickname();
         this.farm = farm;
+        this.publicMap = publicMap;
+        this.isHome = true;
         this.coordinate = farm.getStartingPoint();
         this.maxEnergy = INITIAL_ENERGY;
         this.energy = INITIAL_ENERGY;
@@ -48,7 +58,6 @@ public class Player implements Entity, TimeObserver {
         this.friendships = new ArrayList<>();
         this.trades = new ArrayList<>();
         this.animals = new HashMap<>();
-        this.isHome = false;
         this.isSleep = false;
         this.isFainted = false;
         this.partner = null;
@@ -61,6 +70,12 @@ public class Player implements Entity, TimeObserver {
         *  Bottom of page 22 of the document should be implemented here
         *  All works related to entering next day
         */
+        // Go Home
+        List<Coordinate> path = PathUtils.findPath(getField(), coordinate, farm.getStartingPoint());
+        if (energy < PathUtils.calculateEnergy(path)) isFainted = true;
+        coordinate = farm.getStartingPoint();
+        isHome = true;
+
         if (isFainted) {
             this.energy = (int) (0.75 * INITIAL_ENERGY);
             isFainted = false;
@@ -81,6 +96,10 @@ public class Player implements Entity, TimeObserver {
         return name;
     }
 
+    public GameMap getField() {
+        return isHome ? farm : publicMap;
+    }
+
     @Override
     public boolean isInteractable() {
         return true;
@@ -93,6 +112,18 @@ public class Player implements Entity, TimeObserver {
 
     public GameMap getFarm() {
         return farm;
+    }
+
+    public GameMap getPublicMap() {
+        return publicMap;
+    }
+
+    public boolean isHome() {
+        return isHome;
+    }
+
+    public void setIsHome(boolean condition) {
+        isHome = condition;
     }
 
     public Coordinate getCoordinate() {
@@ -166,5 +197,24 @@ public class Player implements Entity, TimeObserver {
 
     public void setFainted(boolean fainted) {
         this.isFainted = fainted;
+    }
+
+    public void collectAround() {
+        for (Direction direction : Direction.values()) {
+            Coordinate position = new Coordinate(coordinate.y() + direction.dy, coordinate.x() + direction.dx);
+            Tile tile = getField().getTile(position);
+
+            tile.getElements().removeIf(element -> {
+                if (element instanceof Collectable collectable) {
+                    if (getMainInventory().addItem(collectable.collect(), collectable.getRandomQuantity())) {
+                        if (collectable instanceof ForagingCrop) {
+                            getSkills().getForagingSkill().addExperience(10);
+                        }
+                        return true; // Remove the element
+                    }
+                }
+                return false; // Keep the element
+            });
+        }
     }
 }

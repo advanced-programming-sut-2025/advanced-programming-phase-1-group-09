@@ -4,6 +4,7 @@ import models.App;
 import models.Game;
 import models.GameWorld.Entity.Player.Player;
 import models.GameWorld.Map.GameMap;
+import models.GameWorld.Map.PublicMap;
 import models.Menu.Command;
 import models.Menu.Menus;
 import models.Menu.PreGameMenuCommands;
@@ -26,7 +27,7 @@ public class PreGameMenuController {
             }
             case ShowCurrentMenu -> new Result(true, App.getInstance().getCurrentMenu().toString());
             case NewGame -> processNewGameCommand(command);
-            case ChooseMap, LoadGame -> new Result(false, "Coming soon...");
+            case LoadGame -> new Result(false, "Coming soon...");
         };
     }
 
@@ -63,14 +64,17 @@ public class PreGameMenuController {
     private Game createNewGame(ArrayList<User> users) {
         HashMap<User, GameMap> gameMaps = PreGameMenu.getUsersAndMaps(users);
 
+        // Create a public map
+        GameMap publicMap = new PublicMap();
+
         // Add all Players to the List
         ArrayList<Player> players = new ArrayList<>();
         for (User user : users) {
-            players.add(new Player(user.getUsername(), gameMaps.get(user)));
+            players.add(new Player(user.getUsername(), gameMaps.get(user), publicMap));
         }
 
         // Instantiate Game
-        Game game = new Game(players, App.getInstance().getCurrentUser());
+        Game game = new Game(players, App.getInstance().getCurrentUser(), publicMap);
 
         // Assign Game to App
         App.getInstance().addGame(game);

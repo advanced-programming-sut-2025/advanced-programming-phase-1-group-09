@@ -3,6 +3,7 @@ package controllers;
 import models.Game;
 import models.GameWorld.Entity.Player.Player;
 import models.GameWorld.Enums.WeatherType;
+import models.GameWorld.Map.GameMap;
 import models.Menu.CheatCommands;
 import models.Menu.Command;
 import models.Result;
@@ -22,6 +23,7 @@ public class CheatController {
             case null -> Result.invalidCommand;
             case TimeCheat -> timeCheat(cheat);
             case DateCheat -> dateCheat(cheat);
+            case ThorCheat -> thorCheat(cheat);
             case WeatherCheat -> weatherCheat(cheat);
             case SetEnergyCheat -> setEnergyCheat(cheat);
             case UnlimitedEnergyCheat -> unlimitedEnergyCheat();
@@ -68,6 +70,14 @@ public class CheatController {
                 true,
                 "Date set to " + game.getTimeState().getDay()
         );
+    }
+
+    private Result thorCheat(String cheat) {
+        String[] parts = cheat.split("\\s+-y\\s+|\\s+-x\\s+");
+        int y = Integer.parseInt(parts[1]);
+        int x = Integer.parseInt(parts[2]);
+        GameMap.thunder(game.getCurrentPlayer().getField(), y, x);
+        return new Result(true, "Time set to 00:00:00");
     }
 
     private Result weatherCheat(String cheat) {

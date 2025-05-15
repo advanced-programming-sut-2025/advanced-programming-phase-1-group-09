@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import models.GameWorld.Enums.SeasonName;
-import models.GameWorld.Farming.Crop;
+import models.GameWorld.Farming.CropDefinition;
 import models.GameWorld.Farming.Seed;
 
 import java.io.IOException;
@@ -16,15 +16,15 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class CropMetaData {
-    private static final Map<String, Crop> crops = new HashMap<>();
+    private static final Map<String, CropDefinition> crops = new HashMap<>();
     private static final Map<String, Seed> seeds = new HashMap<>();
-    private static final Map<Seed, Crop> seedToCrop = new HashMap<>();
+    private static final Map<Seed, CropDefinition> seedToCrop = new HashMap<>();
 
     static {
         try {
             ObjectMapper mapper = new ObjectMapper();
             SimpleModule module = new SimpleModule();
-            module.addDeserializer(Crop.class, new CropDeserializer());
+            module.addDeserializer(CropDefinition.class, new CropDeserializer());
             mapper.registerModule(module);
 
             InputStream inputStream = CropMetaData.class.getClassLoader().getResourceAsStream("JSON/crops.json");
@@ -32,24 +32,24 @@ public class CropMetaData {
                 throw new RuntimeException("File not found in resources!");
             }
 
-            List<Crop> cropList = mapper.readValue(inputStream, new TypeReference<>() {});
+            List<CropDefinition> cropDefinitionList = mapper.readValue(inputStream, new TypeReference<>() {});
 
-            for (Crop crop : cropList) {
-                crops.put(crop.name(), crop);
-                Seed seed = new Seed(crop.source(), 10, crop.spawningChance(), true);
+            for (CropDefinition cropDefinition : cropDefinitionList) {
+                crops.put(cropDefinition.name(), cropDefinition);
+                Seed seed = new Seed(cropDefinition.source(), 10, cropDefinition.spawningChance(), true);
                 seeds.put(seed.getName(), seed);
-                seedToCrop.put(seed, crop);
+                seedToCrop.put(seed, cropDefinition);
             }
         } catch (IOException e) {
             throw new RuntimeException("Failed to load crops", e);
         }
     }
 
-    public static Crop getCrop(String name) {
+    public static CropDefinition getCrop(String name) {
         return crops.get(name);
     }
 
-    public static Crop getCrop(Seed seed) {
+    public static CropDefinition getCrop(Seed seed) {
         return seedToCrop.get(seed);
     }
 
@@ -64,18 +64,18 @@ public class CropMetaData {
     public static Collection<Seed> getSelectedSeeds(SeasonName season) {
         return seedToCrop.entrySet().stream()
                 .filter(entry -> {
-                    Crop crop = entry.getValue();
-                    return crop.growingSeasons().contains(season);
+                    CropDefinition cropDefinition = entry.getValue();
+                    return cropDefinition.growingSeasons().contains(season);
                 })
                 .map(Map.Entry::getKey)
                 .collect(Collectors.toList());
     }
 
-    public static Collection<Crop> getAllCrops() {
+    public static Collection<CropDefinition> getAllCrops() {
         return crops.values();
     }
 
-    public static Collection<Crop> getSelectedCrops(SeasonName season) {
+    public static Collection<CropDefinition> getSelectedCrops(SeasonName season) {
         return crops.values().stream()
                 .filter(crop -> crop.growingSeasons().contains(season))
                 .collect(Collectors.toList());

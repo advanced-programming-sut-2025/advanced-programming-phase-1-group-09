@@ -3,6 +3,7 @@ package models.DataManagers;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import models.GameWorld.Map.Elements.Collectable.CollectableWrapper;
 import models.GameWorld.Minerals.UnextractedMineral;
 
 import java.io.IOException;
@@ -10,9 +11,12 @@ import java.io.InputStream;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 
 public class MineralMetaData {
     private static final HashMap<String, UnextractedMineral> minerals = new HashMap<>();
+    private static double totalSpawningChances = 0.0;
+    private final static Random random = new Random();
 
     static {
         try {
@@ -31,6 +35,7 @@ public class MineralMetaData {
 
             for (UnextractedMineral mineral : mineralList) {
                 minerals.put(mineral.getName(), mineral);
+                totalSpawningChances += mineral.getSpawningChance();
             }
         } catch (IOException e) {
             throw new RuntimeException("Failed to load minerals", e);
@@ -43,5 +48,15 @@ public class MineralMetaData {
 
     public static Collection<UnextractedMineral> getAllMinerals() {
         return minerals.values();
+    }
+
+    public static UnextractedMineral getRandomMineral() {
+        List<UnextractedMineral> pool = minerals.values().stream().toList();
+        double r = random.nextDouble() * totalSpawningChances;
+        for (UnextractedMineral mineral : pool) {
+            r -= mineral.getSpawningChance();
+            if (r <= 0) return mineral.clone();
+        }
+        return pool.getFirst().clone();
     }
 }

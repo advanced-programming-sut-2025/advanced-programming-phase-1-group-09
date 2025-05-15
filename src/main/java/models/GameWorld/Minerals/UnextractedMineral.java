@@ -38,6 +38,11 @@ public class UnextractedMineral implements MapElement {
     }
 
     @Override
+    public String getSymbol() {
+        return ConsoleColors.BLUE_BACKGROUND_BRIGHT + ConsoleColors.WHITE_BOLD + symbol;
+    }
+
+    @Override
     public boolean isInteractable() {
         return true;
     }
@@ -50,7 +55,7 @@ public class UnextractedMineral implements MapElement {
                       (1 + 0.4 * currentTool.getLevel());
 
            if (damaged >= strength) {
-               Tile tile = player.getFarm().getTile(position);
+               Tile tile = player.getField().getTile(position);
                tile.removeElement(this);
                tile.addElement(extract());
 

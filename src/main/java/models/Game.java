@@ -5,7 +5,6 @@ import models.GameWorld.Entity.Player.Player;
 import models.GameWorld.Enums.SeasonName;
 import models.GameWorld.Enums.WeatherType;
 import models.GameWorld.Map.GameMap;
-import models.GameWorld.Map.PublicMap;
 
 import java.util.ArrayList;
 
@@ -21,27 +20,26 @@ public class Game {
     private final Season season;
     private final Weather weather;
 
-    public Game(ArrayList<Player> players, User creator) {
+    public Game(ArrayList<Player> players, User creator, GameMap publicMap) {
         this.id = idCounter++;
         this.creator = creator;
-        this.publicMap = new PublicMap();
+        this.publicMap = publicMap;
         this.turn = 0;
-        this.timeState = new TimeState();
+        this.season = new Season();
+        this.weather = new Weather(this.season);
+
+        // Don't add season and weather to the timeState's observer list,
+        // because they will be updated by the TimeState itself.
+        this.timeState = new TimeState(season, weather);
 
         this.players = players;
         for (Player player : players) {
             this.timeState.addObserver(player);
-            this.timeState.addObserver(player.getFarm());
+            this.timeState.addObserver(player.getField());
         }
         this.playersCount = players.size();
 
         this.timeState.addObserver(publicMap);
-
-        this.season = new Season();
-        this.timeState.addObserver(season);
-
-        this.weather = new Weather(this.season);
-        this.timeState.addObserver(weather);
     }
 
     public int getId() {

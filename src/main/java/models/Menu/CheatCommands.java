@@ -3,7 +3,7 @@ package models.Menu;
 public enum CheatCommands implements Command{
     TimeCheat("cheat\\s+advance\\s+time\\s+\\S+"),
     DateCheat("cheat\\s+advance\\s+date\\s+\\S+"),
-    ThorCheat("cheat\\s+Thor\\s+-l\\s+<\\S+, \\S+>"),
+    ThorCheat("cheat\\s+Thor\\s+-y\\s+\\d+\\s+-x\\s+\\d+"),
     WeatherCheat("cheat\\s+weather\\s+set\\s+\\S+"),
     SetEnergyCheat("energy\\s+set\\s+-v\\s+\\S+"),
     UnlimitedEnergyCheat("energy\\s+unlimited"),

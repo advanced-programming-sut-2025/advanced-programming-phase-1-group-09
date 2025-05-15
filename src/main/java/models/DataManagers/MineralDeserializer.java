@@ -15,9 +15,9 @@ public class MineralDeserializer extends JsonDeserializer<UnextractedMineral> {
 
         String name = node.get("name").asText();
         int price = node.get("price").asInt();
-        double spawningChance = node.get("spawnChance").asDouble();
+        double spawningChance = node.get("spawningChance").asDouble();
         int strength = node.get("strength").asInt();
 
-        return new UnextractedMineral(name, price, spawningChance,"M", strength);
+        return new UnextractedMineral(name, price, spawningChance,"■", strength);
     }
 }
