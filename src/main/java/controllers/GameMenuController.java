@@ -90,7 +90,7 @@ public class GameMenuController {
                             )
                     );
             case ShowBalance ->
-                    new Result(true, String.format("Balance: %d$", game.getCurrentPlayer().getMoney()));
+                    new Result(true, String.format("Balance: %d$", game.getCurrentPlayer().getBalance()));
             case ShowInventory -> {
                 GameMenu.showPlayerInventory(game.getCurrentPlayer());
                 yield new Result(true, "");
