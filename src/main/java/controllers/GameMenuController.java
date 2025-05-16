@@ -126,6 +126,7 @@ public class GameMenuController {
             case Hug -> hug(command);
             case Flower -> flower(command);
             case AskMarriage -> processMarriage(command);
+            case RespondToProposal -> processMarriageResponse(command);
             default -> new Result(false, "Coming Soon...");
         };
     }
@@ -625,7 +626,7 @@ public class GameMenuController {
             );
         current.getMainInventory().reduceItemQuantity(ring, 1);
 
-        // Snd Proposal
+        // Send Proposal
         friendship.getProposalHistory().add(other.getUsername());
         other.getFriendships().get(current.getUsername()).getProposalHistory().add(current.getUsername());
 
