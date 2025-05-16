@@ -1,15 +1,20 @@
 package controllers;
 
 import models.DataManagers.CropMetaData;
-import models.DataManagers.ItemHolder;
+import models.DataManagers.DataHolder;
 import models.DataManagers.TreeMetaData;
 import models.Game;
 import models.GameWorld.Coordinate;
 import models.GameWorld.Entity.Player.*;
+import models.GameWorld.Entity.Animals.Animal;
+import models.GameWorld.Entity.Player.Player;
+import models.GameWorld.Entity.Player.PlayerInventory;
 import models.GameWorld.Enums.Direction;
 import models.GameWorld.Enums.Gender;
 import models.GameWorld.Farming.*;
 import models.GameWorld.Items.Item;
+import models.GameWorld.Items.Recipes.Ingredient;
+import models.GameWorld.Items.Recipes.Recipe;
 import models.GameWorld.Items.Tools.PrimaryTools.WateringCan;
 import models.GameWorld.Items.Tools.Tool;
 import models.GameWorld.Map.Elements.MapElement;
@@ -26,10 +31,12 @@ import views.GameMenu;
 import views.MapPrinter;
 
 import java.util.List;
+import java.util.regex.Matcher;
 
 public class GameMenuController {
     private final CheatController cheatController;
     private Game game;
+    private Matcher matcher;
 
     public GameMenuController() {
         this.cheatController = new CheatController();
@@ -83,7 +90,7 @@ public class GameMenuController {
                             )
                     );
             case ShowBalance ->
-                    new Result(true, String.format("Balance: %d$", game.getCurrentPlayer().getBalance()));
+                    new Result(true, String.format("Balance: %d$", game.getCurrentPlayer().getMoney()));
             case ShowInventory -> {
                 GameMenu.showPlayerInventory(game.getCurrentPlayer());
                 yield new Result(true, "");
@@ -108,6 +115,8 @@ public class GameMenuController {
             }
             case Plant -> processPlanting(command);
             case ShowPlant -> processShowingPlant(command);
+            case ShowCraftingRecipes -> showCraftingRecipes(game.getCurrentPlayer());
+            case BuyAnimal -> buyAnimal(command,matchedGameCommand);
             case ShowCurrentWater -> showWateringCan();
             case ShowFriendships -> {
                 GameMenu.showFriendship(game.getCurrentPlayer());
@@ -335,7 +344,7 @@ public class GameMenuController {
 
     private Result processPlanting(String command) {
         String[] parts = command.split("\\s+-s\\s+|\\s+-d\\s+");
-        Seed seed = ItemHolder.getSeed(parts[1]);
+        Seed seed = DataHolder.getSeed(parts[1]);
         if (seed == null) return new Result(false, "There is no seed with that name!");
 
         Direction direction;
@@ -390,6 +399,35 @@ public class GameMenuController {
         WateringCan wateringCan = (WateringCan) player.getInventory().findItem("WateringCan");
         if (wateringCan == null) return new Result(false, "Watering Can not found!");
         return new Result(true, "" + wateringCan.getWaterLevel());
+    }
+
+    //Animal
+    private Result buyAnimal(String command,GameMenuCommands gameMenuCommands) {
+        matcher = GameMenuCommands.BuyAnimal.matcher(command);
+        Animal animal = DataHolder.getAnimal(matcher.group("animal"));
+        String nickname = matcher.group("name");
+
+        //check to be at marnie's ranch
+        //TODO
+
+        //check if the barn/coop are full
+
+        //add the animal
+        return new Result(true, "");
+    }
+
+    //Crafting
+    private Result showCraftingRecipes(Player player) {
+        StringBuilder output = new StringBuilder();
+        output.append("Available Crafting Recipes:\n");
+        for(Recipe recipe : player.getCraftingRecipes().values()){
+            output.append(recipe.getResult().getName()).append(" : ");
+            for(Ingredient ingredient : recipe.getIngredients())
+                output.append(ingredient.quantity()).append(" ").append(ingredient.item().getName()).append(" + ");
+            output.delete(output.length() - 3, output.length());
+            output.append("\n");
+        }
+        return new Result(true, output.toString());
     }
 
     private Result talk(String command) {

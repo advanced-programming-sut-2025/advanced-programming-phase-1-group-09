@@ -1,33 +1,36 @@
 package models.GameWorld.Entity.Animals;
 
-import models.GameWorld.Entity.Entity;
-import models.GameWorld.Entity.Player.Player;
-import models.GameWorld.Items.Edibles.AnimalEdibleProduct.AnimalEdibleProduct;
+import models.GameWorld.Items.AnimalProducts.AnimalProduct;
 
 import java.util.ArrayList;
 
-public class Animal implements Entity {
+public class Animal{
     private final int price;
-    private int friendshipScore;
-    private final ArrayList<AnimalEdibleProduct> products;
+    private final String name;
+    private final ArrayList<AnimalProduct> products;
+    private final String[] livingPlaces;
 
-    public Animal(int price, ArrayList<AnimalEdibleProduct> products) {
+    public Animal(int price, String name, ArrayList<AnimalProduct> products, String[] livingPlaces) {
         this.price = price;
+        this.name = name;
         this.products = products;
+        this.livingPlaces = livingPlaces;
     }
 
-    @Override
     public String getName() {
-        return "";
+        return name;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public ArrayList<AnimalProduct> getProducts() {
+        return products;
     }
 
     @Override
-    public boolean isInteractable() {
-        return false;
-    }
-
-    @Override
-    public void interact(Player player) {
-
+    public Animal clone() {
+        return new Animal(price,name,products,livingPlaces);
     }
 }

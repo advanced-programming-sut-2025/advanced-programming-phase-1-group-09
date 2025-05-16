@@ -1,0 +1,67 @@
+[
+  {
+    "Name": "Egg",
+    "Sell Price": 50,
+    "Animal": "Chicken"
+  },
+  {
+    "Name": "Large Egg",
+    "Sell Price": 95,
+    "Animal": "Chicken"
+  },
+  {
+    "Name": "Duck Egg",
+    "Sell Price": 95,
+    "Animal": "Duck"
+  },
+  {
+    "Name": "Dinosaur Egg",
+    "Sell Price": 350,
+    "Animal": "Dinosaur"
+  },
+  {
+    "Name": "Milk",
+    "Sell Price": 125,
+    "Animal": "Cow"
+  },
+  {
+    "Name": "Large Milk",
+    "Sell Price": 190,
+    "Animal": "Cow"
+  },
+  {
+    "Name": "Goat Milk",
+    "Sell Price": 225,
+    "Animal": "Goat"
+  },
+  {
+    "Name": "Large Goat Milk",
+    "Sell Price": 345,
+    "Animal": "Goat"
+  },
+  {
+    "Name": "Truffle",
+    "Sell Price": 625,
+    "Animal": "Pig"
+  },
+  {
+    "Name": "Duck Feather",
+    "Sell Price": 250,
+    "Animal": "Duck"
+  },
+  {
+    "Name": "Rabbit Wool",
+    "Sell Price": 340,
+    "Animal": "Rabbit"
+  },
+  {
+    "Name": "Rabbit Foot",
+    "Sell Price": 565,
+    "Animal": "Rabbit"
+  },
+  {
+    "Name": "Sheep Wool",
+    "Sell Price": 340,
+    "Animal": "Sheep"
+  }
+]

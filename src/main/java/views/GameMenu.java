@@ -13,6 +13,7 @@ import models.GameWorld.Farming.Planted;
 import models.GameWorld.Farming.TreeDefinition;
 import models.GameWorld.Items.Item;
 import models.GameWorld.Items.Miscellaneous.InventorySlot;
+import models.GameWorld.Items.Recipes.Recipe;
 import models.GameWorld.Items.Tools.Tool;
 import models.GameWorld.Map.Elements.MapElement;
 import models.GameWorld.Map.Tile;

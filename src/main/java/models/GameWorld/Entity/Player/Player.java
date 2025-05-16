@@ -1,12 +1,15 @@
 package models.GameWorld.Entity.Player;
 
 import models.App;
+import models.DataManagers.DataHolder;
 import models.GameWorld.Coordinate;
+import models.GameWorld.Entity.Animals.Animal;
 import models.GameWorld.Entity.Entity;
 import models.GameWorld.Enums.Direction;
 import models.GameWorld.Enums.Gender;
 import models.GameWorld.Farming.ForagingCrop;
 import models.GameWorld.Items.Miscellaneous.Inventory;
+import models.GameWorld.Items.Recipes.Recipe;
 import models.GameWorld.Map.Elements.Collectable.Collectable;
 import models.GameWorld.Map.GameMap;
 import models.GameWorld.Map.Tile;
@@ -39,6 +42,10 @@ public class Player implements Entity, TimeObserver {
     private boolean isRejected;
     private int depressionDaysCount;
     private final ArrayList<PlayerTrade> trades;
+    private final HashMap<String, Animal> animals;
+    private final HashMap<String, Recipe> craftingRecipes = new HashMap<>();
+
+    private boolean isSleep;
     private boolean isFainted;
     private Partnership partnership;
 
@@ -60,6 +67,8 @@ public class Player implements Entity, TimeObserver {
         this.isRejected = false;
         this.depressionDaysCount = 0;
         this.trades = new ArrayList<>();
+        this.animals = new HashMap<>();
+        this.isSleep = false;
         this.isFainted = false;
         this.partnership = null;
     }
@@ -124,6 +133,16 @@ public class Player implements Entity, TimeObserver {
     public GameMap getField() {
         return isHome ? farm : publicMap;
     }
+
+    @Override
+    public boolean isInteractable() {
+        return true;
+    } //???
+
+    @Override
+    public void interact(Player player) {
+
+    } //???
 
     public GameMap getFarm() {
         return farm;
@@ -301,5 +320,15 @@ public class Player implements Entity, TimeObserver {
                 return false; // Keep the element
             });
         }
+    }
+
+    public void setInitialCraftingRecipes() {
+        craftingRecipes.put("Furnace", DataHolder.getRecipe("Furnace"));
+        craftingRecipes.put("ScareCrow", DataHolder.getRecipe("ScareCrow"));
+        craftingRecipes.put("Mayonnaise Machine", DataHolder.getRecipe("Mayonnaise Machine"));
+    }
+
+    public HashMap<String, Recipe> getCraftingRecipes() {
+        return craftingRecipes;
     }
 }

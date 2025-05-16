@@ -1,0 +1,26 @@
+[
+  {
+    "name": "Chicken",
+    "price": 800,
+    "products" : ["Egg 50","BigEgg 95"],
+    "leavingPlace" : "Coop"
+  },
+  {
+    "name": "Duck",
+    "price": 1200,
+    "products" : ["DuckEgg 95","DuckFeather 250"],
+    "leavingPlace" : "Large Coop,Deluxe Coop"
+  },
+  {
+    "name": "Rabbit",
+    "price": 8000,
+    "products" : ["Wool 340","RabbitFoot 565"],
+    "leavingPlace" : "Deluxe Coop"
+  },
+  {
+    "name": "Dinosaur",
+    "price": 14000,
+    "products" : ["DinosaurEgg 350"],
+    "leavingPlace" : "Big Coop"
+  }
+]

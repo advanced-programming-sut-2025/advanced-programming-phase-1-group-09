@@ -1,5 +1,8 @@
 package models.Menu;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public enum GameMenuCommands implements Command {
     ExitGame("exit\\s+game"),
     WhichMap("which\\s+map"),
@@ -40,9 +43,9 @@ public enum GameMenuCommands implements Command {
     ShowCookingRecipes("show\\s+cooking\\s+recipes"),
     PrepareFood("cooking\\s+prepare\\s+\\S+"),
     EatFood("eat\\s+\\S+"),
-    Build("build\\s+(?=.*-a)(?=.*-l).*"),
-    BuyAnimal("buy\\s+animal\\s+(?=.*-a)(?=.*-n).*"),
-    PetAnimal("pet\\s+-n\\s+\\S+"),
+    Build("build\\s+-s\\s+(?<building-name>.*)\\s+-l\\s+(?<x>\\d+)\\s+,\\s+(?<y>\\d+)"),
+    BuyAnimal("buy\\s+animal\\s+-a\\s+(?<animal>.*)\\s+-n\\s+(?<name>.*)"),
+    PetAnimal("pet\\s+-n\\s+(?<name>.*)"),
     ShowMyAnimals("animals"),
     ShepherdAnimals("shepherd\\s+animals\\s+(?=.*-n)(?=.*-l).*"),
     FeedAnimals("feed\\s+hay\\s+hay\\s+-n\\s+\\S+"),
@@ -84,5 +87,13 @@ public enum GameMenuCommands implements Command {
     @Override
     public String getRegex() {
         return regex;
+    }
+
+    public Matcher matcher(String input) {
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(input);
+        if(matcher.matches())
+            return matcher;
+        return null;
     }
 }
