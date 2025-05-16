@@ -43,7 +43,7 @@ public enum GameMenuCommands implements Command {
     ShowCookingRecipes("show\\s+cooking\\s+recipes"),
     PrepareFood("cooking\\s+prepare\\s+\\S+"),
     EatFood("eat\\s+\\S+"),
-    Build("build\\s+-s\\s+(?<building-name>.*)\\s+-l\\s+(?<x>\\d+)\\s+,\\s+(?<y>\\d+)"),
+    Build("build\\s+-s\\s+(?<buildingName>.*)\\s+-l\\s+(?<x>\\d+)\\s+,\\s+(?<y>\\d+)"),
     BuyAnimal("buy\\s+animal\\s+-a\\s+(?<animal>.*)\\s+-n\\s+(?<name>.*)"),
     PetAnimal("pet\\s+-n\\s+(?<name>.*)"),
     ShowMyAnimals("animals"),

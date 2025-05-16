@@ -41,7 +41,9 @@ public class Player implements Entity, TimeObserver {
     private final HashMap<String, PlayerFriendship> friendships;
     private boolean isRejected;
     private int depressionDaysCount;
-    private final ArrayList<PlayerTrade> trades;
+    private final ArrayList<Trade> pendingTrades;
+    private final ArrayList<Trade> tradeHistory;
+    private int lastTradeSeen;
     private final HashMap<String, Animal> animals;
     private final HashMap<String, Recipe> craftingRecipes = new HashMap<>();
 
@@ -66,7 +68,9 @@ public class Player implements Entity, TimeObserver {
         this.friendships = new HashMap<>();
         this.isRejected = false;
         this.depressionDaysCount = 0;
-        this.trades = new ArrayList<>();
+        this.pendingTrades = new ArrayList<>();
+        this.tradeHistory = new ArrayList<>();
+        this.lastTradeSeen = 0;
         this.animals = new HashMap<>();
         this.isSleep = false;
         this.isFainted = false;
@@ -133,16 +137,6 @@ public class Player implements Entity, TimeObserver {
     public GameMap getField() {
         return isHome ? farm : publicMap;
     }
-
-    @Override
-    public boolean isInteractable() {
-        return true;
-    } //???
-
-    @Override
-    public void interact(Player player) {
-
-    } //???
 
     public GameMap getFarm() {
         return farm;
@@ -320,6 +314,38 @@ public class Player implements Entity, TimeObserver {
                 return false; // Keep the element
             });
         }
+    }
+
+    public ArrayList<Trade> getPendingTrades() {
+        return pendingTrades;
+    }
+
+    public Trade findPendingTrade(int tradeId) {
+        for (Trade trade : pendingTrades) {
+            if (trade.getId() == tradeId) return trade;
+        }
+        return null;
+    }
+
+    public void addPendingTrade(Trade trade) {
+        pendingTrades.add(trade);
+    }
+
+    public int countNewTrades() {
+        return pendingTrades.size() - lastTradeSeen;
+    }
+
+    public ArrayList<Trade> getNewTrades() {
+        ArrayList<Trade> newTrades = new ArrayList<>();
+        for (int i = lastTradeSeen; i < pendingTrades.size(); i++) {
+            newTrades.add(pendingTrades.get(i));
+        }
+        lastTradeSeen = pendingTrades.size();
+        return newTrades;
+    }
+
+    public ArrayList<Trade> getTradeHistory() {
+        return tradeHistory;
     }
 
     public void setInitialCraftingRecipes() {

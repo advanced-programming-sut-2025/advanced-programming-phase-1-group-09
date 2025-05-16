@@ -1,8 +1,10 @@
 package controllers;
 
+import models.DataManagers.DataHolder;
 import models.Game;
 import models.GameWorld.Entity.Player.Player;
 import models.GameWorld.Enums.WeatherType;
+import models.GameWorld.Items.Item;
 import models.GameWorld.Map.GameMap;
 import models.Menu.CheatCommands;
 import models.Menu.Command;
@@ -27,6 +29,7 @@ public class CheatController {
             case WeatherCheat -> weatherCheat(cheat);
             case SetEnergyCheat -> setEnergyCheat(cheat);
             case UnlimitedEnergyCheat -> unlimitedEnergyCheat();
+            case AddItemCheat -> addItemCheat(cheat);
             case AddBalanceCheat -> addBalanceCheat(cheat);
             default -> new Result(false, "Coming Soon...");
         };
@@ -112,6 +115,23 @@ public class CheatController {
                 true,
                 "Energy changed to " + (currentPlayer.isEnergyUnlimited() ? "unlimited" : "limited") +
                         " mode for " + currentPlayer.getName()
+        );
+    }
+
+    private Result addItemCheat(String cheat) {
+        String[] parts = cheat.split("\\s+-n\\s+|\\s+-c\\s+");
+        String itemName = parts[1];
+        int amount = Integer.parseInt(parts[2]);
+
+        Item item = DataHolder.getItem(itemName);
+        if (item == null) return new Result(false, "Item \"" + itemName + "\" not found!");
+
+        if (!game.getCurrentPlayer().getMainInventory().addItem(item.clone(), amount))
+            return new Result(false, "Not enough space in inventory!");
+
+        return new Result(
+                true,
+                "Item added to your inventory successfully! (" + itemName + ", " + amount + ")"
         );
     }
 

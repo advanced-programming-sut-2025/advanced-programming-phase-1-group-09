@@ -34,6 +34,6 @@ public class CraftingRecipe extends Recipe {
 
     //TODO
     public CraftedItem craft(){
-
+        return null;
     }
 }

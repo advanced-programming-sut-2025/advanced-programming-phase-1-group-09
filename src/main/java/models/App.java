@@ -11,10 +11,12 @@ public class App {
     private final ArrayList<User> users;
     private User currentUser;
     private Menus currentMenu;
+    private Game currentGame;
 
     private App() {
         games = new ArrayList<>();
         users = UserManager.loadUsers();
+        this.currentGame = null;
     }
 
     private static App instance;
@@ -70,5 +72,13 @@ public class App {
             }
         }
         return null;
+    }
+
+    public Game getCurrentGame() {
+        return currentGame;
+    }
+
+    public void setCurrentGame(Game game) {
+        this.currentGame = game;
     }
 }
