@@ -6,7 +6,6 @@ import models.GameWorld.Map.Elements.Buyable.Coops.CoopElement;
 import java.util.ArrayList;
 
 public class CoopAnimal extends Animal {
-    private CoopElement livingCoop = null;
     public CoopAnimal(int price, String name, ArrayList<AnimalProduct> products, String[] livingPlaces) {
         super(price, name, products, livingPlaces);
     }

@@ -1,9 +1,11 @@
 package models.GameWorld.Map.Elements.Buyable;
 
+import models.GameWorld.Coordinate;
 import models.GameWorld.Entity.Player.Player;
 import models.GameWorld.Map.Elements.MultiTileElement;
 
 public class Well implements MultiTileElement,BuyableMapElement {
+
     private int y;
     private int x;
 
@@ -53,7 +55,7 @@ public class Well implements MultiTileElement,BuyableMapElement {
     }
 
     @Override
-    public void interact(Player player) {
+    public void interact(Player player, Coordinate position) {
 
     }
 }

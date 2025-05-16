@@ -2,7 +2,10 @@ package models.GameWorld.Entity.Animals;
 
 import models.GameWorld.Entity.Entity;
 import models.GameWorld.Entity.Player.Player;
+import models.GameWorld.Items.AnimalProducts.AnimalProduct;
 import models.GameWorld.Map.Elements.Buyable.Barns.BarnElement;
+
+import java.util.ArrayList;
 
 
 public class BoughtBarnAnimal extends Animal implements Entity {
@@ -10,8 +13,8 @@ public class BoughtBarnAnimal extends Animal implements Entity {
     private final String nickname;
     private final BarnElement livingBarn;
 
-    public BoughtBarnAnimal(int price, String name, String nickname, BarnElement livingBarn) {
-        super(price, name);
+    public BoughtBarnAnimal(int price, String name, ArrayList<AnimalProduct> products, String[] livingPlaces, String nickname, BarnElement livingBarn) {
+        super(price, name, products, livingPlaces);
         this.nickname = nickname;
         this.livingBarn = livingBarn;
     }

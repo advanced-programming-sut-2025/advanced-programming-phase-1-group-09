@@ -11,6 +11,8 @@ import models.GameWorld.Entity.Player.PlayerInventory;
 import models.GameWorld.Enums.Direction;
 import models.GameWorld.Farming.*;
 import models.GameWorld.Items.Item;
+import models.GameWorld.Items.Recipes.Ingredient;
+import models.GameWorld.Items.Recipes.Recipe;
 import models.GameWorld.Items.Tools.PrimaryTools.WateringCan;
 import models.GameWorld.Items.Tools.Tool;
 import models.GameWorld.Map.Elements.MapElement;
@@ -111,6 +113,7 @@ public class GameMenuController {
             }
             case Plant -> processPlanting(command);
             case ShowPlant -> processShowingPlant(command);
+            case ShowCraftingRecipes -> showCraftingRecipes(game.getCurrentPlayer());
             case BuyAnimal -> buyAnimal(command,matchedGameCommand);
             case ShowCurrentWater -> showWateringCan();
             default -> new Result(false, "Coming Soon...");
@@ -385,5 +388,19 @@ public class GameMenuController {
 
         //add the animal
         return new Result(true, "");
+    }
+
+    //Crafting
+    private Result showCraftingRecipes(Player player) {
+        StringBuilder output = new StringBuilder();
+        output.append("Available Crafting Recipes:\n");
+        for(Recipe recipe : player.getCraftingRecipes().values()){
+            output.append(recipe.getResult().getName()).append(" : ");
+            for(Ingredient ingredient : recipe.getIngredients())
+                output.append(ingredient.quantity()).append(" ").append(ingredient.item().getName()).append(" + ");
+            output.delete(output.length() - 3, output.length());
+            output.append("\n");
+        }
+        return new Result(true, output.toString());
     }
 }

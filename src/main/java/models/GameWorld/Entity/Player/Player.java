@@ -1,14 +1,15 @@
 package models.GameWorld.Entity.Player;
 
 import models.App;
+import models.DataManagers.DataHolder;
 import models.GameWorld.Coordinate;
 import models.GameWorld.Entity.Animals.Animal;
 import models.GameWorld.Entity.Entity;
 import models.GameWorld.Enums.Direction;
 import models.GameWorld.Farming.ForagingCrop;
 import models.GameWorld.Items.Miscellaneous.Inventory;
+import models.GameWorld.Items.Recipes.Recipe;
 import models.GameWorld.Map.Elements.Collectable.Collectable;
-import models.GameWorld.Map.Elements.MapElement;
 import models.GameWorld.Map.GameMap;
 import models.GameWorld.Map.Tile;
 import models.GameWorld.TimeState;
@@ -38,6 +39,8 @@ public class Player implements Entity, TimeObserver {
     private final ArrayList<PlayerFriendship> friendships;
     private final ArrayList<PlayerTrade> trades;
     private final HashMap<String, Animal> animals;
+    private final HashMap<String, Recipe> craftingRecipes = new HashMap<>();
+
     private boolean isSleep;
     private boolean isFainted;
     private Player partner;
@@ -216,5 +219,15 @@ public class Player implements Entity, TimeObserver {
                 return false; // Keep the element
             });
         }
+    }
+
+    public void setInitialCraftingRecipes() {
+        craftingRecipes.put("Furnace", DataHolder.getRecipe("Furnace"));
+        craftingRecipes.put("ScareCrow", DataHolder.getRecipe("ScareCrow"));
+        craftingRecipes.put("Mayonnaise Machine", DataHolder.getRecipe("Mayonnaise Machine"));
+    }
+
+    public HashMap<String, Recipe> getCraftingRecipes() {
+        return craftingRecipes;
     }
 }

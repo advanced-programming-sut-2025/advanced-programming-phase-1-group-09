@@ -1,5 +1,6 @@
 package models.GameWorld.Map.Elements.Buyable;
 
+import models.GameWorld.Coordinate;
 import models.GameWorld.Entity.Player.Player;
 import models.GameWorld.Map.Elements.MapElement;
 
@@ -31,7 +32,7 @@ public class ShippingBin implements MapElement,BuyableMapElement {
     }
 
     @Override
-    public void interact(Player player) {
+    public void interact(Player player, Coordinate position) {
 
     }
 }

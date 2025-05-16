@@ -1,5 +1,6 @@
 package models.GameWorld.Entity.NPC;
 
+import models.GameWorld.Entity.Entity;
 import models.GameWorld.Items.Item;
 import models.GameWorld.Quest;
 

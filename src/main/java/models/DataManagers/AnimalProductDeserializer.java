@@ -16,7 +16,7 @@ public class AnimalProductDeserializer extends JsonDeserializer<AnimalProduct> {
         JsonNode node = p.getCodec().readTree(p);
         String name = node.get("Name").asText();
         int sellPrice = node.get("Sell Price").asInt();
-        Animal animal = new Animal(sellPrice,node.get("Animal").asText());
+        Animal animal = DataHolder.getAnimal(node.get("Animal").asText());
 
         return new AnimalProduct(name,true,sellPrice,animal);
     }
