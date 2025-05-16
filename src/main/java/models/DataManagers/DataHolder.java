@@ -46,6 +46,21 @@ public class DataHolder {
             items.put(crop.getName(), crop.clone());
         }
 
+        // Fruit
+        for (Item fruit : FruitMetaData.getFruit()) {
+            items.put(fruit.getName(), fruit.clone());
+        }
+
+        // Vegetable
+        for (Item vegetable : VegetableMetaData.getVegetable()){
+            items.put(vegetable.getName(), vegetable.clone());
+        }
+
+        // Mushroom
+        for (Item mushroom : MushroomMetaData.getMushroom()){
+            items.put(mushroom.getName(), mushroom.clone());
+        }
+
         // Wood
         items.put("Wood", new Wood());
 
@@ -69,18 +84,24 @@ public class DataHolder {
             fish.put(fishElement.getName(), fishElement.clone());
 
         // CaughtFish
-        for(Item fishElement : FishMetaData.getCaught())
+        for(Item fishElement : FishMetaData.getCaught()) {
             items.put(fishElement.getName(), fishElement.clone());
+        }
 
         // Crafted Items
-        for(Item craftedItem : CraftingRecipeMetaData.getCraftedItems())
+        for(Item craftedItem : CraftingRecipeMetaData.getCraftedItems()) {
             items.put(craftedItem.getName(), craftedItem.clone());
+        }
 
         //Cooked Items
-        for(Item cookedItem : CookingRecipeMetaData.getCookedItems())
+        for(Item cookedItem : CookingRecipeMetaData.getCookedItems()) {
             items.put(cookedItem.getName(), cookedItem.clone());
+        }
 
-
+        //Artisan Items
+        for(Item artisanItem : ArtisanRecipeMetaData.getArtisanItems()) {
+            items.put(artisanItem.getName(), artisanItem.clone());
+        }
     }
 
     public static Item getItem(String name) {

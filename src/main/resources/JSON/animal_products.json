@@ -5,7 +5,7 @@
     "Animal": "Chicken"
   },
   {
-    "Name": "Big Egg",
+    "Name": "Large Egg",
     "Sell Price": 95,
     "Animal": "Chicken"
   },
@@ -25,7 +25,7 @@
     "Animal": "Cow"
   },
   {
-    "Name": "Big Milk",
+    "Name": "Large Milk",
     "Sell Price": 190,
     "Animal": "Cow"
   },
@@ -35,7 +35,7 @@
     "Animal": "Goat"
   },
   {
-    "Name": "Big Goat Milk",
+    "Name": "Large Goat Milk",
     "Sell Price": 345,
     "Animal": "Goat"
   },

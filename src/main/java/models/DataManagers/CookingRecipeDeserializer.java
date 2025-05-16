@@ -27,7 +27,7 @@ public class CookingRecipeDeserializer extends JsonDeserializer<CookingRecipe> {
             if(details.length == 2)
                 ingredientList.add(new Ingredient(DataHolder.getItem(details[1]),Integer.parseInt(details[0]),null));
             else
-                ingredientList.add(new Ingredient(DataHolder.getItem(details[2]),Integer.parseInt(details[0]),FishMetaData.getCaught()));
+                ingredientList.add(new Ingredient(null, Integer.parseInt(details[0]),FishMetaData.getCaught()));
         }
 
         switch (source[0]) {

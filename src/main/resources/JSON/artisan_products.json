@@ -1,0 +1,243 @@
+[
+  {
+    "Machine" : "Bee House",
+    "Name": "Honey",
+    "Processing Time": "4 Days",
+    "Energy": "75",
+    "Ingredients": "-",
+    "Sell Price": "350"
+  },
+  {
+    "Machine" : "Cheese Press",
+    "Name": "Large Cheese",
+    "Processing Time": "3 Hours",
+    "Energy": "100",
+    "Ingredients": "Large Milk",
+    "Sell Price": "345"
+  },
+  {
+    "Machine" : "Cheese Press",
+    "Name": "Cheese",
+    "Processing Time": "3 Hours",
+    "Energy": "100",
+    "Ingredients": "Milk",
+    "Sell Price": "230"
+  },
+  {
+    "Machine" : "Cheese Press",
+    "Name": "Goat Cheese",
+    "Processing Time": "3 Hours",
+    "Energy": "100",
+    "Ingredients": "Goat Milk",
+    "Sell Price": "400"
+  },
+  {
+    "Machine" : "Cheese Press",
+    "Name": "Large Goat Cheese",
+    "Processing Time": "3 Hours",
+    "Energy": "100",
+    "Ingredients": "Large Goat Milk",
+    "Sell Price": "600"
+  },
+  {
+    "Machine" : "Keg",
+    "Name": "Beer",
+    "Processing Time": "1 Day",
+    "Energy": "50",
+    "Ingredients": "Wheat",
+    "Sell Price": "200"
+  },
+  {
+    "Machine" : "Keg",
+    "Name": "Vinegar",
+    "Processing Time": "10 Hours",
+    "Energy": "13",
+    "Ingredients": "Rice",
+    "Sell Price": "100"
+  },
+  {
+
+    "Machine" : "Keg",
+    "Name": "Coffee",
+    "Processing Time": "2 Hours",
+    "Energy": "75",
+    "Ingredients": "Coffee Bean,5",
+    "Sell Price": "150"
+  },
+  {
+    "Machine" : "Keg",
+    "Name": "Juice",
+    "Processing Time": "4 Days",
+    "Energy": "2*Base",
+    "Ingredients": "Any Vegetable",
+    "Sell Price": "2.25*Base"
+  },
+  {
+    "Machine" : "Keg",
+    "Name": "Mead",
+    "Processing Time": "10 hours",
+    "Energy": "100",
+    "Ingredients": "Honey",
+    "Sell Price": "300"
+  },
+  {
+    "Machine" : "Keg",
+    "Name": "Pale Ale",
+    "Processing Time": "3 Days",
+    "Energy": "50",
+    "Ingredients": "Hops",
+    "Sell Price": "300"
+  },
+  {
+    "Machine" : "Keg",
+    "Name": "Wine",
+    "Processing Time": "7 Days",
+    "Energy": "1.75*Base",
+    "Ingredients": "Any Fruit",
+    "Sell Price": "3*Base"
+  },
+  {
+    "Machine" : "Dehydrator",
+    "Name": "Dried Mushroom",
+    "Processing Time": "Ready the next morning",
+    "Energy": "50",
+    "Ingredients": "Any Mushroom,5",
+    "Sell Price": "470"
+  },
+  {
+    "Machine" : "Dehydrator",
+    "Name": "Dried Fruit",
+    "Processing Time": "Ready the next morning",
+    "Energy": "75",
+    "Ingredients": "Any Fruit,5",
+    "Sell Price": "190-237"
+  },
+  {
+    "Machine" : "Dehydrator",
+    "Name": "Raisins",
+    "Processing Time": "Ready the next morning",
+    "Energy": "125",
+    "Ingredients": "Grapes",
+    "Sell Price": "600"
+  },
+  {
+    "Machine" : "Charcoal Kiln",
+    "Name": "Coal",
+    "Processing Time": "1 Hour",
+    "Energy": "0",
+    "Ingredients": "Wood,10",
+    "Sell Price": "50"
+  },
+  {
+    "Machine" : "Loom",
+    "Name": "Cloth",
+    "Processing Time": "4 Hours",
+    "Energy": "0",
+    "Ingredients": "Wool",
+    "Sell Price": "470"
+  },
+  {
+    "Machine" : "Mayonnaise Machine",
+    "Name": "Mayonnaise",
+    "Processing Time": "3 Hours",
+    "Energy": "50",
+    "Ingredients": "Egg",
+    "Sell Price": "190"
+  },
+  {
+    "Machine" : "Mayonnaise Machine",
+    "Name": "Large Mayonnaise",
+    "Processing Time": "3 Hours",
+    "Energy": "50",
+    "Ingredients": "Large Egg",
+    "Sell Price": "237"
+  },
+  {
+    "Machine" : "Mayonnaise Machine",
+    "Name": "Duck Mayonnaise",
+    "Processing Time": "3 Hours",
+    "Energy": "75",
+    "Ingredients": "Duck Egg",
+    "Sell Price": "37"
+  },
+  {
+    "Machine" : "Mayonnaise Machine",
+    "Name": "Dinosaur Mayonnaise",
+    "Processing Time": "3 Hours",
+    "Energy": "125",
+    "Ingredients": "Dinosaur Egg",
+    "Sell Price": "800"
+  },
+  {
+    "Machine" : "Oil Maker",
+    "Name": "Truffle Oil",
+    "Processing Time": "6 Hours",
+    "Energy": "38",
+    "Ingredients": "Truffle",
+    "Sell Price": "1065"
+  },
+  {
+    "Machine" : "Oil Maker",
+    "Name": "Oil",
+    "Processing Time": "6 Hours",
+    "Energy": "13",
+    "Ingredients": "Corn/SunflowerSeed/Sunflower",
+    "Sell Price": "100"
+  },
+  {
+    "Machine" : "Preserves Jar",
+    "Name": "Pickles",
+    "Processing Time": "6 Hours",
+    "Energy": "1.75*Base",
+    "Ingredients": "Any Vegetable",
+    "Sell Price": "2*Base+50"
+  },
+  {
+    "Machine" : "Preserves Jar",
+    "Name": "Jelly",
+    "Processing Time": "3 Days",
+    "Energy": "2*Base",
+    "Ingredients": "Any Fruit",
+    "Sell Price": "2*Base+50"
+  },
+  {
+    "Machine" : "Fish Smoker",
+    "Name": "Smoked Fish",
+    "Processing Time": "1 Hour",
+    "Energy": "1.5*Base",
+    "Ingredients": "Any Fish+Coal",
+    "Sell Price": "2*Base"
+  },
+  {
+    "Machine" : "Furnace",
+    "Name": "Copper Bar",
+    "Processing Time": "4 Hour",
+    "Energy": "0",
+    "Ingredients": "Copper Ore,5+Coal",
+    "Sell Price": "50"
+  },
+  {
+    "Machine" : "Furnace",
+    "Name": "Iron Bar",
+    "Processing Time": "4 Hour",
+    "Energy": "0",
+    "Ingredients": "Iron Ore,5+Coal",
+    "Sell Price": "100"
+  },
+  {
+    "Machine" : "Furnace",
+    "Name": "Gold Bar",
+    "Processing Time": "4 Hour",
+    "Energy": "0",
+    "Ingredients": "Gold Ore,5+Coal",
+    "Sell Price": "250"
+  },
+  {
+    "Machine" : "Furnace",
+    "Name": "Iridium Bar",
+    "Processing Time": "4 Hour",
+    "Energy": "0",
+    "Ingredients": "Iridium Ore,5+Coal",
+    "Sell Price": "1000"
+  }
+]
