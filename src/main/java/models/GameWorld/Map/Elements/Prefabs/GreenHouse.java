@@ -33,9 +33,9 @@ public class GreenHouse extends Prefab {
 
         Item wood = player.getInventory().findItem("Wood");
         int amount = player.getMainInventory().getItemQuantity(wood);
-        if (amount >= NEEDED_WOOD && player.getMoney() >= NEEDED_MONEY) {
+        if (amount >= NEEDED_WOOD && player.getBalance() >= NEEDED_MONEY) {
             player.getInventory().getMainInventory().reduceItemQuantity(wood, NEEDED_WOOD);
-            player.changeMoney(-NEEDED_MONEY);
+            player.withdraw(NEEDED_MONEY);
             isBuilt = true;
         }
     }

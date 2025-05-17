@@ -1,9 +1,11 @@
 package controllers;
 
+import models.DataManagers.DataHolder;
 import models.Game;
 import models.GameWorld.Entity.Animals.BoughtAnimal;
 import models.GameWorld.Entity.Player.Player;
 import models.GameWorld.Enums.WeatherType;
+import models.GameWorld.Items.Item;
 import models.GameWorld.Map.GameMap;
 import models.Menu.CheatCommands;
 import models.Menu.Command;
@@ -30,6 +32,7 @@ public class CheatController {
             case WeatherCheat -> weatherCheat(cheat);
             case SetEnergyCheat -> setEnergyCheat(cheat);
             case UnlimitedEnergyCheat -> unlimitedEnergyCheat();
+            case AddItemCheat -> addItemCheat(cheat);
             case AddBalanceCheat -> addBalanceCheat(cheat);
             case SetFriendshipCheat -> setFriendShipCheat(cheat);
             default -> new Result(false, "Coming Soon...");
@@ -119,6 +122,23 @@ public class CheatController {
         );
     }
 
+    private Result addItemCheat(String cheat) {
+        String[] parts = cheat.split("\\s+-n\\s+|\\s+-c\\s+");
+        String itemName = parts[1];
+        int amount = Integer.parseInt(parts[2]);
+
+        Item item = DataHolder.getItem(itemName);
+        if (item == null) return new Result(false, "Item \"" + itemName + "\" not found!");
+
+        if (!game.getCurrentPlayer().getMainInventory().addItem(item.clone(), amount))
+            return new Result(false, "Not enough space in inventory!");
+
+        return new Result(
+                true,
+                "Item added to your inventory successfully! (" + itemName + ", " + amount + ")"
+        );
+    }
+
     private Result addBalanceCheat(String cheat) {
         int amount;
         try {
@@ -126,7 +146,7 @@ public class CheatController {
         } catch (NumberFormatException e) {
             return new Result(false, "Please enter a valid amount for balance.");
         }
-        game.getCurrentPlayer().changeMoney(amount);
+        game.getCurrentPlayer().deposit(amount);
         return new Result(
                 true,
                 "Balance changed to " + amount + " for " + game.getCurrentPlayer().getName() + "."

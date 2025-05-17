@@ -1,6 +1,7 @@
 package models.GameWorld.Entity.NPC;
 
 import models.GameWorld.Entity.Entity;
+import models.GameWorld.Entity.Player.Player;
 import models.GameWorld.Items.Item;
 import models.GameWorld.Quest;
 
@@ -17,5 +18,20 @@ public class NPC /*implements Entity*/ {
         this.job = job;
         this.favorites = favorites;
         this.quests = quests;
+    }
+
+    @Override
+    public String getName() {
+        return "";
+    }
+
+    @Override
+    public boolean isInteractable() {
+        return false;
+    }
+
+    @Override
+    public void interact(Player player) {
+
     }
 }

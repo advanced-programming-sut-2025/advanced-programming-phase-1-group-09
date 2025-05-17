@@ -10,7 +10,7 @@ public enum CheatCommands implements Command{
     WeatherCheat("cheat\\s+weather\\s+set\\s+\\S+"),
     SetEnergyCheat("energy\\s+set\\s+-v\\s+\\S+"),
     UnlimitedEnergyCheat("energy\\s+unlimited"),
-    AddItemCheat("cheat\\s+add\\s+item\\s+(?=.*-n)(?=.*-c).*"),
+    AddItemCheat("cheat\\s+add\\s+item\\s+-n\\s+\\S+\\s+-c\\s+\\d+"),
     SetFriendshipCheat("cheat\\s+set\\s+friendship\\s+\\s+-n\\s+(?<name>.*)\\s+-c\\s+(?<amount>.*)"),
     AddBalanceCheat("cheat\\s+add\\s+\\S+\\s+dollars");
 

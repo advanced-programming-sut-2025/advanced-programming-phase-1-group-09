@@ -1,9 +1,10 @@
 package models.Menu;
 
 public enum TradeMenuCommands implements Command {
-    Trade("trade\\s+(?=.*-u)(?=.*-t)(?=.*-i)(?=.*-a).*"),
+    Trade("trade\\s+-u\\s+(\\S+)\\s+-t\\s+(\\S+)\\s+-i\\s+(\\S+)\\s+-a\\s+(\\d+)" +
+            "(?:\\s+-p\\s+(\\d+)|\\s+-ti\\s+(\\S+)\\s+-ta\\s+(\\d+))"),
     ShowTradeList("trade\\s+list"),
-    TradeResponse("trade\\s+response\\s+(accept|reject)\\s+-i\\S+"),
+    TradeResponse("trade\\s+response\\s+(accept|reject)\\s+-i\\d+"),
     TradeHistory("trade\\s+history"),
     ExitTradeMenu("exit");
 

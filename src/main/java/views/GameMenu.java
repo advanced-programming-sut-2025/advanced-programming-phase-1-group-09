@@ -1,22 +1,25 @@
 package views;
 
+import models.App;
 import models.DataManagers.CropMetaData;
 import controllers.GameMenuController;
 import models.DataManagers.TreeMetaData;
 import models.Game;
 import models.GameWorld.Coordinate;
+import models.GameWorld.Entity.Player.Gift;
 import models.GameWorld.Entity.Player.Player;
+import models.GameWorld.Entity.Player.PlayerFriendship;
 import models.GameWorld.Farming.CropDefinition;
 import models.GameWorld.Farming.Planted;
 import models.GameWorld.Farming.TreeDefinition;
 import models.GameWorld.Items.Item;
 import models.GameWorld.Items.Miscellaneous.InventorySlot;
-import models.GameWorld.Items.Recipes.Recipe;
 import models.GameWorld.Items.Tools.Tool;
 import models.GameWorld.Map.Elements.MapElement;
 import models.GameWorld.Map.Tile;
 import models.Result;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class GameMenu implements AppMenu {
@@ -43,6 +46,7 @@ public class GameMenu implements AppMenu {
      * This should be done for every new game and load game
      */
     public void setGame(Game game) {
+        App.getInstance().setCurrentGame(game);
         this.game = game;
         controller.setGame(game);
     }
@@ -95,5 +99,74 @@ public class GameMenu implements AppMenu {
             }
         }
         System.out.println("There is no plant here.");
+    }
+
+    public static void showFriendship(Player player) {
+        if (player.getFriendships().isEmpty()) {
+            System.out.println("You have no friends");
+            return;
+        }
+        for (PlayerFriendship friendship : player.getFriendships().values()) {
+            System.out.println(friendship.toString());
+        }
+    }
+
+    public static void showNewMessages(Player current, Player friend) {
+        PlayerFriendship friendship = current.getFriendships().get(friend.getUsername());
+        if (friendship.countNewMessages() == 0) {
+            System.out.println("You have no new messages.");
+            return;
+        }
+        for (String message : friendship.getNewMessages()) {
+            System.out.printf("\"%s\": %s\n", friend.getUsername(), message);
+        }
+    }
+
+    public static void showMessages(Player current, Player friend) {
+        PlayerFriendship friendship = current.getFriendships().get(friend.getUsername());
+        ArrayList<String> messages = friendship.getMessageHistory();
+        if (messages.isEmpty()) {
+            System.out.println("You have no messages.");
+            return;
+        }
+        for (String message : messages) {
+            System.out.printf("\"%s\": %s\n", friend.getUsername(), message);
+        }
+    }
+
+    public static void showReceivedGifts(Player player) {
+        for (PlayerFriendship friendship : player.getFriendships().values()) {
+            System.out.println("Sender: " + friendship.getEntity().getName());
+            boolean received = false;
+            for (Gift gift : friendship.getReceivedGifts()) {
+                System.out.println(gift.toString());
+                received = true;
+            }
+            if (!received) System.out.println("You have no received gifts from this sender.");
+            System.out.println();
+        }
+    }
+
+    public static void showGiftHistory(Player current, Player friend) {
+        System.out.println("Gift History");
+        System.out.println("Sent Gifts:");
+        boolean sent = false;
+        for (PlayerFriendship friendship : current.getFriendships().values()) {
+            for (Gift gift : friendship.getSentGifts()) {
+                System.out.println(gift.toString());
+                sent = true;
+            }
+        }
+        if (!sent) System.out.println("You have no sent gifts.");
+
+        System.out.println("Received Gifts:");
+        boolean received = false;
+        for (PlayerFriendship friendship : current.getFriendships().values()) {
+            for (Gift gift : friendship.getReceivedGifts()) {
+                System.out.println(gift.toString());
+                received = true;
+            }
+        }
+        if (!received) System.out.println("You have no received gifts.");
     }
 }

@@ -2,6 +2,7 @@ package models;
 
 import models.GameWorld.*;
 import models.GameWorld.Entity.Player.Player;
+import models.GameWorld.Entity.Player.PlayerFriendship;
 import models.GameWorld.Enums.SeasonName;
 import models.GameWorld.Enums.WeatherType;
 import models.GameWorld.Map.GameMap;
@@ -33,6 +34,7 @@ public class Game {
         this.timeState = new TimeState(season, weather);
 
         this.players = players;
+        initializePlayersFriendship();
         for (Player player : players) {
             this.timeState.addObserver(player);
             this.timeState.addObserver(player.getField());
@@ -42,12 +44,28 @@ public class Game {
         this.timeState.addObserver(publicMap);
     }
 
+    private void initializePlayersFriendship() {
+        for (Player player1 : players) {
+            for (Player player2 : players) {
+                if (player1 == player2) continue;
+                player1.getFriendships().put(player2.getUsername(), new PlayerFriendship(player2));
+            }
+        }
+    }
+
     public int getId() {
         return id;
     }
 
     public Player getCurrentPlayer() {
         return players.get(turn);
+    }
+
+    public Player getPlayer(String username) {
+        for (Player player : players) {
+            if (player.getUsername().equals(username)) return player;
+        }
+        return null;
     }
 
     public boolean areAllPlayersFainted() {

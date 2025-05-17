@@ -37,4 +37,18 @@ public abstract class Item implements Cloneable{
     }
 
     public abstract void use(Coordinate target, Player player, Game game);
+
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass().getSuperclass() != obj.getClass().getSuperclass()) return false;
+        Item item = (Item) obj;
+        return name.equals(item.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return name.hashCode();
+    }
 }

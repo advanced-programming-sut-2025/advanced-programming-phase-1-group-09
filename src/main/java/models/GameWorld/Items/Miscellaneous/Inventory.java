@@ -20,7 +20,7 @@ public class Inventory {
 
     public int getItemQuantity(Item item) {
         for (InventorySlot slot : slots) {
-            if (slot.item() == item) return slot.quantity();
+            if (slot.item().equals(item)) return slot.quantity();
         }
         return 0;
     }

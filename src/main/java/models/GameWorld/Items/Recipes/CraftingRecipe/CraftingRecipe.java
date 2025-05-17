@@ -33,7 +33,7 @@ public class CraftingRecipe extends Recipe {
 
 
     //TODO
-    /*public CraftedItem craft(){
-
-    }*/
+    public CraftedItem craft(){
+        return null;
+    }
 }
