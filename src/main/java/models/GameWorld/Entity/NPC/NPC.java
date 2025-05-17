@@ -7,7 +7,7 @@ import models.GameWorld.Quest;
 
 import java.util.ArrayList;
 
-public class NPC /*implements Entity*/ {
+public class NPC implements Entity {
     private final String job;
     //private final NPCsHouse house;
     private final ArrayList<Item> favorites;

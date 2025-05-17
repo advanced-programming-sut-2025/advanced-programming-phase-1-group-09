@@ -14,6 +14,7 @@ public class BoughtAnimal extends Animal {
     private Coordinate coordinate;
     private boolean isFedToday = false;
     private boolean isPettedToday = false;
+    private boolean isProductCollected = false;
 
     public BoughtAnimal(int price, String name, ArrayList<AnimalProduct> products, String[] livingPlaces, String nickname, BarnElement livingBarn, Coordinate coordinate) {
         super(price, name, products, livingPlaces);
@@ -67,5 +68,17 @@ public class BoughtAnimal extends Animal {
 
     public void setPetToday(boolean petToday) {
         isPettedToday = petToday;
+    }
+
+    public boolean isProductCollected() {
+        return isProductCollected;
+    }
+
+    public void setPettedToday(boolean pettedToday) {
+        isPettedToday = pettedToday;
+    }
+
+    public void setProductCollected(boolean productCollected) {
+        isProductCollected = productCollected;
     }
 }

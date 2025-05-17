@@ -1,7 +1,8 @@
 package models.GameWorld.Entity.Player;
 
 import models.App;
-import models.DataManagers.DataHolder;
+import models.DataManagers.CookingRecipeMetaData;
+import models.DataManagers.CraftingRecipeMetaData;
 import models.GameWorld.Coordinate;
 import models.GameWorld.Entity.Animals.BoughtAnimal;
 import models.GameWorld.Entity.Entity;
@@ -9,7 +10,8 @@ import models.GameWorld.Enums.Direction;
 import models.GameWorld.Enums.Gender;
 import models.GameWorld.Farming.ForagingCrop;
 import models.GameWorld.Items.Miscellaneous.Inventory;
-import models.GameWorld.Items.Recipes.Recipe;
+import models.GameWorld.Items.Recipes.CookingRecipe.CookingRecipe;
+import models.GameWorld.Items.Recipes.CraftingRecipe.CraftingRecipe;
 import models.GameWorld.Map.Elements.Collectable.Collectable;
 import models.GameWorld.Map.GameMap;
 import models.GameWorld.Map.Tile;
@@ -45,8 +47,8 @@ public class Player implements Entity, TimeObserver {
     private final ArrayList<Trade> tradeHistory;
     private int lastTradeSeen;
     private final HashMap<String, BoughtAnimal> animals;
-    private final HashMap<String, Recipe> craftingRecipes = new HashMap<>();
-    private final HashMap<String, Recipe> cookingRecipes = new HashMap<>();
+    private final HashMap<String, CraftingRecipe> craftingRecipes = new HashMap<>();
+    private final HashMap<String, CookingRecipe> cookingRecipes = new HashMap<>();
 
     private boolean isSleep;
     private boolean isFainted;
@@ -352,22 +354,22 @@ public class Player implements Entity, TimeObserver {
     }
 
     public void setInitialCraftingRecipes() {
-        craftingRecipes.put("Furnace", DataHolder.getRecipe("Furnace"));
-        craftingRecipes.put("ScareCrow", DataHolder.getRecipe("ScareCrow"));
-        craftingRecipes.put("Mayonnaise Machine", DataHolder.getRecipe("Mayonnaise Machine"));
+        craftingRecipes.put("Furnace", CraftingRecipeMetaData.getCraftingRecipe("Furnace"));
+        craftingRecipes.put("ScareCrow", CraftingRecipeMetaData.getCraftingRecipe("ScareCrow"));
+        craftingRecipes.put("Mayonnaise Machine", CraftingRecipeMetaData.getCraftingRecipe("Mayonnaise Machine"));
     }
 
     public void setInitialCookingRecipes() {
-        cookingRecipes.put("Fried Egg", DataHolder.getRecipe("Fried Egg"));
-        cookingRecipes.put("Baked Fish", DataHolder.getRecipe("Baked Fish"));
-        cookingRecipes.put("Salad", DataHolder.getRecipe("Salad"));
+        cookingRecipes.put("Fried Egg", CookingRecipeMetaData.getCookingRecipe("Fried Egg"));
+        cookingRecipes.put("Baked Fish", CookingRecipeMetaData.getCookingRecipe("Baked Fish"));
+        cookingRecipes.put("Salad", CookingRecipeMetaData.getCookingRecipe("Salad"));
     }
 
-    public HashMap<String, Recipe> getCraftingRecipes() {
+    public HashMap<String, CraftingRecipe> getCraftingRecipes() {
         return craftingRecipes;
     }
 
-    public HashMap<String, Recipe> getCookingRecipes() {
+    public HashMap<String, CookingRecipe> getCookingRecipes() {
         return cookingRecipes;
     }
 
