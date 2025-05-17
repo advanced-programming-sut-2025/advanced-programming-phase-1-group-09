@@ -1,12 +1,15 @@
 package controllers;
 
 import models.Game;
+import models.GameWorld.Entity.Animals.BoughtAnimal;
 import models.GameWorld.Entity.Player.Player;
 import models.GameWorld.Enums.WeatherType;
 import models.GameWorld.Map.GameMap;
 import models.Menu.CheatCommands;
 import models.Menu.Command;
 import models.Result;
+
+import java.util.regex.Matcher;
 
 public class CheatController {
     private Game game = null;
@@ -28,6 +31,7 @@ public class CheatController {
             case SetEnergyCheat -> setEnergyCheat(cheat);
             case UnlimitedEnergyCheat -> unlimitedEnergyCheat();
             case AddBalanceCheat -> addBalanceCheat(cheat);
+            case SetFriendshipCheat -> setFriendShipCheat(cheat);
             default -> new Result(false, "Coming Soon...");
         };
     }
@@ -127,5 +131,20 @@ public class CheatController {
                 true,
                 "Balance changed to " + amount + " for " + game.getCurrentPlayer().getName() + "."
         );
+    }
+
+    private Result setFriendShipCheat(String cheat) {
+        Matcher matcher = CheatCommands.SetFriendshipCheat.mathcer(cheat.trim());
+        BoughtAnimal targetAnimal = null;
+        if(!matcher.group("amount").trim().matches("\\d+"))
+            return new Result(false,"The amount is invalid!");
+        for(BoughtAnimal animal : game.getCurrentPlayer().getAnimals().values()){
+            if(targetAnimal.getNickname().equals(matcher.group("name").trim()))
+                targetAnimal = animal;
+        }
+        if(targetAnimal == null)
+            return new Result(false,"Animal not found!");
+        targetAnimal.setFriendShipScore(Integer.parseInt(matcher.group("amount").trim()));
+        return new Result(true, "Friendship score changed to " + targetAnimal.getFriendShipScore() + ".");
     }
 }

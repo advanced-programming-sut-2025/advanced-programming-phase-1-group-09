@@ -6,9 +6,11 @@ import models.DataManagers.TreeMetaData;
 import models.Game;
 import models.GameWorld.Coordinate;
 import models.GameWorld.Entity.Animals.Animal;
+import models.GameWorld.Entity.Animals.BoughtAnimal;
 import models.GameWorld.Entity.Player.Player;
 import models.GameWorld.Entity.Player.PlayerInventory;
 import models.GameWorld.Enums.Direction;
+import models.GameWorld.Enums.Place;
 import models.GameWorld.Farming.*;
 import models.GameWorld.Items.Item;
 import models.GameWorld.Items.Recipes.Ingredient;
@@ -114,7 +116,11 @@ public class GameMenuController {
             case Plant -> processPlanting(command);
             case ShowPlant -> processShowingPlant(command);
             case ShowCraftingRecipes -> showCraftingRecipes(game.getCurrentPlayer());
+            case ShowCookingRecipes -> showCookingRecipes(game.getCurrentPlayer());
             case BuyAnimal -> buyAnimal(command,matchedGameCommand);
+            case PetAnimal -> pet(game.getCurrentPlayer(),command,matchedGameCommand);
+            case SellAnimal -> sellAnimal(game.getCurrentPlayer(),command,matchedGameCommand);
+            case ShowMyAnimals -> showMyAnimals(game.getCurrentPlayer());
             case ShowCurrentWater -> showWateringCan();
             default -> new Result(false, "Coming Soon...");
         };
@@ -382,6 +388,7 @@ public class GameMenuController {
         String nickname = matcher.group("name");
 
         //check to be at marnie's ranch
+
         //TODO
 
         //check if the barn/coop are full
@@ -390,11 +397,72 @@ public class GameMenuController {
         return new Result(true, "");
     }
 
+    private Result pet(Player player,String command,GameMenuCommands matchedGameCommand) {
+        matcher = GameMenuCommands.PetAnimal.matcher(command);
+        BoughtAnimal targetAnimal = null;
+        for(BoughtAnimal animal : player.getAnimals().values()) {
+            if(animal.getNickname().equals(matcher.group("name").trim())) {
+                targetAnimal = animal;
+            }
+        }
+        if(targetAnimal == null)
+            return new Result(false, "Animal not found!");
+        int playerX = player.getCoordinate().x();
+        int playerY = player.getCoordinate().y();
+        int animalX = targetAnimal.getCoordinate().x();
+        int animalY = targetAnimal.getCoordinate().y();
+        if(Math.abs(animalX - playerX) > 1 || Math.abs(animalY - playerY) > 1)
+            return new Result(false,"The animal is not around you!");
+        targetAnimal.setFriendShipScore(targetAnimal.getFriendShipScore() + 15);
+        return new Result(true,"You pet the animal successfully");
+    }
+
+    private Result showMyAnimals(Player player){
+        StringBuilder output = new StringBuilder();
+        output.append("My animals:\n");
+        for(BoughtAnimal animal : player.getAnimals().values()) {
+            output.append("Type : ").append(animal.getName()).append("\n");
+            output.append("Nickname : ").append(animal.getNickname()).append("\n");
+            output.append("Friendship Score : ").append(animal.getFriendShipScore()).append("\n");
+            output.append("Is petted today? ").append(animal.isPettedToday() ? "yes" : "no").append("\n");
+            output.append("Is fed today? ").append(animal.isFedToday() ? "yes" : "no").append("\n\n");
+        }
+        output.deleteCharAt(output.length()-1);
+        return new Result(true, output.toString());
+    }
+
+    private Result sellAnimal(Player player,String command,GameMenuCommands matchedGameCommand) {
+        matcher = GameMenuCommands.SellAnimal.matcher(command);
+        for(BoughtAnimal animal : player.getAnimals().values()) {
+            if(animal.getNickname().equals(matcher.group("name").trim())) {
+                player.set
+            }
+        }
+    }
+
     //Crafting
     private Result showCraftingRecipes(Player player) {
+        if(player.getCoordinate().place() != Place.HUT)
+            return new Result(false, "You are not at home!");
         StringBuilder output = new StringBuilder();
         output.append("Available Crafting Recipes:\n");
         for(Recipe recipe : player.getCraftingRecipes().values()){
+            output.append(recipe.getResult().getName()).append(" : ");
+            for(Ingredient ingredient : recipe.getIngredients())
+                output.append(ingredient.quantity()).append(" ").append(ingredient.item().getName()).append(" + ");
+            output.delete(output.length() - 3, output.length());
+            output.append("\n");
+        }
+        return new Result(true, output.toString());
+    }
+
+    //Cooking
+    private Result showCookingRecipes(Player player) {
+        if(player.getCoordinate().place() != Place.HUT)
+            return new Result(false, "You are not at home!");
+        StringBuilder output = new StringBuilder();
+        output.append("Available Cooking Recipes:\n");
+        for(Recipe recipe : player.getCookingRecipes().values()){
             output.append(recipe.getResult().getName()).append(" : ");
             for(Ingredient ingredient : recipe.getIngredients())
                 output.append(ingredient.quantity()).append(" ").append(ingredient.item().getName()).append(" + ");

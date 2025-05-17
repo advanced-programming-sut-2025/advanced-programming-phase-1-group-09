@@ -4,6 +4,7 @@ import models.App;
 import models.DataManagers.DataHolder;
 import models.GameWorld.Coordinate;
 import models.GameWorld.Entity.Animals.Animal;
+import models.GameWorld.Entity.Animals.BoughtAnimal;
 import models.GameWorld.Entity.Entity;
 import models.GameWorld.Enums.Direction;
 import models.GameWorld.Farming.ForagingCrop;
@@ -38,8 +39,9 @@ public class Player implements Entity, TimeObserver {
     private final PlayerInventory inventory;
     private final ArrayList<PlayerFriendship> friendships;
     private final ArrayList<PlayerTrade> trades;
-    private final HashMap<String, Animal> animals;
+    private final HashMap<String, BoughtAnimal> animals;
     private final HashMap<String, Recipe> craftingRecipes = new HashMap<>();
+    private final HashMap<String, Recipe> cookingRecipes = new HashMap<>();
 
     private boolean isSleep;
     private boolean isFainted;
@@ -64,6 +66,8 @@ public class Player implements Entity, TimeObserver {
         this.isSleep = false;
         this.isFainted = false;
         this.partner = null;
+        setInitialCraftingRecipes();
+        setInitialCookingRecipes();
     }
 
     @Override
@@ -227,7 +231,23 @@ public class Player implements Entity, TimeObserver {
         craftingRecipes.put("Mayonnaise Machine", DataHolder.getRecipe("Mayonnaise Machine"));
     }
 
+    public void setInitialCookingRecipes() {
+        cookingRecipes.put("Fried Egg", DataHolder.getRecipe("Fried Egg"));
+        cookingRecipes.put("Baked Fish", DataHolder.getRecipe("Baked Fish"));
+        cookingRecipes.put("Salad", DataHolder.getRecipe("Salad"));
+    }
+
     public HashMap<String, Recipe> getCraftingRecipes() {
         return craftingRecipes;
     }
+
+    public HashMap<String, Recipe> getCookingRecipes() {
+        return cookingRecipes;
+    }
+
+    public HashMap<String, BoughtAnimal> getAnimals() {
+        return animals;
+    }
+
+
 }
